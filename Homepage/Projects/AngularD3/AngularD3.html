@@ -1,7 +1,24 @@
-<script src="d3/d3.v3.min.js" charset="utf-8"></script>
-<script src="angular.min.js"></script>
-<script src="AngularD3.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Force Layout Example 1</title>
+    <style>
 
+        .node {
+            fill: #ccc;
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+
+        .link {
+            stroke: #777;
+            stroke-width: 2px;
+        }
+
+    </style>
+</head>
+<body>
 <h1>Angular with D3</h1>
 
 <div ng-app="">
@@ -11,3 +28,11 @@
     <p ng-bind="name"></p>
 
 </div>
+
+<script src="angular.min.js"></script>
+<script src='http://d3js.org/d3.v3.min.js'></script>
+<script src="AngularD3.js"></script>
+        </body>
+</html>
+
+
