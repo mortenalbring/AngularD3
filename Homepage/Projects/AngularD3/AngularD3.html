@@ -21,12 +21,14 @@
 <body>
 <h1>Angular with D3</h1>
 
-<div ng-app="">
 
-    <p>Input something in the input box:</p>
-    <p>Name: <input type="text" ng-model="name"></p>
-    <p ng-bind="name"></p>
 
+<div ng-app="myApp">
+    <div ng-controller="HomeController">
+        {{test}}
+
+        <button ng-click="drawGraph()">Draw graph</button>
+    </div>
 </div>
 
 <div id="graph-container"></div>
