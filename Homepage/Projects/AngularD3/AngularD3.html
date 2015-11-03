@@ -1,13 +1,63 @@
-<script src="d3/d3.v3.min.js" charset="utf-8"></script>
-<script src="angular.min.js"></script>
-<script src="AngularD3.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Force Layout Example 1</title>
+    <style>
 
+        .node {
+            fill: #ccc;
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+
+        .link {
+            stroke: #777;
+            stroke-width: 2px;
+        }
+
+    </style>
+</head>
+<body>
 <h1>Angular with D3</h1>
 
-<div ng-app="">
 
-    <p>Input something in the input box:</p>
-    <p>Name: <input type="text" ng-model="name"></p>
-    <p ng-bind="name"></p>
 
+<div ng-app="myApp">
+    <div ng-controller="HomeController">
+
+
+<h2>Nodes</h2>
+        <div ng-repeat="node in graph.data.nodes">
+            <span>{{node.ID}}</span> - <span>{{node.Name}}</span>
+        </div>
+        <div>
+            <input ng-model="newID" placeholder="ID">
+            <input ng-model="newName" placeholder="Name">
+            <button ng-click="addNode(newID,newName)">Add node</button>
+        </div>
+
+        <h2>Edges</h2>
+        <div ng-repeat="edge in graph.data.edges">
+            <span>{{edge.StartNode}}</span> - <span>{{edge.EndNode}}</span>
+        </div>
+        <div>
+            <input ng-model="newStartNode" placeholder="StartNode">
+            <input ng-model="newEndNode" placeholder="EndNode">
+            <button ng-click="addEdge(newStartNode,newEndNode)">Add edge</button>
+        </div>
+
+        <button ng-click="drawGraph()">Draw graph</button>
+        <button ng-click="randomise()">Randomise!</button>
+    </div>
 </div>
+
+<div id="graph-container"></div>
+
+<script src="angular.min.js"></script>
+<script src='http://d3js.org/d3.v3.min.js'></script>
+<script src="AngularD3.js"></script>
+        </body>
+</html>
+
+
