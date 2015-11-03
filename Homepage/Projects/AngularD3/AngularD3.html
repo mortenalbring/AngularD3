@@ -25,7 +25,18 @@
 
 <div ng-app="myApp">
     <div ng-controller="HomeController">
-        {{test}}
+
+
+<h2>Nodes</h2>
+        <div ng-repeat="node in graph.data.nodes">
+            <span>{{node.ID}}</span> - <span>{{node.Name}}</span>
+        </div>
+
+        <h2>Edges</h2>
+        <div ng-repeat="edge in graph.data.edges">
+            <span>{{edge.StartNode}}</span> - <span>{{edge.EndNode}}</span>
+        </div>
+
 
         <button ng-click="drawGraph()">Draw graph</button>
     </div>
