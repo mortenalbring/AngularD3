@@ -27,6 +27,33 @@ myApp.controller("HomeController", function($scope) {
     }
 
 
+    $scope.randomise = function() {
+        var min = 10;
+        var randmax = Math.floor((Math.random() * 20) + min);
+
+        $scope.graph.data.nodes = [];
+        for (var i=0;i<randmax;i++) {
+            var newNode = {ID: i, Name : "Node " + i};
+            $scope.graph.data.nodes.push(newNode);
+        }
+
+        $scope.graph.data.edges = [];
+        for(var i=0;i<randmax;i++) {
+            var r = Math.floor((Math.random()*randmax));
+            if (r != i) {
+            var newEdge = {StartNode:i,EndNode:r};
+            $scope.graph.data.edges.push(newEdge);
+            }
+        }
+        drawGraph();
+
+
+
+
+
+
+
+    }
 
 
     function drawGraph() {
