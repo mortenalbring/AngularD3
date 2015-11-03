@@ -17,6 +17,15 @@ myApp.controller("HomeController", function($scope) {
         }
     };
 
+    $scope.addNode = function(ID,Name) {
+        var newNode = {ID : ID, Name :Name};
+        $scope.graph.data.nodes.push(newNode);
+    }
+    $scope.addEdge = function(StartNode,EndNode) {
+        var newEdge = {StartNode: StartNode, EndNode: EndNode};
+        $scope.graph.data.edges.push(newEdge);
+    }
+
 
 
 

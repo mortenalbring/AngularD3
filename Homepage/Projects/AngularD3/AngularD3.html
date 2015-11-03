@@ -31,12 +31,21 @@
         <div ng-repeat="node in graph.data.nodes">
             <span>{{node.ID}}</span> - <span>{{node.Name}}</span>
         </div>
+        <div>
+            <input ng-model="newID" placeholder="ID">
+            <input ng-model="newName" placeholder="Name">
+            <button ng-click="addNode(newID,newName)">Add node</button>
+        </div>
 
         <h2>Edges</h2>
         <div ng-repeat="edge in graph.data.edges">
             <span>{{edge.StartNode}}</span> - <span>{{edge.EndNode}}</span>
         </div>
-
+        <div>
+            <input ng-model="newStartNode" placeholder="StartNode">
+            <input ng-model="newEndNode" placeholder="EndNode">
+            <button ng-click="addEdge(newStartNode,newEndNode)">Add edge</button>
+        </div>
 
         <button ng-click="drawGraph()">Draw graph</button>
     </div>
