@@ -56,6 +56,7 @@ myApp.controller("HomeController", function($scope) {
         var newEdge = {StartNode: StartNode, EndNode: EndNode};
         $scope.graph.data.edges.push(newEdge);
     }
+ 
 
 
     $scope.randomise = function() {
@@ -117,7 +118,7 @@ myApp.controller("HomeController", function($scope) {
 
 
         $scope.graph.linklines = $scope.graph.svg.selectAll(".link");
-        $scope.graph.data.linkData = linksIndexes($scope.graph.data.edges, $scope.graph.data.nodes);
+     //   $scope.graph.data.linkData = linksIndexes($scope.graph.data.edges, $scope.graph.data.nodes);
 
         $scope.graph.linklines = $scope.graph.linklines.data($scope.graph.data.linkData, function (d) {
             return d.source.ID + "-" + d.target.ID;
@@ -151,7 +152,7 @@ myApp.controller("HomeController", function($scope) {
         var labels = gnodes.append("text")
             .attr("class", "label-text")
             .text(function (d) { return d.Name });
-
+        
 
         function linksIndexes(dbEdges, dbNodes) {
             //The array of nodes and edges must be transformed into an object
@@ -175,7 +176,9 @@ myApp.controller("HomeController", function($scope) {
 
         function tick() {
             gnodes.attr("transform", function (d) {
-                return 'translate(' + [d.x, d.y] + ')';
+                if (d.x && d.y) {
+                    return 'translate(' + [d.x, d.y] + ')';
+                }
             });
 
             $scope.graph.linklines.attr("x1", function (d) { return d.source.x; })

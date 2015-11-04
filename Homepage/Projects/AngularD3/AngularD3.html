@@ -47,7 +47,7 @@
                     <div>
                         <input ng-model="newStartNode" placeholder="StartNode">
                         <input ng-model="newEndNode" placeholder="EndNode">
-                        <button ng-click="addEdge(newStartNode,newEndNode)">Add edge</button>
+                        <button ng-click="addEdge(newStartNode,newEndNode)">Add edge</button>                        
                     </div>
                     <div ng-repeat="edge in graph.data.edges">
                         <span>{{edge.StartNode}}</span> - <span>{{edge.EndNode}}</span>
