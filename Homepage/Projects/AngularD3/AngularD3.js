@@ -52,9 +52,12 @@ myApp.controller("HomeController", function($scope) {
         var newNode = { ID: ID, Name: Name };
         $scope.graph.data.nodes.push(newNode);
     }
-    $scope.addEdge = function(StartNode,EndNode) {
-        var newEdge = {StartNode: StartNode, EndNode: EndNode};
+    $scope.addEdge = function(StartNodeID,EndNodeID) {
+        var newEdge = { StartNode: StartNodeID, EndNode: EndNodeID };
+
+       
         $scope.graph.data.edges.push(newEdge);
+        drawGraph();
     }
  
 
