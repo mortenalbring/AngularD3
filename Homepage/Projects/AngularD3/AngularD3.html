@@ -22,6 +22,9 @@
     <div ng-app="myApp">
         <div ng-controller="HomeController">
             <h1>Angular with D3</h1>
+            <button ng-click="randomise()">Randomise!</button>
+            <button ng-click="drawGraph()">Redraw graph</button>
+
             <div class="container">
 
                 <div class="item">
@@ -43,7 +46,7 @@
                             <span>{{node.ID}}</span> - <span>{{node.Name}}</span>
                         </div>
                     </div>
-              
+
                 </div>
                 <div class="item">
 
@@ -51,7 +54,7 @@
                     <div>
                         <input ng-model="newStartNode" placeholder="StartNode">
                         <input ng-model="newEndNode" placeholder="EndNode">
-                        <button ng-click="addEdge(newStartNode,newEndNode)">Add edge</button>                        
+                        <button ng-click="addEdge(newStartNode,newEndNode)">Add edge</button>
                     </div>
                     <div ng-repeat="edge in graph.data.edges">
                         <span>{{edge.StartNode}}</span> - <span>{{edge.EndNode}}</span>
@@ -64,8 +67,6 @@
                 </div>
 
                 <div class="item">
-                    <button ng-click="randomise()">Randomise!</button>
-                    <button ng-click="drawGraph()">Draw graph</button>
                     <div id="graph-container"></div>
                 </div>
             </div>

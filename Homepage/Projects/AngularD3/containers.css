@@ -21,6 +21,7 @@ body {
 
 .node-select:hover {    
     cursor:pointer;
+    transition: 0.2s;
     background:#ff6a00;
     color:#fff;
 }
@@ -31,5 +32,6 @@ body {
 }
 
 .node-highlight {
+    transition: 1s;
     background: #ded6ee;
 }
