@@ -5,7 +5,7 @@ myApp.controller("HomeController", function($scope) {
 
     $scope.graph = {
         width: 400,
-        height: 200,
+        height: 600,
         margin: 30,
         radius: 3,
         svg: null,
