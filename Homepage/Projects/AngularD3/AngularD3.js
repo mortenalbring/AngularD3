@@ -28,7 +28,7 @@ myApp.controller("HomeController", function($scope) {
             node.clicked = true;
         } else {
             $scope.clicked.EndNode = node;
-            makeEdges($scope.clicked.StartNode,$scope.clicked.EndNode);
+            makeEdges($scope.clicked.StartNode.ID,$scope.clicked.EndNode.ID);
             $scope.clicked.StartNode.clicked = false;
             $scope.clicked.EndNode.clicked = false;
             $scope.clicked.StartNode = null;
@@ -37,10 +37,10 @@ myApp.controller("HomeController", function($scope) {
         }
     }
 
-    makeEdges = function(startNode,endNode) {
+    makeEdges = function(StartNodeID,EndNodeID) {
         var newEdge = {
-            StartNode: startNode.ID,
-            EndNode: endNode.ID
+            StartNode: StartNodeID,
+            EndNode: EndNodeID
         }
         $scope.graph.data.edges.push(newEdge);
     }
@@ -52,11 +52,8 @@ myApp.controller("HomeController", function($scope) {
         var newNode = { ID: ID, Name: Name };
         $scope.graph.data.nodes.push(newNode);
     }
-    $scope.addEdge = function(StartNodeID,EndNodeID) {
-        var newEdge = { StartNode: StartNodeID, EndNode: EndNodeID };
-
-       
-        $scope.graph.data.edges.push(newEdge);
+    $scope.addEdge = function (StartNodeID, EndNodeID) {
+        makeEdges(StartNodeID, EndNodeID);
         drawGraph();
     }
  
