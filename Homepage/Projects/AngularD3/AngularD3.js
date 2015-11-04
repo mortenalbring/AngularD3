@@ -12,8 +12,20 @@ myApp.controller("HomeController", function ($scope) {
         force: null,
         data: {
             nodes: [{ ID: 1, Name: "Test Node 1" },
-                { ID: 2, Name: 'Test Node 2' }],
-            edges: [{ StartNode: 1, EndNode: 2 }]
+                { ID: 2, Name: 'Test Node 2' },
+                { ID: 3, Name: 'Test Node 3' },
+                { ID: 4, Name: 'Test Node 4' },
+                { ID: 5, Name: 'Test Node 5' },
+                { ID: 6, Name: 'Test Node 6' },
+            ],
+
+            edges: [{ StartNode: 1, EndNode: 2 },
+                { StartNode: 2, EndNode: 3 },
+                { StartNode: 3, EndNode: 4 },
+                { StartNode: 4, EndNode: 5 },
+                { StartNode: 5, EndNode: 6 },
+                { StartNode: 6, EndNode: 3 }
+            ]
         }
     };
 
@@ -23,28 +35,72 @@ myApp.controller("HomeController", function ($scope) {
     }
 
     $scope.setClickedNode = function (node) {
+
         if (!$scope.clicked.StartNode) {
             $scope.clicked.StartNode = node;
             node.clicked = true;
         } else {
             $scope.clicked.EndNode = node;
+
             makeEdges($scope.clicked.StartNode.ID, $scope.clicked.EndNode.ID);
             $scope.clicked.StartNode.clicked = false;
             $scope.clicked.EndNode.clicked = false;
             $scope.clicked.StartNode = null;
             $scope.clicked.EndNode = null;
             drawGraph();
+            $scope.clearHighlights();
+        }
+    }
+
+    $scope.findConnectedNodes = function(node) {
+        var connectedEdges = $scope.graph.data.edges.filter(function(e) {
+            return ((e.StartNode == node.ID) || (e.EndNode == node.ID));
+        })
+
+
+        for(var i=0;i<connectedEdges.length;i++) {
+            if (connectedEdges[i].StartNode != node.ID) {
+                $scope.setHighlight(connectedEdges[i].StartNode);
+            }
+            if (connectedEdges[i].EndNode != node.ID) {
+                $scope.setHighlight(connectedEdges[i].EndNode);
+            }
+
         }
     }
 
 
+    $scope.clearHighlights = function() {
+        var highlighted = $scope.graph.data.nodes.filter(function(e) {
+            return e.highlight == true;
+        });
+
+        for(var i=0;i<highlighted.length;i++) {
+            highlighted[i].highlight = false;
+        }
+
+    }
+
+    $scope.setHighlight = function(ID) {
+            var connectedNodes = $scope.graph.data.nodes.filter(function(e) {
+                return e.ID == ID;
+            });
+        console.log(connectedNodes.length);
+        for(var j=0;j<connectedNodes.length;j++) {
+            connectedNodes[j].highlight = true;
+        }
+    }
 
     $scope.addNode = function (ID, Name) {
         if (!ID) {
             ID = $scope.graph.data.nodes.length + 1;
         }
+        if (!Name) {
+            Name = "Test Node " + ID;
+        }
         var newNode = { ID: ID, Name: Name };
         $scope.graph.data.nodes.push(newNode);
+        drawGraph();
     }
     $scope.addEdge = function (StartNodeID, EndNodeID) {
         makeEdges(StartNodeID, EndNodeID);
@@ -79,6 +135,8 @@ myApp.controller("HomeController", function ($scope) {
     $scope.drawGraph = function () {
         drawGraph();
     }
+
+    $scope.drawGraph();
 
     function makeEdges(StartNodeID, EndNodeID) {
         var newEdge = {

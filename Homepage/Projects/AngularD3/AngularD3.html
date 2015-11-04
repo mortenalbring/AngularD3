@@ -2,7 +2,6 @@
 <html>
 <head>
     <meta charset='utf-8'>
-    <title>Force Layout Example 1</title>
 
     <link rel="stylesheet" href="containers.css" />
 
@@ -35,8 +34,13 @@
                         <button ng-click="addNode(newID,newName)">Add node</button>
                     </div>
                     <div ng-repeat="node in graph.data.nodes">
-                        <div class="node-select" ng-click="setClickedNode(node)">
-                            <span>{{node.ID}}</span> - <span>{{node.Name}}</span> <span ng-if="node.clicked">#</span>
+                        <div class="node-select"
+                             ng-mouseover="findConnectedNodes(node)"
+                             ng-mouseout="clearHighlights()"
+                             ng-click="setClickedNode(node)"
+                                ng-class="{'node-clicked' : node.clicked,
+                                'node-highlight' : node.highlight}"                                >
+                            <span>{{node.ID}}</span> - <span>{{node.Name}}</span>
                         </div>
                     </div>
               
