@@ -1,60 +1,98 @@
-var myApp = angular.module("myApp",[]);
+var myApp = angular.module("myApp", []);
 
-myApp.controller("HomeController", function($scope) {
+myApp.controller("HomeController", function ($scope) {
     $scope.test = "moop";
 
     $scope.graph = {
         width: 400,
-        height: 200,
+        height: 600,
         margin: 30,
         radius: 3,
         svg: null,
         force: null,
         data: {
-            nodes: [{ID:1, Name: "Test Node 1"},
-                {ID: 2, Name: 'Test Node 2'}],
-            edges: [{StartNode: 1, EndNode: 2}]
+            nodes: [{ ID: 1, Name: "Test Node 1" },
+                { ID: 2, Name: 'Test Node 2' }],
+            edges: [{ StartNode: 1, EndNode: 2 }]
         }
     };
 
-    $scope.addNode = function(ID,Name) {
-        var newNode = {ID : ID, Name :Name};
+    $scope.clicked = {
+        StartNode: null,
+        EndNode: null
+    }
+
+    $scope.setClickedNode = function (node) {
+        if (!$scope.clicked.StartNode) {
+            $scope.clicked.StartNode = node;
+            node.clicked = true;
+        } else {
+            $scope.clicked.EndNode = node;
+            makeEdges($scope.clicked.StartNode.ID, $scope.clicked.EndNode.ID);
+            $scope.clicked.StartNode.clicked = false;
+            $scope.clicked.EndNode.clicked = false;
+            $scope.clicked.StartNode = null;
+            $scope.clicked.EndNode = null;
+            drawGraph();
+        }
+    }
+
+
+
+    $scope.addNode = function (ID, Name) {
+        if (!ID) {
+            ID = $scope.graph.data.nodes.length + 1;
+        }
+        var newNode = { ID: ID, Name: Name };
         $scope.graph.data.nodes.push(newNode);
     }
-    $scope.addEdge = function(StartNode,EndNode) {
-        var newEdge = {StartNode: StartNode, EndNode: EndNode};
-        $scope.graph.data.edges.push(newEdge);
+    $scope.addEdge = function (StartNodeID, EndNodeID) {
+        makeEdges(StartNodeID, EndNodeID);
+        drawGraph();
     }
 
 
-    $scope.randomise = function() {
+
+    $scope.randomise = function () {
+        //Generates a random number of nodes and randomly connects them together and then redraws the graph
         var min = 10;
         var randmax = Math.floor((Math.random() * 20) + min);
 
         $scope.graph.data.nodes = [];
-        for (var i=0;i<randmax;i++) {
-            var newNode = {ID: i, Name : "Node " + i};
+        for (var i = 0; i < randmax; i++) {
+            var newNode = { ID: i, Name: "Node " + i };
             $scope.graph.data.nodes.push(newNode);
         }
 
         $scope.graph.data.edges = [];
-        for(var i=0;i<randmax;i++) {
-            var r = Math.floor((Math.random()*randmax));
+        for (var i = 0; i < randmax; i++) {
+            var r = Math.floor((Math.random() * randmax));
             if (r != i) {
-            var newEdge = {StartNode:i,EndNode:r};
-            $scope.graph.data.edges.push(newEdge);
+                //Ensures we don't connect a node to itself
+                var newEdge = { StartNode: i, EndNode: r };
+                $scope.graph.data.edges.push(newEdge);
             }
         }
         drawGraph();
-
-
-
-
-
-
-
     }
 
+    $scope.drawGraph = function () {
+        drawGraph();
+    }
+
+    function makeEdges(StartNodeID, EndNodeID) {
+        var newEdge = {
+            StartNode: StartNodeID,
+            EndNode: EndNodeID
+        }
+        var existingEdge = $scope.graph.data.edges.filter(function (e) {
+            return e.StartNode == StartNodeID && e.EndNode == EndNodeID
+        });
+        if (existingEdge.length == 0) {
+            $scope.graph.data.edges.push(newEdge);
+        }
+
+    }
 
     function drawGraph() {
 
@@ -86,7 +124,7 @@ myApp.controller("HomeController", function($scope) {
 
 
         $scope.graph.linklines = $scope.graph.svg.selectAll(".link");
-        $scope.graph.data.linkData = linksIndexes($scope.graph.data.edges, $scope.graph.data.nodes);
+        //   $scope.graph.data.linkData = linksIndexes($scope.graph.data.edges, $scope.graph.data.nodes);
 
         $scope.graph.linklines = $scope.graph.linklines.data($scope.graph.data.linkData, function (d) {
             return d.source.ID + "-" + d.target.ID;
@@ -144,7 +182,9 @@ myApp.controller("HomeController", function($scope) {
 
         function tick() {
             gnodes.attr("transform", function (d) {
-                return 'translate(' + [d.x, d.y] + ')';
+                if (d.x && d.y) {
+                    return 'translate(' + [d.x, d.y] + ')';
+                }
             });
 
             $scope.graph.linklines.attr("x1", function (d) { return d.source.x; })
@@ -154,9 +194,6 @@ myApp.controller("HomeController", function($scope) {
         }
     }
 
-    $scope.drawGraph = function() {
-        drawGraph();
-    }
-
+ 
 
 });

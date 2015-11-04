@@ -1,0 +1,26 @@
+body {
+    background:#fffdf8;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.container {
+    display:flex;
+    flex-wrap:wrap;
+    
+}
+
+.item {
+    width:33%;    
+}
+
+#graph-container {
+    margin-top:2em;
+    border:1px solid;
+    background:#f6f6f6;
+}
+
+.node-select:hover {    
+    cursor:pointer;
+    background:#ff6a00;
+    color:#fff;
+}
