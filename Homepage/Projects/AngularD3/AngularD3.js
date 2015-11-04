@@ -35,6 +35,8 @@ myApp.controller("HomeController", function ($scope) {
     }
 
     $scope.setClickedNode = function (node) {
+        //Sets a node as 'clicked'. If it's the first time a node is clicked, we just set the property.
+        //If it's the second time, we make an edge and connect the two
 
         if (!$scope.clicked.StartNode) {
             $scope.clicked.StartNode = node;
@@ -53,6 +55,7 @@ myApp.controller("HomeController", function ($scope) {
     }
 
     $scope.findConnectedNodes = function(node) {
+        //Finds all nodes connected to specified node
         var connectedEdges = $scope.graph.data.edges.filter(function(e) {
             return ((e.StartNode == node.ID) || (e.EndNode == node.ID));
         })
@@ -71,6 +74,7 @@ myApp.controller("HomeController", function ($scope) {
 
 
     $scope.clearHighlights = function() {
+        //Clears all highlight properties
         var highlighted = $scope.graph.data.nodes.filter(function(e) {
             return e.highlight == true;
         });
@@ -82,6 +86,7 @@ myApp.controller("HomeController", function ($scope) {
     }
 
     $scope.setHighlight = function(ID) {
+        //Sets the highlight property on nodes connected to given ID
             var connectedNodes = $scope.graph.data.nodes.filter(function(e) {
                 return e.ID == ID;
             });
@@ -92,6 +97,7 @@ myApp.controller("HomeController", function ($scope) {
     }
 
     $scope.addNode = function (ID, Name) {
+        //Adds a node to the graph
         if (!ID) {
             ID = $scope.graph.data.nodes.length + 1;
         }
