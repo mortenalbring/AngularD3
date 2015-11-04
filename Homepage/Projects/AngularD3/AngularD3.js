@@ -42,7 +42,13 @@ myApp.controller("HomeController", function($scope) {
             StartNode: StartNodeID,
             EndNode: EndNodeID
         }
-        $scope.graph.data.edges.push(newEdge);
+        var existingEdge = $scope.graph.data.edges.filter(function (e) {
+            return e.StartNode == StartNodeID && e.EndNode == EndNodeID
+        });
+        if (existingEdge.length == 0) {
+            $scope.graph.data.edges.push(newEdge);
+        }
+        
     }
 
     $scope.addNode = function(ID,Name) {
