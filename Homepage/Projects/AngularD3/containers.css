@@ -18,3 +18,9 @@ body {
     border:1px solid;
     background:#f6f6f6;
 }
+
+.node-select:hover {    
+    cursor:pointer;
+    background:#ff6a00;
+    color:#fff;
+}

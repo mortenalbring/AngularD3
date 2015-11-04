@@ -17,6 +17,34 @@ myApp.controller("HomeController", function($scope) {
         }
     };
 
+    $scope.clicked = {
+        StartNode: null,
+        EndNode: null    
+    }
+
+    $scope.setClickedNode = function(node) {
+        if (!$scope.clicked.StartNode) {
+            $scope.clicked.StartNode = node;
+            node.clicked = true;
+        } else {
+            $scope.clicked.EndNode = node;
+            makeEdges($scope.clicked.StartNode,$scope.clicked.EndNode);
+            $scope.clicked.StartNode.clicked = false;
+            $scope.clicked.EndNode.clicked = false;
+            $scope.clicked.StartNode = null;
+            $scope.clicked.EndNode = null;
+            drawGraph();
+        }
+    }
+
+    makeEdges = function(startNode,endNode) {
+        var newEdge = {
+            StartNode: startNode.ID,
+            EndNode: endNode.ID
+        }
+        $scope.graph.data.edges.push(newEdge);
+    }
+
     $scope.addNode = function(ID,Name) {
         if (!ID) {
             ID = $scope.graph.data.nodes.length + 1;

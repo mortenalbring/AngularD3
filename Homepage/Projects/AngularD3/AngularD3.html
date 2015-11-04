@@ -35,7 +35,9 @@
                         <button ng-click="addNode(newID,newName)">Add node</button>
                     </div>
                     <div ng-repeat="node in graph.data.nodes">
-                        <span>{{node.ID}}</span> - <span>{{node.Name}}</span>
+                        <div class="node-select" ng-click="setClickedNode(node)">
+                            <span>{{node.ID}}</span> - <span>{{node.Name}}</span> <span ng-if="node.clicked">#</span>
+                        </div>
                     </div>
               
                 </div>
