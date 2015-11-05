@@ -40,6 +40,10 @@ myApp.controller("HomeController", function ($scope) {
         $scope.graph.data = graphene;
         drawGraph();
     }
+    $scope.drawCube = function () {
+        $scope.graph.data = cube;
+        drawGraph();
+    }
 
     $scope.setClickedNode = function (node) {
         //Sets a node as 'clicked'. If it's the first time a node is clicked, we just set the property.
