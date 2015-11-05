@@ -3,6 +3,56 @@ var myApp = angular.module("myApp", []);
 myApp.controller("HomeController", function ($scope) {
     $scope.test = "moop";
 
+    $scope.graphene = {
+        nodes: [
+            { ID: 1, Name: "1" },
+            { ID: 2, Name: "2" },
+            { ID: 3, Name: "3" },
+            { ID: 4, Name: "4" },
+            { ID: 5, Name: "5" },
+            { ID: 6, Name: "6" },
+
+            { ID: 7, Name: "7" },
+            { ID: 8, Name: "8" },
+            { ID: 9, Name: "9" },
+
+            { ID: 10, Name: "10" },
+            { ID: 11, Name: "11" },
+            { ID: 12, Name: "12" },
+
+            { ID: 13, Name: "13" },
+            { ID: 14, Name: "14" },
+
+            { ID: 15, Name: "15" },
+            { ID: 15, Name: "15" },
+
+
+        ],
+        edges: [
+            { StartNode: 1, EndNode: 2 },
+            { StartNode: 2, EndNode: 3 },
+            { StartNode: 3, EndNode: 4 },
+            { StartNode: 4, EndNode: 5 },
+            { StartNode: 5, EndNode: 6 },
+            { StartNode: 6, EndNode: 1 },
+
+            { StartNode: 2, EndNode: 7 },
+            { StartNode: 7, EndNode: 8 },
+            { StartNode: 8, EndNode: 9 },
+            { StartNode: 9, EndNode: 10 },
+
+            { StartNode: 10, EndNode: 3 },
+
+            { StartNode: 1, EndNode: 11 },
+            { StartNode: 11, EndNode: 12 },
+            { StartNode: 12, EndNode: 13 },
+            { StartNode: 13, EndNode: 7 },
+
+
+
+        ]
+    }
+
     $scope.graph = {
         width: 400,
         height: 600,
@@ -34,6 +84,11 @@ myApp.controller("HomeController", function ($scope) {
         EndNode: null
     }
 
+    $scope.drawGraphene = function () {
+        $scope.graph.data = $scope.graphene;
+        drawGraph();
+    }
+
     $scope.setClickedNode = function (node) {
         //Sets a node as 'clicked'. If it's the first time a node is clicked, we just set the property.
         //If it's the second time, we make an edge and connect the two
@@ -54,14 +109,14 @@ myApp.controller("HomeController", function ($scope) {
         }
     }
 
-    $scope.findConnectedNodes = function(node) {
+    $scope.findConnectedNodes = function (node) {
         //Finds all nodes connected to specified node
-        var connectedEdges = $scope.graph.data.edges.filter(function(e) {
+        var connectedEdges = $scope.graph.data.edges.filter(function (e) {
             return ((e.StartNode == node.ID) || (e.EndNode == node.ID));
         })
 
 
-        for(var i=0;i<connectedEdges.length;i++) {
+        for (var i = 0; i < connectedEdges.length; i++) {
             if (connectedEdges[i].StartNode != node.ID) {
                 $scope.setHighlight(connectedEdges[i].StartNode);
             }
@@ -73,25 +128,25 @@ myApp.controller("HomeController", function ($scope) {
     }
 
 
-    $scope.clearHighlights = function() {
+    $scope.clearHighlights = function () {
         //Clears all highlight properties
-        var highlighted = $scope.graph.data.nodes.filter(function(e) {
+        var highlighted = $scope.graph.data.nodes.filter(function (e) {
             return e.highlight == true;
         });
 
-        for(var i=0;i<highlighted.length;i++) {
+        for (var i = 0; i < highlighted.length; i++) {
             highlighted[i].highlight = false;
         }
 
     }
 
-    $scope.setHighlight = function(ID) {
+    $scope.setHighlight = function (ID) {
         //Sets the highlight property on nodes connected to given ID
-            var connectedNodes = $scope.graph.data.nodes.filter(function(e) {
-                return e.ID == ID;
-            });
+        var connectedNodes = $scope.graph.data.nodes.filter(function (e) {
+            return e.ID == ID;
+        });
         console.log(connectedNodes.length);
-        for(var j=0;j<connectedNodes.length;j++) {
+        for (var j = 0; j < connectedNodes.length; j++) {
             connectedNodes[j].highlight = true;
         }
     }
@@ -258,6 +313,6 @@ myApp.controller("HomeController", function ($scope) {
         }
     }
 
- 
+
 
 });
