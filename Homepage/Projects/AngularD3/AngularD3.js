@@ -6,6 +6,17 @@ myApp.controller("HomeController", function ($scope) {
         linkDistance: 200,
         charge:-1000
     }
+    $scope.checkCustomSettings = function (customSettings) {
+        if (!customSettings.linkDistance) { customSettings.linkDistance = $scope.settings.linkDistance; }
+        if (!customSettings.charge) { customSettings.charge = $scope.settings.charge; }
+    }
+
+    $scope.increaseValue = function (setting, val) {
+        $scope.$apply(setting, function () {        
+            setting = setting + val;
+        })
+        drawGraph();
+    }
     $scope.increaseCharge = function (val) {
         $scope.settings.charge = $scope.settings.charge + val;
         drawGraph();
@@ -46,7 +57,6 @@ myApp.controller("HomeController", function ($scope) {
         StartNode: null,
         EndNode: null
     }
-
     $scope.drawGraphene = function () {
         $scope.graph.data = angular.copy(graphene.data);
         $scope.settings = angular.copy(graphene.settings);
