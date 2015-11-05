@@ -3,11 +3,11 @@
 <head>
     <meta charset='utf-8'>
 
-    <link rel="stylesheet" href="containers.css"/>
+    <link rel="stylesheet" href="containers.css" />
     <link rel="stylesheet" href="nodestyles.css" />
 
     <style>
-      
+
     </style>
 </head>
 <body>
@@ -15,7 +15,7 @@
         <div ng-controller="HomeController">
             <h1>Angular with D3</h1>
 
-        
+
 
             <button ng-click="randomise()">Randomise!</button>
             <button ng-click="drawGraph()">Redraw graph</button>
@@ -25,14 +25,22 @@
 
             <div class="container">
                 <div class="item">
-
-                    <input ng-model="settings.linkDistance" />
-
-
+                    <div>
+                        <span>Link Distance</span>
+                        <button ng-click="increaseLinkDistance(-10)">-</button>
+                        <input ng-model="settings.linkDistance" />
+                        <button ng-click="increaseLinkDistance(10)">+</button>
+                    </div>
+                    <div>
+                        <span>Charge</span>
+                        <button ng-click="increaseCharge(-10)">-</button>
+                        <input ng-model="settings.charge" />
+                        <button ng-click="increaseCharge(10)">+</button>
+                    </div>
 
                 </div>
                 <div class="item">
-                    
+
 
                     <h2>Nodes</h2>
                     <div>
@@ -45,8 +53,8 @@
                              ng-mouseover="findConnectedNodes(node)"
                              ng-mouseout="clearHighlights()"
                              ng-click="setClickedNode(node)"
-                                ng-class="{'node-clicked' : node.clicked,
-                                'node-highlight' : node.highlight}"                                >
+                             ng-class="{'node-clicked' : node.clicked,
+                                'node-highlight' : node.highlight}">
                             <span>{{node.ID}}</span> - <span>{{node.Name}}</span>
                         </div>
                     </div>
@@ -62,7 +70,7 @@
 
 
                 </div>
-                
+
 
                 <div class="item">
                     <div id="graph-container"></div>

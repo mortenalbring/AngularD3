@@ -3,7 +3,17 @@ var myApp = angular.module("myApp", []);
 myApp.controller("HomeController", function ($scope) {      
 
     $scope.settings = {
-        linkDistance: 200
+        linkDistance: 200,
+        charge:-1000
+    }
+    $scope.increaseCharge = function (val) {
+        $scope.settings.charge = $scope.settings.charge + val;
+        drawGraph();
+    }
+
+    $scope.increaseLinkDistance = function (val) {
+        $scope.settings.linkDistance = $scope.settings.linkDistance + val;
+        drawGraph();
     }
 
     $scope.graph = {
@@ -38,11 +48,13 @@ myApp.controller("HomeController", function ($scope) {
     }
 
     $scope.drawGraphene = function () {
-        $scope.graph.data = graphene;
+        $scope.graph.data = angular.copy(graphene.data);
+        $scope.settings = angular.copy(graphene.settings);
         drawGraph();
     }
     $scope.drawCube = function () {
-        $scope.graph.data = cube;
+        $scope.graph.data = angular.copy(cube.data);
+        $scope.settings = angular.copy(cube.settings);
         drawGraph();
     }
 
@@ -188,7 +200,7 @@ myApp.controller("HomeController", function ($scope) {
             .links($scope.graph.data.linkData)
             .linkDistance($scope.settings.linkDistance)
             //Distance between nodes
-            .charge(-1000)
+            .charge($scope.settings.charge)
             //How much nodes repel eachother (positive is attractive)
             .friction(0.5)
             //Slows down the nodes movement
