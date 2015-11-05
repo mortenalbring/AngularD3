@@ -1,6 +1,6 @@
 var graphene = {
     settings: {
-        charge: -600,
+        charge: -500,
         linkDistance: 10
     },
     data: {
