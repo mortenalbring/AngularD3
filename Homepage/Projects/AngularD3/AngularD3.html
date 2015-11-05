@@ -14,6 +14,9 @@
     <div ng-app="myApp">
         <div ng-controller="HomeController">
             <h1>Angular with D3</h1>
+
+        
+
             <button ng-click="randomise()">Randomise!</button>
             <button ng-click="drawGraph()">Redraw graph</button>
             <button ng-click="drawGraphene()">Graphene</button>
@@ -21,7 +24,13 @@
 
 
             <div class="container">
+                <div class="item">
 
+                    <input ng-model="settings.linkDistance" />
+
+
+
+                </div>
                 <div class="item">
                     
 
@@ -41,10 +50,6 @@
                             <span>{{node.ID}}</span> - <span>{{node.Name}}</span>
                         </div>
                     </div>
-
-                </div>
-                <div class="item">
-
                     <h2>Edges</h2>
                     <div>
                         <input ng-model="newStartNode" placeholder="StartNode">
@@ -54,12 +59,10 @@
                     <div ng-repeat="edge in graph.data.edges">
                         <span>{{edge.StartNode}}</span> - <span>{{edge.EndNode}}</span>
                     </div>
-                
 
-                    
-                    
 
                 </div>
+                
 
                 <div class="item">
                     <div id="graph-container"></div>
@@ -69,8 +72,8 @@
 
 
     </div>
-    <script src="angular.min.js"></script>
-    <script src='http://d3js.org/d3.v3.min.js'></script>
+    <script src="packages/angular.min.js"></script>
+    <script src='packages/d3.min.js'></script>
     <script src="AngularD3-preset-graphene.js"></script>
     <script src="AngularD3-preset-cube.js"></script>
     <script src="AngularD3.js"></script>
