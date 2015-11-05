@@ -24,7 +24,15 @@ myApp.controller("HomeController", function ($scope) {
             { ID: 14, Name: "14" },
 
             { ID: 15, Name: "15" },
-            { ID: 15, Name: "15" },
+            { ID: 16, Name: "16" },
+            { ID: 17, Name: "17" },
+
+            { ID: 18, Name: "18" },
+            { ID: 19, Name: "19" },
+            { ID: 20, Name: "20" },
+            { ID: 21, Name: "21" },
+            { ID: 22, Name: "22" },
+
 
 
         ],
@@ -36,17 +44,34 @@ myApp.controller("HomeController", function ($scope) {
             { StartNode: 5, EndNode: 6 },
             { StartNode: 6, EndNode: 1 },
 
-            { StartNode: 2, EndNode: 7 },
-            { StartNode: 7, EndNode: 8 },
-            { StartNode: 8, EndNode: 9 },
-            { StartNode: 9, EndNode: 10 },
+            { StartNode: 2, EndNode: 16 },
+            { StartNode: 16, EndNode: 15 },
+            { StartNode: 15, EndNode: 14 },
+            { StartNode: 14, EndNode: 13 },
 
-            { StartNode: 10, EndNode: 3 },
+            { StartNode: 13, EndNode: 3 },
 
-            { StartNode: 1, EndNode: 11 },
-            { StartNode: 11, EndNode: 12 },
-            { StartNode: 12, EndNode: 13 },
-            { StartNode: 13, EndNode: 7 },
+            { StartNode: 13, EndNode: 12 },
+            { StartNode: 12, EndNode: 11 },
+            { StartNode: 11, EndNode: 10 },
+            { StartNode: 10, EndNode: 4 },
+
+            { StartNode: 10, EndNode: 9 },
+            { StartNode: 9, EndNode: 8 },
+            { StartNode: 8, EndNode: 7 },
+            { StartNode: 7, EndNode: 5 },
+            //{ StartNode: 10, EndNode: 4 },
+
+            { StartNode: 7, EndNode: 17 },
+            { StartNode: 17, EndNode: 18 },
+            { StartNode: 18, EndNode: 19 },
+            { StartNode: 19, EndNode: 6 },
+            { StartNode: 19, EndNode: 20 },
+            { StartNode: 20, EndNode: 21 },
+            { StartNode: 21, EndNode: 22 },
+            { StartNode: 22, EndNode: 1 },
+
+
 
 
 
@@ -231,7 +256,7 @@ myApp.controller("HomeController", function ($scope) {
             .links($scope.graph.data.linkData)
             .linkDistance(50)
             //Distance between nodes
-            .charge(-400)
+            .charge(-800)
             //How much nodes repel eachother (positive is attractive)
             .friction(0.5)
             //Slows down the nodes movement
