@@ -1,9 +1,10 @@
 var myApp = angular.module("myApp", []);
 
-myApp.controller("HomeController", function ($scope) {
-    $scope.test = "moop";
+myApp.controller("HomeController", function ($scope) {      
 
-   
+    $scope.settings = {
+        linkDistance: 200
+    }
 
     $scope.graph = {
         width: 400,
@@ -185,7 +186,7 @@ myApp.controller("HomeController", function ($scope) {
             .size([$scope.graph.width - $scope.graph.margin, $scope.graph.height - $scope.graph.margin])
             .nodes($scope.graph.data.nodes)
             .links($scope.graph.data.linkData)
-            .linkDistance(2)
+            .linkDistance($scope.settings.linkDistance)
             //Distance between nodes
             .charge(-1000)
             //How much nodes repel eachother (positive is attractive)
