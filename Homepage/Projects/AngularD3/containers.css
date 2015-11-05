@@ -18,20 +18,3 @@ body {
     border:1px solid;
     background:#f6f6f6;
 }
-
-.node-select:hover {    
-    cursor:pointer;
-    transition: 0.2s;
-    background:#ff6a00;
-    color:#fff;
-}
-
-.node-clicked {
-    font-weight:800;
-    font-style: italic;
-}
-
-.node-highlight {
-    transition: 1s;
-    background: #ded6ee;
-}
