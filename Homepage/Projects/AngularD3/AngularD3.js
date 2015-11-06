@@ -1,10 +1,10 @@
 var myApp = angular.module("myApp", []);
 
-myApp.controller("HomeController", function ($scope) {      
+myApp.controller("HomeController", function ($scope) {
 
     $scope.settings = {
         linkDistance: 200,
-        charge:-1000
+        charge: -1000
     }
     $scope.checkCustomSettings = function (customSettings) {
         if (!customSettings.linkDistance) { customSettings.linkDistance = $scope.settings.linkDistance; }
@@ -12,7 +12,7 @@ myApp.controller("HomeController", function ($scope) {
     }
 
     $scope.increaseValue = function (setting, val) {
-        $scope.$apply(setting, function () {        
+        $scope.$apply(setting, function () {
             setting = setting + val;
         })
         drawGraph();
@@ -28,7 +28,7 @@ myApp.controller("HomeController", function ($scope) {
     }
 
     $scope.graph = {
-        width: 400,
+        width: 600,
         height: 600,
         margin: 30,
         radius: 3,
@@ -56,6 +56,11 @@ myApp.controller("HomeController", function ($scope) {
     $scope.clicked = {
         StartNode: null,
         EndNode: null
+    }
+    $scope.drawMultipleCubes = function () {
+        $scope.graph.data = angular.copy(multiplecubes.data);
+        $scope.settings = angular.copy(multiplecubes.settings);
+        drawGraph();
     }
     $scope.drawGraphene = function () {
         $scope.graph.data = angular.copy(graphene.data);
@@ -123,8 +128,7 @@ myApp.controller("HomeController", function ($scope) {
         //Sets the highlight property on nodes connected to given ID
         var connectedNodes = $scope.graph.data.nodes.filter(function (e) {
             return e.ID == ID;
-        });
-        console.log(connectedNodes.length);
+        });        
         for (var j = 0; j < connectedNodes.length; j++) {
             connectedNodes[j].highlight = true;
         }
@@ -151,6 +155,11 @@ myApp.controller("HomeController", function ($scope) {
 
     $scope.randomise = function () {
         //Generates a random number of nodes and randomly connects them together and then redraws the graph
+        $scope.settings = {
+            linkDistance: 100,
+            charge: -1000
+        }
+
         var min = 10;
         var randmax = Math.floor((Math.random() * 20) + min);
 

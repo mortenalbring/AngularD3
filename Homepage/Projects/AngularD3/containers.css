@@ -10,11 +10,13 @@ body {
 }
 
 .item {
-    width:33%;    
+    width:50%;    
 }
 
 #graph-container {
     margin-top:2em;
+    width:600px;
+    height:600px;
     border:1px solid;
     background:#f6f6f6;
 }
