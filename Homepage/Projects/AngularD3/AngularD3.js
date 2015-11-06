@@ -6,9 +6,13 @@ myApp.controller("HomeController", function ($scope) {
         linkDistance: 200,
         charge: -1000
     }
-    $scope.checkCustomSettings = function (customSettings) {
+    function checkCustomSettings(customSettings) {
+        //The preset files come with custom settings for various parameters to make the scene look good. 
+        //If I've forgotten to set one of the parameters, this should prevent the graph from breaking        
         if (!customSettings.linkDistance) { customSettings.linkDistance = $scope.settings.linkDistance; }
         if (!customSettings.charge) { customSettings.charge = $scope.settings.charge; }
+
+        return customSettings;
     }
 
     $scope.increaseValue = function (setting, val) {
@@ -59,17 +63,17 @@ myApp.controller("HomeController", function ($scope) {
     }
     $scope.drawMultipleCubes = function () {
         $scope.graph.data = angular.copy(multiplecubes.data);
-        $scope.settings = angular.copy(multiplecubes.settings);
+        $scope.settings = angular.copy(checkCustomSettings(multiplecubes.settings));
         drawGraph();
     }
     $scope.drawGraphene = function () {
         $scope.graph.data = angular.copy(graphene.data);
-        $scope.settings = angular.copy(graphene.settings);
+        $scope.settings = angular.copy(checkCustomSettings(graphene.settings));
         drawGraph();
     }
     $scope.drawCube = function () {
         $scope.graph.data = angular.copy(cube.data);
-        $scope.settings = angular.copy(cube.settings);
+        $scope.settings = angular.copy(checkCustomSettings(cube.settings));
         drawGraph();
     }
 
@@ -329,7 +333,4 @@ myApp.controller("HomeController", function ($scope) {
                 .attr("y2", function (d) { return d.target.y; });
         }
     }
-
-
-
 });
