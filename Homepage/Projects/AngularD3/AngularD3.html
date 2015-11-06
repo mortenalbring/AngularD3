@@ -49,7 +49,7 @@
                             </div>
                             <div ng-repeat="node in graph.data.nodes">
                                 <div class="node-select"
-                                     ng-mouseover="findConnectedNodes(node)"
+                                     ng-mouseover="highlightConnectedNodes(node.ID)"
                                      ng-mouseout="clearHighlights()"
                                      ng-click="setClickedNode(node)"
                                      ng-class="{'node-clicked' : node.clicked,
