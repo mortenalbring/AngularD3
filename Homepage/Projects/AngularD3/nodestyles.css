@@ -1,0 +1,37 @@
+
+.node-container {
+    font-size:0.8em;
+}
+.node-container:hover {
+    cursor:pointer;    
+
+    fill:#ff6a00;
+}
+
+.node-select:hover {
+    cursor: pointer;
+    transition: 0.2s;
+    background: #ff6a00;
+    color: #fff;
+}
+
+.node-clicked {
+    font-weight: 800;
+    font-style: italic;
+}
+
+.node-highlight {
+    transition: 1s;
+    background: #ded6ee;
+}
+
+.node {
+    fill: #ccc;
+    stroke: #fff;
+    stroke-width: 2px;
+}
+
+.link {
+    stroke: #777;
+    stroke-width: 2px;
+}
