@@ -63,32 +63,101 @@ myApp.controller("HomeController", function ($scope) {
     }
 
 
-    $scope.drawDNA = function () {
-        $scope.graph.data = angular.copy(DNA.data);
+    function singleStrand(startID, maxLength) {
+        var output = {
+            nodes: [],
+            edges: []
+        }
 
-        var phosphates = $scope.graph.data.nodes.filter(function (e) {
+        var endLength = startID + maxLength;
+
+        for (var i = startID; i < endLength; i++) {
+            //First insert some phosphates
+            var phosphate = {
+                ID: i, Name: "P"
+            }
+            output.nodes.push(phosphate);
+        }
+
+        var start = startID + output.nodes.length;
+        var arrayList = ["G", "A", "T", "C"];
+        for (var i = start ; i < start + maxLength; i++) {
+            //Then insert some non-phosphates!
+            var randomNumber = Math.round(Math.random() * 3);
+            var randomThing = arrayList[randomNumber];
+            var notphosphate = {
+                ID: i, Name: randomThing
+            }
+            output.nodes.push(notphosphate);
+        }
+
+        //Now we've created our stuff, we need to link them up!
+
+        var phosphates = output.nodes.filter(function (e) {
             return e.Name == "P";
         });
-        var notPhosphates = $scope.graph.data.nodes.filter(function (e) {
-            return e.Name != "P";
-        });
 
 
-        for (var i = 0; i < (phosphates.length-1); i++) {
+        for (var i = 0; i < (phosphates.length - 1) ; i++) {
+            //Connects all phosphates up together in a nice line
             var thisPhosphate = phosphates[i];
-
-
             var newEdge = {
                 StartNode: phosphates[i].ID,
                 EndNode: phosphates[i + 1].ID
             }
-            $scope.graph.data.edges.push(newEdge);
-
-
-
+            output.edges.push(newEdge);
         }
 
-        //$scope.settings = angular.copy(multiplecubes.settings);
+
+        var notPhosphates = output.nodes.filter(function (e) {
+            return e.Name != "P";
+        });
+
+
+        for (var i = 0; i < notPhosphates.length; i++) {
+            //Connects every 'not' phosphate to a single phosphate at the same position in the list
+            var newEdge = {
+                StartNode: notPhosphates[i].ID,
+                EndNode: phosphates[i].ID
+            }
+            output.edges.push(newEdge);
+        }
+
+
+        return output;
+    }
+
+    function polymerase(firstStrand) {
+
+
+    }
+
+
+    $scope.drawDNA = function () {
+
+        DNA.data.nodes = [];
+        DNA.data.edges = [];
+
+        var maxLength = 20;
+
+
+        var firstStrand = singleStrand(0, maxLength);
+        DNA.data.nodes = firstStrand.nodes;
+        DNA.data.edges = firstStrand.edges;
+
+        
+        var secondStrand = singleStrand(DNA.data.nodes.length + 1, maxLength);
+        
+        DNA.data.nodes = DNA.data.nodes.concat(secondStrand.nodes);
+        DNA.data.edges = DNA.data.edges.concat(secondStrand.edges);
+        
+        
+
+        $scope.graph.data = angular.copy(DNA.data);
+
+
+
+        $scope.settings = angular.copy(DNA.settings);
         drawGraph();
     }
 
