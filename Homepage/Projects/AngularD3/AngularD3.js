@@ -128,7 +128,71 @@ myApp.controller("HomeController", function ($scope) {
     }
 
     function polymerase(firstStrand) {
+        var output = {
+            nodes: [],
+            edges: []
+        };
 
+        console.log(firstStrand.nodes.length);        
+
+        var notPhosphates = firstStrand.nodes.filter(function (e) {
+            return e.Name != "P";
+        });
+
+        for (var i = 0; i < notPhosphates.length; i++) {
+
+
+            var nodeName = notPhosphates[i].Name;
+            var complementaryName;
+
+            if (nodeName == "A") {
+                complementaryName = "T";
+            }
+            if (nodeName == "T") {
+                complementaryName = "A";
+            }
+            if (nodeName == "G") {
+                complementaryName = "C";
+            }
+            if (nodeName == "C") {
+                complementaryName = "G";
+            }
+
+            var complementaryNode = {
+                ID: i + 1000,
+                Name: complementaryName
+            };
+
+            output.nodes.push(complementaryNode);
+
+            var complementaryEdge = {
+                StartNode: notPhosphates[i].ID,
+                EndNode: complementaryNode.ID,
+            }
+            output.edges.push(complementaryEdge);
+        }
+
+        var newPhosphates = [];        
+        for (var j = 0; j < output.nodes.length; j++) {
+            var newNode = { ID: j + 5000, Name: "P" };
+
+            var newEdge = { StartNode: output.nodes[j].ID, EndNode: newNode.ID };
+            output.edges.push(newEdge);
+            newPhosphates.push(newNode);
+        }
+        output.nodes = output.nodes.concat(newPhosphates);
+
+
+        for (var k = 0; k < (newPhosphates.length - 1) ; k++) {
+            var newEdge = {
+                StartNode: newPhosphates[k].ID,
+                EndNode:newPhosphates[k+1].ID
+            }
+            output.edges.push(newEdge);
+        }
+
+
+        return output;
 
     }
 
@@ -138,20 +202,21 @@ myApp.controller("HomeController", function ($scope) {
         DNA.data.nodes = [];
         DNA.data.edges = [];
 
-        var maxLength = 20;
+        var maxLength = 160;
 
 
         var firstStrand = singleStrand(0, maxLength);
         DNA.data.nodes = firstStrand.nodes;
         DNA.data.edges = firstStrand.edges;
 
-        
-        var secondStrand = singleStrand(DNA.data.nodes.length + 1, maxLength);
-        
+
+        //var secondStrand = singleStrand(DNA.data.nodes.length + 1, maxLength);
+
+        var secondStrand = polymerase(firstStrand);
         DNA.data.nodes = DNA.data.nodes.concat(secondStrand.nodes);
         DNA.data.edges = DNA.data.edges.concat(secondStrand.edges);
-        
-        
+
+
 
         $scope.graph.data = angular.copy(DNA.data);
 
@@ -228,7 +293,7 @@ myApp.controller("HomeController", function ($scope) {
 
     }
 
-    $scope.setHighlight = function (ID) {        
+    $scope.setHighlight = function (ID) {
         //Sets the highlight property on nodes connected to given ID
         var connectedNodes = $scope.graph.data.nodes.filter(function (e) {
             return e.ID == ID;
@@ -359,7 +424,7 @@ myApp.controller("HomeController", function ($scope) {
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)
             .classed('gnode', true)
-            .on("click", makeBigger)
+            //.on("click", makeBigger)
             .call($scope.graph.force.drag);
 
 
@@ -377,27 +442,27 @@ myApp.controller("HomeController", function ($scope) {
             console.log(r);
             d3.select(this).select("circle").attr("r", r + 1);
 
-            var node = $scope.graph.data.nodes.filter(function(e) {
+            var node = $scope.graph.data.nodes.filter(function (e) {
                 return e.ID == d.ID;
             });
             console.log(node);
             if (node.length > 0) {
-                $scope.$apply(function() {
+                $scope.$apply(function () {
                     $scope.setClickedNode(node[0]);
                 })
             }
         }
         function mouseover(d) {
-            $scope.$apply(function() {
+            $scope.$apply(function () {
                 $scope.highlightConnectedNodes(d.ID);
-            })           
-         //   d3.select(this).select("circle").transition().duration(750).attr("r", 4);           
+            })
+            //   d3.select(this).select("circle").transition().duration(750).attr("r", 4);           
         }
         function mouseout() {
-            $scope.$apply(function() {
+            $scope.$apply(function () {
                 $scope.clearHighlights();
             })
-          //  d3.select(this).select("circle").transition().duration(750).attr("r", 2);
+            //  d3.select(this).select("circle").transition().duration(750).attr("r", 2);
         }
 
         function linksIndexes(edges, nodes) {

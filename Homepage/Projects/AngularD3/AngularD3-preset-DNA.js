@@ -9,7 +9,7 @@ var DNA = {
         ]
     },
     settings: {
-        linkDistance: 10,
+        linkDistance: -30,
         charge: -300
     }
 
