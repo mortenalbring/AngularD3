@@ -57,6 +57,37 @@ myApp.controller("HomeController", function ($scope) {
         StartNode: null,
         EndNode: null
     }
+
+
+    $scope.drawDNA = function () {
+        $scope.graph.data = angular.copy(DNA.data);
+
+        var phosphates = $scope.graph.data.nodes.filter(function (e) {
+            return e.Name == "P";
+        });
+        var notPhosphates = $scope.graph.data.nodes.filter(function (e) {
+            return e.Name != "P";
+        });
+
+
+        for (var i = 0; i < (phosphates.length-1); i++) {
+            var thisPhosphate = phosphates[i];
+
+
+            var newEdge = {
+                StartNode: phosphates[i].ID,
+                EndNode: phosphates[i + 1].ID
+            }
+            $scope.graph.data.edges.push(newEdge);
+
+
+
+        }
+
+        //$scope.settings = angular.copy(multiplecubes.settings);
+        drawGraph();
+    }
+
     $scope.drawMultipleCubes = function () {
         $scope.graph.data = angular.copy(multiplecubes.data);
         $scope.settings = angular.copy(multiplecubes.settings);
@@ -128,7 +159,7 @@ myApp.controller("HomeController", function ($scope) {
         //Sets the highlight property on nodes connected to given ID
         var connectedNodes = $scope.graph.data.nodes.filter(function (e) {
             return e.ID == ID;
-        });        
+        });
         for (var j = 0; j < connectedNodes.length; j++) {
             connectedNodes[j].highlight = true;
         }
