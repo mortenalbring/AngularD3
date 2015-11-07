@@ -1,4 +1,13 @@
 
+.node-container {
+    font-size:0.8em;
+}
+.node-container:hover {
+    cursor:pointer;    
+
+    fill:#ff6a00;
+}
+
 .node-select:hover {
     cursor: pointer;
     transition: 0.2s;

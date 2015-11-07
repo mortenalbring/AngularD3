@@ -6,9 +6,13 @@ myApp.controller("HomeController", function ($scope) {
         linkDistance: 200,
         charge: -1000
     }
-    $scope.checkCustomSettings = function (customSettings) {
+    function checkCustomSettings(customSettings) {
+        //The preset files come with custom settings for various parameters to make the scene look good. 
+        //If I've forgotten to set one of the parameters, this should prevent the graph from breaking        
         if (!customSettings.linkDistance) { customSettings.linkDistance = $scope.settings.linkDistance; }
         if (!customSettings.charge) { customSettings.charge = $scope.settings.charge; }
+
+        return customSettings;
     }
 
     $scope.increaseValue = function (setting, val) {
@@ -90,17 +94,17 @@ myApp.controller("HomeController", function ($scope) {
 
     $scope.drawMultipleCubes = function () {
         $scope.graph.data = angular.copy(multiplecubes.data);
-        $scope.settings = angular.copy(multiplecubes.settings);
+        $scope.settings = angular.copy(checkCustomSettings(multiplecubes.settings));
         drawGraph();
     }
     $scope.drawGraphene = function () {
         $scope.graph.data = angular.copy(graphene.data);
-        $scope.settings = angular.copy(graphene.settings);
+        $scope.settings = angular.copy(checkCustomSettings(graphene.settings));
         drawGraph();
     }
     $scope.drawCube = function () {
         $scope.graph.data = angular.copy(cube.data);
-        $scope.settings = angular.copy(cube.settings);
+        $scope.settings = angular.copy(checkCustomSettings(cube.settings));
         drawGraph();
     }
 
@@ -124,18 +128,18 @@ myApp.controller("HomeController", function ($scope) {
         }
     }
 
-    $scope.findConnectedNodes = function (node) {
+    $scope.highlightConnectedNodes = function (ID) {
         //Finds all nodes connected to specified node
         var connectedEdges = $scope.graph.data.edges.filter(function (e) {
-            return ((e.StartNode == node.ID) || (e.EndNode == node.ID));
+            return ((e.StartNode == ID) || (e.EndNode == ID));
         })
 
 
         for (var i = 0; i < connectedEdges.length; i++) {
-            if (connectedEdges[i].StartNode != node.ID) {
+            if (connectedEdges[i].StartNode != ID) {
                 $scope.setHighlight(connectedEdges[i].StartNode);
             }
-            if (connectedEdges[i].EndNode != node.ID) {
+            if (connectedEdges[i].EndNode != ID) {
                 $scope.setHighlight(connectedEdges[i].EndNode);
             }
 
@@ -155,7 +159,7 @@ myApp.controller("HomeController", function ($scope) {
 
     }
 
-    $scope.setHighlight = function (ID) {
+    $scope.setHighlight = function (ID) {        
         //Sets the highlight property on nodes connected to given ID
         var connectedNodes = $scope.graph.data.nodes.filter(function (e) {
             return e.ID == ID;
@@ -283,11 +287,12 @@ myApp.controller("HomeController", function ($scope) {
             .attr("class", function (d) {
                 return "node-container";
             })
+            .on("mouseover", mouseover)
+            .on("mouseout", mouseout)
             .classed('gnode', true)
-            .on("click", function (d) {
-                console.log(d);
-            })
+            .on("click", makeBigger)
             .call($scope.graph.force.drag);
+
 
         var cnode = gnodes.append("circle")
             .attr("class", "cnode")
@@ -298,15 +303,43 @@ myApp.controller("HomeController", function ($scope) {
             .text(function (d) { return d.Name });
 
 
-        function linksIndexes(dbEdges, dbNodes) {
+        function makeBigger(d) {
+            var r = parseInt(d3.select(this).select("circle").attr("r"));
+            console.log(r);
+            d3.select(this).select("circle").attr("r", r + 1);
+
+            var node = $scope.graph.data.nodes.filter(function(e) {
+                return e.ID == d.ID;
+            });
+            console.log(node);
+            if (node.length > 0) {
+                $scope.$apply(function() {
+                    $scope.setClickedNode(node[0]);
+                })
+            }
+        }
+        function mouseover(d) {
+            $scope.$apply(function() {
+                $scope.highlightConnectedNodes(d.ID);
+            })           
+         //   d3.select(this).select("circle").transition().duration(750).attr("r", 4);           
+        }
+        function mouseout() {
+            $scope.$apply(function() {
+                $scope.clearHighlights();
+            })
+          //  d3.select(this).select("circle").transition().duration(750).attr("r", 2);
+        }
+
+        function linksIndexes(edges, nodes) {
             //The array of nodes and edges must be transformed into an object
             //that contains the actual node objects as source and target
             var output = [];
-            for (var i = 0; i < dbEdges.length; i++) {
-                var startId = dbEdges[i].StartNode;
-                var endId = dbEdges[i].EndNode;
-                var sourceNode = dbNodes.filter(function (n) { return n.ID == startId; });
-                var targetNode = dbNodes.filter(function (n) { return n.ID == endId; });
+            for (var i = 0; i < edges.length; i++) {
+                var startId = edges[i].StartNode;
+                var endId = edges[i].EndNode;
+                var sourceNode = nodes.filter(function (n) { return n.ID == startId; });
+                var targetNode = nodes.filter(function (n) { return n.ID == endId; });
 
                 if ((sourceNode.length == 1) && (targetNode.length == 1)) {
                     output.push({
@@ -331,7 +364,4 @@ myApp.controller("HomeController", function ($scope) {
                 .attr("y2", function (d) { return d.target.y; });
         }
     }
-
-
-
 });
