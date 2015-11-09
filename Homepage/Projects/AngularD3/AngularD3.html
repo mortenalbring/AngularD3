@@ -31,9 +31,9 @@
                                 <span>Link Distance</span>        
                             </td>
                             <td>
-                                <button ng-click="increaseLinkDistance(-10)">-</button>
+                                <button ng-click="increaseLinkDistance(-1)">-</button>
                                 <input ng-model="settings.linkDistance" ng-change="drawGraph()"/>
-                                <button ng-click="increaseLinkDistance(10)">+</button>
+                                <button ng-click="increaseLinkDistance(1)">+</button>
 
                             </td>
                         </tr>
@@ -179,7 +179,8 @@
     </div>
     <script src="packages/angular.min.js"></script>
     <script src='packages/d3.min.js'></script>
-    <script src="AngularD3-preset-graphene.js"></script>
+<script src="AngularD3-preset-graphene.js"></script>
+    <script src="AngularD3-preset-graphene-auto.js"></script>
     <script src="AngularD3-preset-cube.js"></script>
     <script src="AngularD3-preset-DNA.js"></script>
     <script src="AngularD3-preset-multiplecubes.js"></script>

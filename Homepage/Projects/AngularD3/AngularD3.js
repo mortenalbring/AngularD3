@@ -13,7 +13,7 @@ myApp.controller("HomeController", function ($scope) {
         if (!customSettings.linkDistance) { customSettings.linkDistance = $scope.settings.linkDistance; }
         if (!customSettings.charge) { customSettings.charge = $scope.settings.charge; }
 
-        if (!customSettings.clickToConnect) {customSettings.clickToConnect = true;}
+        if (customSettings.clickToConnect == undefined) {customSettings.clickToConnect = true;}
 
         return customSettings;
     }
@@ -76,11 +76,7 @@ myApp.controller("HomeController", function ($scope) {
     $scope.drawDNA = function () {
 
         DNA.makeDNA(30);
-
-
         $scope.graph.data = angular.copy(DNA.data);
-
-
 
         $scope.settings = angular.copy(DNA.settings);
         drawGraph();
@@ -92,8 +88,12 @@ myApp.controller("HomeController", function ($scope) {
         drawGraph();
     }
     $scope.drawGraphene = function () {
-        $scope.graph.data = angular.copy(graphene.data);
-        $scope.settings = angular.copy(checkCustomSettings(graphene.settings));
+
+        grapheneauto.drawGraphene();
+
+
+        $scope.graph.data = angular.copy(grapheneauto.data);
+        $scope.settings = angular.copy(checkCustomSettings(grapheneauto.settings));
         drawGraph();
     }
     $scope.drawCube = function () {
