@@ -63,12 +63,12 @@ myApp.controller("HomeController", function ($scope) {
     }
 
 
-   
+
 
 
     $scope.drawDNA = function () {
 
-     
+        DNA.makeDNA(30);
 
 
         $scope.graph.data = angular.copy(DNA.data);
