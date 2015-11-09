@@ -14,14 +14,9 @@
         <div ng-controller="HomeController">
             <h1>Angular with D3</h1>
 
-
             <button ng-click="drawGraph()">Redraw graph</button>
             <button ng-click="randomise()">Randomise!</button>
-
-            
-            
-
-
+                     
             <div class="container">
                 <div class="item">
                     <strong>Preset arrangements</strong>
@@ -88,15 +83,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <input ng-model="newID" placeholder="ID (blank to autogenerate)">
-                                            </td>
-                                            <td>
-                                                <input ng-model="newName" placeholder="Name (blank to autogenerate)">
-                                                <button ng-click="addNode(newID,newName)">Add node</button>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>
+                                            <input ng-model="newID" placeholder="ID (blank to autogenerate)">
+                                        </td>
+                                        <td>
+                                            <input ng-model="newName" placeholder="Name (blank to autogenerate)">
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <button ng-click="addNode(newID,newName)">Add node</button>                                            
+                                        </td>
+                                    </tr>
 
                                         <tr ng-repeat="node in graph.data.nodes"
                                             class="node-select"
@@ -133,8 +133,15 @@
                                     </td>
                                     <td>
                                         <input ng-model="newEndNode" placeholder="EndNode">
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
                                         <button ng-disabled="!newStartNode || !newEndNode"
-                                                ng-click="addEdge(newStartNode,newEndNode)">Add edge</button>
+                                                ng-click="addEdge(newStartNode,newEndNode)">
+                                            Add edge
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr ng-repeat="edge in graph.data.edges">
