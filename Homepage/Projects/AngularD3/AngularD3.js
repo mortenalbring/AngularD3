@@ -13,7 +13,13 @@ myApp.controller("HomeController", function ($scope) {
         if (!customSettings.linkDistance) { customSettings.linkDistance = $scope.settings.linkDistance; }
         if (!customSettings.charge) { customSettings.charge = $scope.settings.charge; }
 
+        if (!customSettings.clickToConnect) {customSettings.clickToConnect = true;}
+
         return customSettings;
+    }
+
+    function isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
     }
 
     $scope.increaseValue = function (setting, val) {
@@ -181,8 +187,8 @@ myApp.controller("HomeController", function ($scope) {
     $scope.randomise = function () {
         //Generates a random number of nodes and randomly connects them together and then redraws the graph
         $scope.settings = {
-            linkDistance: 100,
-            charge: -1000
+            linkDistance: Math.floor(Math.random() * 100),
+            charge: Math.floor(Math.random() * 1000) * -1
         }
 
         var min = 10;
@@ -206,8 +212,13 @@ myApp.controller("HomeController", function ($scope) {
         drawGraph();
     }
 
+
+
     $scope.drawGraph = function () {
-        drawGraph();
+
+        if (isNumeric($scope.settings.linkDistance) && isNumeric($scope.settings.charge)) {
+            drawGraph();
+        }
     }
 
     $scope.drawGraph();
@@ -293,17 +304,17 @@ myApp.controller("HomeController", function ($scope) {
             .text(function (d) { return d.Name });
 
 
-        function connectNodes(d) {            
+        function connectNodes(d) {
             if (!$scope.settings.clickToConnect) {
                 return;
             }
 
-            var r = parseInt(d3.select(this).select("circle").attr("r"));            
+            var r = parseInt(d3.select(this).select("circle").attr("r"));
             d3.select(this).select("circle").attr("r", r + 1);
 
             var node = $scope.graph.data.nodes.filter(function (e) {
                 return e.ID == d.ID;
-            });            
+            });
             if (node.length > 0) {
                 $scope.$apply(function () {
                     $scope.setClickedNode(node[0]);
