@@ -172,6 +172,8 @@ myApp.controller("HomeController", function ($scope) {
     $scope.addEdge = function (StartNodeID, EndNodeID) {
         makeEdges(StartNodeID, EndNodeID);
         drawGraph();
+        $scope.newStartNode = null;
+        $scope.newEndNode = null;
     }
 
 
