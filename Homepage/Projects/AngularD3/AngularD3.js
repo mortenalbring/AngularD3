@@ -4,7 +4,8 @@ myApp.controller("HomeController", function ($scope) {
 
     $scope.settings = {
         linkDistance: 200,
-        charge: -1000
+        charge: -1000,
+        clickToConnect: true
     }
     function checkCustomSettings(customSettings) {
         //The preset files come with custom settings for various parameters to make the scene look good. 
@@ -277,7 +278,7 @@ myApp.controller("HomeController", function ($scope) {
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)
             .classed('gnode', true)
-            //.on("click", makeBigger)
+            .on("click", connectNodes)
             .call($scope.graph.force.drag);
 
 
@@ -290,15 +291,17 @@ myApp.controller("HomeController", function ($scope) {
             .text(function (d) { return d.Name });
 
 
-        function makeBigger(d) {
-            var r = parseInt(d3.select(this).select("circle").attr("r"));
-            console.log(r);
+        function connectNodes(d) {            
+            if (!$scope.settings.clickToConnect) {
+                return;
+            }
+
+            var r = parseInt(d3.select(this).select("circle").attr("r"));            
             d3.select(this).select("circle").attr("r", r + 1);
 
             var node = $scope.graph.data.nodes.filter(function (e) {
                 return e.ID == d.ID;
-            });
-            console.log(node);
+            });            
             if (node.length > 0) {
                 $scope.$apply(function () {
                     $scope.setClickedNode(node[0]);

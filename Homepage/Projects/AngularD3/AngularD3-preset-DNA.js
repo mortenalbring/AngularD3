@@ -12,7 +12,8 @@ var DNA = {
     },
     settings: {
         linkDistance: -30,
-        charge: -300
+        charge: -300,
+        clickToConnect:false
     }
 
 }
