@@ -10,7 +10,8 @@ body {
 }
 
 .item {
-    width:50%;    
+    width:45%;
+    padding: 1em;
 }
 
 .graph-data-table {
@@ -31,6 +32,14 @@ body {
 .graph-data-table th {
     
     text-align: left;
+}
+
+.graph-data-table td {
+    font-size:0.7em;
+}
+
+.nodes-box {
+    padding:1em;
 }
 
 #graph-container {
