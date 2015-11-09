@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="nodestyles.css" />
 
     <style>
-
     </style>
 </head>
 <body>
@@ -18,48 +17,95 @@
 
             <button ng-click="drawGraph()">Redraw graph</button>
             <button ng-click="randomise()">Randomise!</button>
-            
+
             <button ng-click="drawGraphene()">Graphene</button>
             <button ng-click="drawCube()">Cube</button>
             <button ng-click="drawMultipleCubes()">Multiple cubes</button>
             <button ng-click="drawDNA()">DNA</button>
 
-            <div>
-                <span>Link Distance</span>
-                <button ng-click="increaseLinkDistance(-10)">-</button>
-                <input ng-model="settings.linkDistance" />
-                <button ng-click="increaseLinkDistance(10)">+</button>
-            </div>
-            <div>
-                <span>Charge</span>
-                <button ng-click="increaseCharge(-10)">-</button>
-                <input ng-model="settings.charge" />
-                <button ng-click="increaseCharge(10)">+</button>
-            </div>
 
 
             <div class="container">
                 <div class="item">
+                    <div>
+                        <span>Link Distance</span>
+                        <button ng-click="increaseLinkDistance(-10)">-</button>
+                        <input ng-model="settings.linkDistance" />
+                        <button ng-click="increaseLinkDistance(10)">+</button>
+                    </div>
+                    <div>
+                        <span>Charge</span>
+                        <button ng-click="increaseCharge(-10)">-</button>
+                        <input ng-model="settings.charge" />
+                        <button ng-click="increaseCharge(10)">+</button>
+                    </div>
+                    <div>
+                        <span>Click nodes to connect together</span>
+                        <label>
+                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="true" />
+                            On
+                        </label>
+                        <label>
+                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="false" />
+                            Off
+                        </label>
+
+                    </div>
+
+                    <span ng-if="clicked.StartNode">
+                        Click on a node to connect to {{clicked.StartNode.Name}} [{{clicked.StartNode.ID}}]
+                    </span>
+
                     <div class="container">
                         <div class="item">
                             <h2>Nodes</h2>
                             <div>
-                                <input ng-model="newID" placeholder="ID">
-                                <input ng-model="newName" placeholder="Name">
-                                <button ng-click="addNode(newID,newName)">Add node</button>
+
+
+
                             </div>
-                            <div ng-repeat="node in graph.data.nodes">
-                                <div class="node-select"
-                                     ng-mouseover="highlightConnectedNodes(node.ID)"
-                                     ng-mouseout="clearHighlights()"
-                                     ng-click="setClickedNode(node)"
-                                     ng-class="{'node-clicked' : node.clicked,
+
+                            <table class="graph-data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <input ng-model="newID" placeholder="ID (blank to autogenerate)">
+                                        </td>
+                                        <td>
+                                            <input ng-model="newName" placeholder="Name (blank to autogenerate)">
+                                            <button ng-click="addNode(newID,newName)">Add node</button>
+                                        </td>
+
+                                    </tr>
+
+                                    <tr ng-repeat="node in graph.data.nodes"
+                                        class="node-select"
+                                        ng-mouseover="highlightConnectedNodes(node.ID)"
+                                        ng-mouseout="clearHighlights()"
+                                        ng-click="setClickedNode(node)"
+                                        ng-class="{'node-clicked' : node.clicked,
                                 'node-highlight' : node.highlight}">
-                                    <span>{{node.ID}}</span> - <span>{{node.Name}}</span>
-                                </div>
-                            </div>
+                                        <td>
+                                            {{node.ID}}
+                                        </td>
+                                        <td>
+                                            {{node.Name}}
+                                        </td>
+
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
                         </div>
                         <div class="item">
+
                             <h2>Edges</h2>
                             <div>
                                 <input ng-model="newStartNode" placeholder="StartNode">
@@ -71,15 +117,22 @@
                             </div>
 
                         </div>
+
                     </div>
+
+
+
+
                 </div>
+
+
+
 
                 <div class="item">
                     <div id="graph-container"></div>
                 </div>
             </div>
         </div>
-
 
     </div>
     <script src="packages/angular.min.js"></script>

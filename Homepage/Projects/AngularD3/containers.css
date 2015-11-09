@@ -13,6 +13,26 @@ body {
     width:50%;    
 }
 
+.graph-data-table {
+    width:100%;
+    border:1px solid;
+    border-color:#808080;
+}
+.graph-data-table thead {
+    background-color:#0043f2;
+    color:#fff;    
+}
+
+
+.graph-data-table th,td {
+    padding-left:0.5em;
+}
+
+.graph-data-table th {
+    
+    text-align: left;
+}
+
 #graph-container {
     margin-top:2em;
     width:600px;
