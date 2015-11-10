@@ -63,15 +63,26 @@
                     <div>
                         <span>Click nodes to connect together</span>
                         <label>
-                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="true" />
+                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="true"/>
                             On
                         </label>
                         <label>
-                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="false" />
+                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="false"/>
                             Off
                         </label>
-
                     </div>
+                    <div>
+                        <span>Prevent nodes from going outside the containing box</span>
+                        <label>
+                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="true" />
+                            On
+                        </label>
+                        <label>
+                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="false" />
+                            Off
+                        </label>
+                    </div>
+
 
                     <span ng-if="clicked.StartNode">
                         Click on a node to connect to {{clicked.StartNode.Name}} [{{clicked.StartNode.ID}}]

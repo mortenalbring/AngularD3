@@ -6,7 +6,8 @@ myApp.controller("HomeController", function ($scope) {
         linkDistance: 200,
         charge: -1000,
         gravity: 0.25,
-        clickToConnect: true
+        clickToConnect: true,
+        lockToContainer: false
     }
     function checkCustomSettings(customSettings) {
         //The preset files come with custom settings for various parameters to make the scene look good. 
@@ -14,7 +15,8 @@ myApp.controller("HomeController", function ($scope) {
         if (!customSettings.linkDistance) { customSettings.linkDistance = $scope.settings.linkDistance; }
         if (!customSettings.charge) { customSettings.charge = $scope.settings.charge; }
         if (!customSettings.gravity) { customSettings.gravity = $scope.settings.gravity; }
-        if (customSettings.clickToConnect == undefined) {customSettings.clickToConnect = true;}
+        if (customSettings.clickToConnect == undefined) { customSettings.clickToConnect = true; }
+        if (customSettings.lockToContainer == undefined) { customSettings.lockToContainer = false; }
 
         return customSettings;
     }
@@ -372,9 +374,11 @@ myApp.controller("HomeController", function ($scope) {
                 if (d.x && d.y) {
                     var newx = d.x;
                     var newy = d.y;
-
-                    //newx = Math.max($scope.graph.radius, Math.min($scope.graph.width - $scope.graph.radius, d.x));
-                    //newy = Math.max($scope.graph.radius, Math.min($scope.graph.height - $scope.graph.radius, d.y));
+                    
+                    if ($scope.settings.lockToContainer) {
+                        newx = Math.max($scope.graph.radius, Math.min($scope.graph.width - $scope.graph.radius, d.x));
+                        newy = Math.max($scope.graph.radius, Math.min($scope.graph.height - $scope.graph.radius, d.y));
+                    }
 
                     return 'translate(' + [newx, newy] + ')';
                 }
