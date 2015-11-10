@@ -13,9 +13,9 @@ var DNA = {
     settings: {
         linkDistance: -30,
         charge: -300,
+        radius: 2,
         clickToConnect:false
     }
-
 }
 
 function singleStrand(startID, maxLength) {
