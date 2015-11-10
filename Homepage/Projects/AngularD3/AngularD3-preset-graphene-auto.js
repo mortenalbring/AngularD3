@@ -14,6 +14,44 @@ var grapheneauto = {
     }
 }
 
+function connectHexConnections(hexagons) {
+    var edges = [];
+
+    for (var i = 0; i < (hexagons.length-1); i++) {
+        for (var j = 0; j < 5; j++) {
+            var newEdge = {
+                StartNode: hexagons[i].nodes[j].ID,
+                EndNode: hexagons[i+1].nodes[j+1].ID,
+            }
+            edges.push(newEdge);
+        }
+    }
+    return edges;
+}
+
+function drawHexConnections(startID) {
+    var hexagon = {
+        nodes: [],
+        edges: []
+    }
+
+    for (var i = startID; i < startID + 6; i++) {
+        var newNode = {
+            ID: i,
+            Name: i
+        }
+        hexagon.nodes.push(newNode);
+    }
+    for (var i = 1; i < 6; i++) {        
+        var newEdge = {
+            StartNode: hexagon.nodes[0].ID,
+            EndNode: hexagon.nodes[i].ID
+        }
+        hexagon.edges.push(newEdge);
+    }
+
+    return hexagon;
+}
 
 function drawHexagon(startID) {
     var hexagon =
@@ -172,17 +210,18 @@ grapheneauto.drawGraphene = function () {
     grapheneauto.data.nodes = [];
     grapheneauto.data.edges = [];
 
-    var hexagons = [];
-    for (var i = 0; i < 9; i++) {
-        var hex = drawHexagon(i * 100);
-        hexagons.push(hex);
 
-        grapheneauto.data.nodes = grapheneauto.data.nodes.concat(hex.nodes);
-        grapheneauto.data.edges = grapheneauto.data.edges.concat(hex.edges);
+    var hexagons = [];
+
+    for (var i = 0; i < 10; i++) {
+        var hexagon = drawHexConnections(i * 100);
+        hexagons.push(hexagon);
+        grapheneauto.data.nodes = grapheneauto.data.nodes.concat(hexagon.nodes);
+        grapheneauto.data.edges = grapheneauto.data.edges.concat(hexagon.edges);
+
     }
 
-
-    var connections = connectHexagons(hexagons);
+    var connections = connectHexConnections(hexagons);
     grapheneauto.data.edges = grapheneauto.data.edges.concat(connections);
 
 
