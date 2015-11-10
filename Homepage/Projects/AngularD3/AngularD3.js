@@ -3,7 +3,8 @@ var myApp = angular.module("myApp", []);
 myApp.controller("HomeController", function ($scope) {
 
     $scope.settings = {
-        linkDistance: 200,
+        linkDistance: 20,
+        linkStrength: 1,
         charge: -1000,
         gravity: 0.25,
         clickToConnect: true,
@@ -13,8 +14,10 @@ myApp.controller("HomeController", function ($scope) {
         //The preset files come with custom settings for various parameters to make the scene look good. 
         //If I've forgotten to set one of the parameters, this should prevent the graph from breaking        
         if (!customSettings.linkDistance) { customSettings.linkDistance = $scope.settings.linkDistance; }
+        if (!customSettings.linkStrength) { customSettings.linkStrength = $scope.settings.linkStrength; }
         if (!customSettings.charge) { customSettings.charge = $scope.settings.charge; }
         if (!customSettings.gravity) { customSettings.gravity = $scope.settings.gravity; }
+        
         if (customSettings.clickToConnect == undefined) { customSettings.clickToConnect = true; }
         if (customSettings.lockToContainer == undefined) { customSettings.lockToContainer = false; }
 
@@ -23,6 +26,14 @@ myApp.controller("HomeController", function ($scope) {
 
     function isNumeric(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+    $scope.increaseLinkDistance = function (val) {
+        $scope.settings.linkDistance = $scope.settings.linkDistance + val;
+        drawGraph();
+    }
+    $scope.increaseLinkStrength = function (val) {
+        $scope.settings.linkStrength = $scope.settings.linkStrength + val;
+        drawGraph();
     }
 
     $scope.increaseValue = function (setting, val) {
@@ -36,10 +47,7 @@ myApp.controller("HomeController", function ($scope) {
         drawGraph();
     }
 
-    $scope.increaseLinkDistance = function (val) {
-        $scope.settings.linkDistance = $scope.settings.linkDistance + val;
-        drawGraph();
-    }
+
     $scope.increaseGravity = function (val) {
         $scope.settings.gravity = $scope.settings.gravity + val;
         drawGraph();
@@ -255,6 +263,10 @@ myApp.controller("HomeController", function ($scope) {
     function drawGraph() {
 
         d3.select("svg").remove();
+        if ($scope.graph.force) {
+            $scope.graph.force.stop();
+        }
+        
 
         $scope.graph.data.linkData = linksIndexes($scope.graph.data.edges, $scope.graph.data.nodes);
 
@@ -269,6 +281,7 @@ myApp.controller("HomeController", function ($scope) {
             .nodes($scope.graph.data.nodes)
             .links($scope.graph.data.linkData)
             .linkDistance($scope.settings.linkDistance)
+            .linkStrength($scope.settings.linkStrength)
             //Distance between nodes
             .charge($scope.settings.charge)
             //How much nodes repel eachother (positive is attractive)

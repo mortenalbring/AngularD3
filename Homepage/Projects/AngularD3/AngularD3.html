@@ -29,12 +29,22 @@
                     <table>
                         <tr>
                             <td>
-                                <span>Link Distance</span>
+                                <span title="Distance between nodes. The distances are weak geometric constraints that tend towards the desired value. ">Link distance</span>
                             </td>
                             <td>
                                 <button ng-click="increaseLinkDistance(-1)">-</button>
-                                <input ng-model="settings.linkDistance" ng-change="drawGraph()" />
+                                <input ng-model="settings.linkDistance" ng-change="drawGraph()"/>
                                 <button ng-click="increaseLinkDistance(1)">+</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span title="Rigidity of links between nodes">Link strength</span>
+                            </td>
+                            <td>
+                                <button ng-click="increaseLinkStrength(-0.1)">-</button>
+                                <input ng-model="settings.linkStrength" ng-change="drawGraph()" />
+                                <button ng-click="increaseLinkStrength(0.1)">+</button>
                             </td>
                         </tr>
                         <tr>
