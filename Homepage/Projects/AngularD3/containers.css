@@ -5,17 +5,15 @@ body {
 
 .container {
     display:flex;
-    flex-wrap:wrap;
-    
+    flex-wrap:wrap;    
 }
 
-.item {
+.item {    
     width:45%;
     padding: 1em;
 }
 
-.graph-data-table {
-    width:100%;
+.graph-data-table {        
     border:1px solid;
     border-color:#808080;
 }
