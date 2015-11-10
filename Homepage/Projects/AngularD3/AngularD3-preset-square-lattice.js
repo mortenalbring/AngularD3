@@ -1,7 +1,8 @@
 var squarelattice = {
     settings : {
         linkDistance: 3,
-        charge: -300
+        charge: -300,
+        gravity: 0.2
     },
     data: {
         nodes: [],
@@ -47,7 +48,7 @@ function connectChainsTogether(chains) {
 
 
 squarelattice.drawLattice = function () {
-    var size = 9;
+    var size = 10;
 
     squarelattice.data.nodes = [];
     squarelattice.data.edges = [];

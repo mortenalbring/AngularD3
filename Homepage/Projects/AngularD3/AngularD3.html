@@ -35,7 +35,6 @@
                                 <button ng-click="increaseLinkDistance(-1)">-</button>
                                 <input ng-model="settings.linkDistance" ng-change="drawGraph()" />
                                 <button ng-click="increaseLinkDistance(1)">+</button>
-
                             </td>
                         </tr>
                         <tr>
@@ -47,8 +46,18 @@
                                 <input ng-model="settings.charge" ng-change="drawGraph()" />
                                 <button ng-click="increaseCharge(10)">+</button>
                             </td>
-
                         </tr>
+                        <tr>
+                            <td>
+                                <span>Gravity</span>
+                            </td>
+                            <td>
+                                <button ng-click="increaseGravity(-0.1)">-</button>
+                                <input ng-model="settings.gravity" ng-change="drawGraph()" />
+                                <button ng-click="increaseGravity(0.1)">+</button>
+                            </td>
+                        </tr>
+
                     </table>
 
                     <div>

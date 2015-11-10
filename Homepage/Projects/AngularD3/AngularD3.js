@@ -5,6 +5,7 @@ myApp.controller("HomeController", function ($scope) {
     $scope.settings = {
         linkDistance: 200,
         charge: -1000,
+        gravity: 0.25,
         clickToConnect: true
     }
     function checkCustomSettings(customSettings) {
@@ -12,7 +13,7 @@ myApp.controller("HomeController", function ($scope) {
         //If I've forgotten to set one of the parameters, this should prevent the graph from breaking        
         if (!customSettings.linkDistance) { customSettings.linkDistance = $scope.settings.linkDistance; }
         if (!customSettings.charge) { customSettings.charge = $scope.settings.charge; }
-
+        if (!customSettings.gravity) { customSettings.gravity = $scope.settings.gravity; }
         if (customSettings.clickToConnect == undefined) {customSettings.clickToConnect = true;}
 
         return customSettings;
@@ -35,6 +36,10 @@ myApp.controller("HomeController", function ($scope) {
 
     $scope.increaseLinkDistance = function (val) {
         $scope.settings.linkDistance = $scope.settings.linkDistance + val;
+        drawGraph();
+    }
+    $scope.increaseGravity = function (val) {
+        $scope.settings.gravity = $scope.settings.gravity + val;
         drawGraph();
     }
 
@@ -78,7 +83,7 @@ myApp.controller("HomeController", function ($scope) {
         DNA.makeDNA(30);
         $scope.graph.data = angular.copy(DNA.data);
 
-        $scope.settings = angular.copy(DNA.settings);
+        $scope.settings = angular.copy(checkCustomSettings(DNA.settings));
         drawGraph();
     }
 
@@ -267,7 +272,7 @@ myApp.controller("HomeController", function ($scope) {
             //How much nodes repel eachother (positive is attractive)
             .friction(0.5)
             //Slows down the nodes movement
-            .gravity(0.25)
+            .gravity($scope.settings.gravity)
             //An attractive force towards the centre of the graph
             .on("tick", tick);
 
@@ -365,7 +370,13 @@ myApp.controller("HomeController", function ($scope) {
         function tick() {
             gnodes.attr("transform", function (d) {
                 if (d.x && d.y) {
-                    return 'translate(' + [d.x, d.y] + ')';
+                    var newx = d.x;
+                    var newy = d.y;
+
+                    //newx = Math.max($scope.graph.radius, Math.min($scope.graph.width - $scope.graph.radius, d.x));
+                    //newy = Math.max($scope.graph.radius, Math.min($scope.graph.height - $scope.graph.radius, d.y));
+
+                    return 'translate(' + [newx, newy] + ')';
                 }
             });
 
