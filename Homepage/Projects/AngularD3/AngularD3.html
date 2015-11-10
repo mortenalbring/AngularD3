@@ -74,8 +74,18 @@
                             </td>
                             <td>
                                 <button ng-click="increaseGravity(-0.1)">-</button>
-                                <input ng-model="settings.gravity" ng-change="drawGraph()" />
+                                <input ng-model="settings.gravity" ng-change="drawGraph()"/>
                                 <button ng-click="increaseGravity(0.1)">+</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Node radius</span>
+                            </td>
+                            <td>
+                                <button ng-click="increaseRadius(-1)">-</button>
+                                <input ng-model="settings.radius" ng-change="drawGraph()" />
+                                <button ng-click="increaseRadius(1)">+</button>
                             </td>
                         </tr>
 

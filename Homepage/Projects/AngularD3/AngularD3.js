@@ -8,6 +8,7 @@ myApp.controller("HomeController", function ($scope) {
         friction: 0.9,
         charge: -1000,
         gravity: 0.25,
+        radius: 2,
         clickToConnect: true,
         lockToContainer: false
     }
@@ -18,6 +19,7 @@ myApp.controller("HomeController", function ($scope) {
         if (!customSettings.linkStrength) { customSettings.linkStrength = $scope.settings.linkStrength; }
         if (!customSettings.friction) { customSettings.friction = $scope.settings.friction; }
         if (!customSettings.charge) { customSettings.charge = $scope.settings.charge; }
+        if (!customSettings.gravity) { customSettings.gravity = $scope.settings.gravity; }
         if (!customSettings.gravity) { customSettings.gravity = $scope.settings.gravity; }
         
         if (customSettings.clickToConnect == undefined) { customSettings.clickToConnect = true; }
@@ -52,18 +54,20 @@ myApp.controller("HomeController", function ($scope) {
         $scope.settings.charge = $scope.settings.charge + val;
         drawGraph();
     }
-
-
     $scope.increaseGravity = function (val) {
         $scope.settings.gravity = $scope.settings.gravity + val;
         drawGraph();
     }
+    $scope.increaseRadius = function (val) {
+        $scope.settings.radius = $scope.settings.radius + val;
+        drawGraph();
+    }
+
 
     $scope.graph = {
         width: 600,
         height: 600,
-        margin: 30,
-        radius: 3,
+        margin: 30,        
         svg: null,
         force: null,
         data: {
@@ -334,7 +338,7 @@ myApp.controller("HomeController", function ($scope) {
 
         var cnode = gnodes.append("circle")
             .attr("class", "cnode")
-            .attr("r", 2);
+            .attr("r", $scope.settings.radius);
 
         var labels = gnodes.append("text")
             .attr("class", "label-text")
@@ -362,13 +366,13 @@ myApp.controller("HomeController", function ($scope) {
             $scope.$apply(function () {
                 $scope.highlightConnectedNodes(d.ID);
             })
-            //   d3.select(this).select("circle").transition().duration(750).attr("r", 4);           
+               d3.select(this).select("circle").transition().duration(750).attr("r", $scope.settings.radius*2);           
         }
         function mouseout() {
             $scope.$apply(function () {
                 $scope.clearHighlights();
             })
-            //  d3.select(this).select("circle").transition().duration(750).attr("r", 2);
+              d3.select(this).select("circle").transition().duration(750).attr("r", $scope.settings.radius);
         }
 
         function linksIndexes(edges, nodes) {
@@ -398,8 +402,8 @@ myApp.controller("HomeController", function ($scope) {
                     var newy = d.y;
                     
                     if ($scope.settings.lockToContainer) {
-                        newx = Math.max($scope.graph.radius, Math.min($scope.graph.width - $scope.graph.radius, d.x));
-                        newy = Math.max($scope.graph.radius, Math.min($scope.graph.height - $scope.graph.radius, d.y));
+                        newx = Math.max($scope.settings.radius, Math.min($scope.graph.width - $scope.settings.radius, d.x));
+                        newy = Math.max($scope.settings.radius, Math.min($scope.graph.height - $scope.settings.radius, d.y));
                     }
 
                     return 'translate(' + [newx, newy] + ')';
