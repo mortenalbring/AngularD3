@@ -2,7 +2,8 @@ var cube = {
     settings: {
         charge: -1000,
         linkDistance: 160,
-        friction: 0.5
+        friction: 0.5,
+        radius: 4
     },
     data: {
         nodes: [

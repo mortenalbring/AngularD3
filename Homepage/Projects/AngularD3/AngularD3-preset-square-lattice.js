@@ -2,7 +2,8 @@ var squarelattice = {
     settings : {
         linkDistance: 3,
         charge: -300,
-        gravity: 0.2
+        gravity: 0.2,
+        friction: 0.5
     },
     data: {
         nodes: [],
