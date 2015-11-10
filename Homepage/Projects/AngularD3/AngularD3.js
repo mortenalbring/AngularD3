@@ -87,6 +87,14 @@ myApp.controller("HomeController", function ($scope) {
         $scope.settings = angular.copy(checkCustomSettings(multiplecubes.settings));
         drawGraph();
     }
+
+    $scope.drawSquareLattice = function() {
+        squarelattice.drawLattice();
+
+        $scope.graph.data = angular.copy(squarelattice.data);
+        $scope.settings = angular.copy(checkCustomSettings(squarelattice.settings));
+        drawGraph();
+    }
     $scope.drawGraphene = function () {
 
         grapheneauto.drawGraphene();

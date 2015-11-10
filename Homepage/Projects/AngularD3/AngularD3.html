@@ -16,10 +16,11 @@
 
             <button ng-click="drawGraph()">Redraw graph</button>
             <button ng-click="randomise()">Randomise!</button>
-                     
+
             <div class="container">
                 <div class="item">
                     <strong>Preset arrangements</strong>
+                    <button ng-click="drawSquareLattice()">Square Lattice</button>
                     <button ng-click="drawGraphene()">Graphene</button>
                     <button ng-click="drawCube()">Cube</button>
                     <button ng-click="drawMultipleCubes()">Multiple cubes</button>
@@ -28,11 +29,11 @@
                     <table>
                         <tr>
                             <td>
-                                <span>Link Distance</span>        
+                                <span>Link Distance</span>
                             </td>
                             <td>
                                 <button ng-click="increaseLinkDistance(-1)">-</button>
-                                <input ng-model="settings.linkDistance" ng-change="drawGraph()"/>
+                                <input ng-model="settings.linkDistance" ng-change="drawGraph()" />
                                 <button ng-click="increaseLinkDistance(1)">+</button>
 
                             </td>
@@ -49,15 +50,15 @@
 
                         </tr>
                     </table>
-              
+
                     <div>
                         <span>Click nodes to connect together</span>
                         <label>
-                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="true"/>
+                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="true" />
                             On
                         </label>
                         <label>
-                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="false"/>
+                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="false" />
                             Off
                         </label>
 
@@ -69,51 +70,51 @@
 
                     <div class="container">
                         <div class="item">
-                            
-                                <h2>Nodes</h2>
-                                <p>
-                                    Highlight nodes in the table to see connected nodes and click on nodes to connect them together.
-                                    You can also add new nodes using the input boxes. Leave the ID or Name fields blank to autogenerate values.
-                                </p>
-                                <table class="graph-data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+
+                            <h2>Nodes</h2>
+                            <p>
+                                Highlight nodes in the table to see connected nodes and click on nodes to connect them together.
+                                You can also add new nodes using the input boxes. Leave the ID or Name fields blank to autogenerate values.
+                            </p>
+                            <table class="graph-data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     <tr>
                                         <td>
                                             <input ng-model="newID" placeholder="ID (blank to autogenerate)">
                                         </td>
                                         <td>
                                             <input ng-model="newName" placeholder="Name (blank to autogenerate)">
-                                            
+
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <button ng-click="addNode(newID,newName)">Add node</button>                                            
+                                            <button ng-click="addNode(newID,newName)">Add node</button>
                                         </td>
                                     </tr>
 
-                                        <tr ng-repeat="node in graph.data.nodes"
-                                            class="node-select"
-                                            ng-mouseover="highlightConnectedNodes(node.ID)"
-                                            ng-mouseout="clearHighlights()"
-                                            ng-click="setClickedNode(node)"
-                                            ng-class="{'node-clicked' : node.clicked,
+                                    <tr ng-repeat="node in graph.data.nodes"
+                                        class="node-select"
+                                        ng-mouseover="highlightConnectedNodes(node.ID)"
+                                        ng-mouseout="clearHighlights()"
+                                        ng-click="setClickedNode(node)"
+                                        ng-class="{'node-clicked' : node.clicked,
                                 'node-highlight' : node.highlight}">
-                                            <td>
-                                                {{node.ID}}
-                                            </td>
-                                            <td>
-                                                {{node.Name}}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                        <td>
+                                            {{node.ID}}
+                                        </td>
+                                        <td>
+                                            {{node.Name}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
                         </div>
                         <div class="item">
@@ -121,37 +122,37 @@
                             <p>This shows which nodes are currently connected together. You can manually connect nodes by creating a new edge using the input boxes </p>
                             <table class="graph-data-table">
                                 <thead>
-                                <tr>
-                                    <th>Start Node ID</th>
-                                    <th>End Node ID</th>
-                                </tr>
+                                    <tr>
+                                        <th>Start Node ID</th>
+                                        <th>End Node ID</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <input ng-model="newStartNode" placeholder="StartNode">
-                                    </td>
-                                    <td>
-                                        <input ng-model="newEndNode" placeholder="EndNode">
-                                        
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <button ng-disabled="!newStartNode || !newEndNode"
-                                                ng-click="addEdge(newStartNode,newEndNode)">
-                                            Add edge
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr ng-repeat="edge in graph.data.edges">
-                                    <td>
-                                        {{edge.StartNode}}
-                                    </td>
-                                    <td>
-                                        {{edge.EndNode}}
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            <input ng-model="newStartNode" placeholder="StartNode">
+                                        </td>
+                                        <td>
+                                            <input ng-model="newEndNode" placeholder="EndNode">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <button ng-disabled="!newStartNode || !newEndNode"
+                                                    ng-click="addEdge(newStartNode,newEndNode)">
+                                                Add edge
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="edge in graph.data.edges">
+                                        <td>
+                                            {{edge.StartNode}}
+                                        </td>
+                                        <td>
+                                            {{edge.EndNode}}
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                             <div>
@@ -179,11 +180,13 @@
     </div>
     <script src="packages/angular.min.js"></script>
     <script src='packages/d3.min.js'></script>
-<script src="AngularD3-preset-graphene.js"></script>
+    <script src="AngularD3-preset-graphene.js"></script>
     <script src="AngularD3-preset-graphene-auto.js"></script>
     <script src="AngularD3-preset-cube.js"></script>
     <script src="AngularD3-preset-DNA.js"></script>
-    <script src="AngularD3-preset-multiplecubes.js"></script>
+<script src="AngularD3-preset-multiplecubes.js"></script>
+    <script src="AngularD3-preset-square-lattice.js"></script>
+
     <script src="AngularD3.js"></script>
 </body>
 </html>
