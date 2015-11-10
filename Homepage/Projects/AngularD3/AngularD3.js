@@ -93,6 +93,38 @@ myApp.controller("HomeController", function ($scope) {
 
 
 
+    $scope.randomise = function () {
+        //Generates a random number of nodes and randomly connects them together and then redraws the graph
+
+        var randomSettings = 
+         {
+            linkDistance: Math.floor(Math.random() * 100),
+            charge: Math.floor(Math.random() * 1000) * -1
+         }
+        $scope.settings = checkCustomSettings(randomSettings);
+
+        var min = 10;
+        var randmax = Math.floor((Math.random() * 20) + min);
+
+        $scope.graph.data.nodes = [];
+        for (var i = 0; i < randmax; i++) {
+            var newNode = { ID: i, Name: "Node " + i };
+            $scope.graph.data.nodes.push(newNode);
+        }
+
+        $scope.graph.data.edges = [];
+        for (var i = 0; i < randmax; i++) {
+            var r = Math.floor((Math.random() * randmax));
+            if (r != i) {
+                //Ensures we don't connect a node to itself
+                var newEdge = { StartNode: i, EndNode: r };
+                $scope.graph.data.edges.push(newEdge);
+            }
+        }
+        drawGraph();
+    }
+
+
 
     $scope.drawDNA = function () {
 
@@ -211,35 +243,6 @@ myApp.controller("HomeController", function ($scope) {
         $scope.newEndNode = null;
     }
 
-
-
-    $scope.randomise = function () {
-        //Generates a random number of nodes and randomly connects them together and then redraws the graph
-        $scope.settings = {
-            linkDistance: Math.floor(Math.random() * 100),
-            charge: Math.floor(Math.random() * 1000) * -1
-        }
-
-        var min = 10;
-        var randmax = Math.floor((Math.random() * 20) + min);
-
-        $scope.graph.data.nodes = [];
-        for (var i = 0; i < randmax; i++) {
-            var newNode = { ID: i, Name: "Node " + i };
-            $scope.graph.data.nodes.push(newNode);
-        }
-
-        $scope.graph.data.edges = [];
-        for (var i = 0; i < randmax; i++) {
-            var r = Math.floor((Math.random() * randmax));
-            if (r != i) {
-                //Ensures we don't connect a node to itself
-                var newEdge = { StartNode: i, EndNode: r };
-                $scope.graph.data.edges.push(newEdge);
-            }
-        }
-        drawGraph();
-    }
 
 
 
