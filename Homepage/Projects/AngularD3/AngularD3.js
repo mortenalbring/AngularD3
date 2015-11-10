@@ -5,6 +5,7 @@ myApp.controller("HomeController", function ($scope) {
     $scope.settings = {
         linkDistance: 20,
         linkStrength: 1,
+        friction: 0.9,
         charge: -1000,
         gravity: 0.25,
         clickToConnect: true,
@@ -15,6 +16,7 @@ myApp.controller("HomeController", function ($scope) {
         //If I've forgotten to set one of the parameters, this should prevent the graph from breaking        
         if (!customSettings.linkDistance) { customSettings.linkDistance = $scope.settings.linkDistance; }
         if (!customSettings.linkStrength) { customSettings.linkStrength = $scope.settings.linkStrength; }
+        if (!customSettings.friction) { customSettings.friction = $scope.settings.friction; }
         if (!customSettings.charge) { customSettings.charge = $scope.settings.charge; }
         if (!customSettings.gravity) { customSettings.gravity = $scope.settings.gravity; }
         
@@ -33,6 +35,10 @@ myApp.controller("HomeController", function ($scope) {
     }
     $scope.increaseLinkStrength = function (val) {
         $scope.settings.linkStrength = $scope.settings.linkStrength + val;
+        drawGraph();
+    }
+    $scope.increaseFriction = function (val) {
+        $scope.settings.friction = $scope.settings.friction + val;
         drawGraph();
     }
 
@@ -285,7 +291,7 @@ myApp.controller("HomeController", function ($scope) {
             //Distance between nodes
             .charge($scope.settings.charge)
             //How much nodes repel eachother (positive is attractive)
-            .friction(0.5)
+            .friction($scope.settings.friction)
             //Slows down the nodes movement
             .gravity($scope.settings.gravity)
             //An attractive force towards the centre of the graph

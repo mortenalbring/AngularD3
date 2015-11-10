@@ -39,14 +39,25 @@
                         </tr>
                         <tr>
                             <td>
-                                <span title="Rigidity of links between nodes">Link strength</span>
+                                <span title="Rigidity of links between nodes. Values between 0 and 1.">Link strength</span>
                             </td>
                             <td>
                                 <button ng-click="increaseLinkStrength(-0.1)">-</button>
-                                <input ng-model="settings.linkStrength" ng-change="drawGraph()" />
+                                <input ng-model="settings.linkStrength" ng-change="drawGraph()"/>
                                 <button ng-click="increaseLinkStrength(0.1)">+</button>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <span title="How much node movements are slowed down. Values are between 0 (nodes frozen in place) and 1 (frictionless)">Friction</span>
+                            </td>
+                            <td>
+                                <button ng-click="increaseFriction(-0.1)">-</button>
+                                <input ng-model="settings.friction" ng-change="drawGraph()" />
+                                <button ng-click="increaseFriction(0.1)">+</button>
+                            </td>
+                        </tr>
+
                         <tr>
                             <td>
                                 <span>Charge</span>
