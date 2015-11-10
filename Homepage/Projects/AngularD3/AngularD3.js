@@ -20,8 +20,8 @@ myApp.controller("HomeController", function ($scope) {
         if (!customSettings.friction) { customSettings.friction = $scope.settings.friction; }
         if (!customSettings.charge) { customSettings.charge = $scope.settings.charge; }
         if (!customSettings.gravity) { customSettings.gravity = $scope.settings.gravity; }
-        if (!customSettings.gravity) { customSettings.gravity = $scope.settings.gravity; }
-        
+        if (!customSettings.radius) { customSettings.radius = $scope.settings.radius; }
+
         if (customSettings.clickToConnect == undefined) { customSettings.clickToConnect = true; }
         if (customSettings.lockToContainer == undefined) { customSettings.lockToContainer = false; }
 
@@ -67,7 +67,7 @@ myApp.controller("HomeController", function ($scope) {
     $scope.graph = {
         width: 600,
         height: 600,
-        margin: 30,        
+        margin: 30,
         svg: null,
         force: null,
         data: {
@@ -100,10 +100,10 @@ myApp.controller("HomeController", function ($scope) {
     $scope.randomise = function () {
         //Generates a random number of nodes and randomly connects them together and then redraws the graph
 
-        var randomSettings = 
+        var randomSettings =
          {
-            linkDistance: Math.floor(Math.random() * 100),
-            charge: Math.floor(Math.random() * 1000) * -1
+             linkDistance: Math.floor(Math.random() * 100),
+             charge: Math.floor(Math.random() * 1000) * -1
          }
         $scope.settings = checkCustomSettings(randomSettings);
 
@@ -145,7 +145,7 @@ myApp.controller("HomeController", function ($scope) {
         drawGraph();
     }
 
-    $scope.drawSquareLattice = function() {
+    $scope.drawSquareLattice = function () {
         squarelattice.drawLattice();
 
         $scope.graph.data = angular.copy(squarelattice.data);
@@ -279,7 +279,7 @@ myApp.controller("HomeController", function ($scope) {
         if ($scope.graph.force) {
             $scope.graph.force.stop();
         }
-        
+
 
         $scope.graph.data.linkData = linksIndexes($scope.graph.data.edges, $scope.graph.data.nodes);
 
@@ -341,7 +341,7 @@ myApp.controller("HomeController", function ($scope) {
             .attr("r", $scope.settings.radius);
 
         var labels = gnodes.append("text")
-            .attr("class", "label-text")
+            .attr("class", "label-text")            
             .text(function (d) { return d.Name });
 
 
@@ -366,13 +366,13 @@ myApp.controller("HomeController", function ($scope) {
             $scope.$apply(function () {
                 $scope.highlightConnectedNodes(d.ID);
             })
-               d3.select(this).select("circle").transition().duration(750).attr("r", $scope.settings.radius*2);           
+            d3.select(this).select("circle").transition().duration(750).attr("r", $scope.settings.radius * 2);
         }
         function mouseout() {
             $scope.$apply(function () {
                 $scope.clearHighlights();
             })
-              d3.select(this).select("circle").transition().duration(750).attr("r", $scope.settings.radius);
+            d3.select(this).select("circle").transition().duration(750).attr("r", $scope.settings.radius);
         }
 
         function linksIndexes(edges, nodes) {
@@ -400,7 +400,7 @@ myApp.controller("HomeController", function ($scope) {
                 if (d.x && d.y) {
                     var newx = d.x;
                     var newy = d.y;
-                    
+
                     if ($scope.settings.lockToContainer) {
                         newx = Math.max($scope.settings.radius, Math.min($scope.graph.width - $scope.settings.radius, d.x));
                         newy = Math.max($scope.settings.radius, Math.min($scope.graph.height - $scope.settings.radius, d.y));
