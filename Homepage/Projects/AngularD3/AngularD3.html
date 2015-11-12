@@ -98,18 +98,18 @@
                             On
                         </label>
                         <label>
-                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="false"/>
+                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="false" />
                             Off
                         </label>
                     </div>
                     <div>
                         <span>Prevent nodes from going outside the containing box</span>
                         <label>
-                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="true" />
+                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="true"  ng-change="drawGraph()" />
                             On
                         </label>
                         <label>
-                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="false" />
+                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="false" ng-change="drawGraph()" />
                             Off
                         </label>
                     </div>
