@@ -25,6 +25,7 @@
                     <button ng-click="drawCube()">Cube</button>
                     <button ng-click="drawMultipleCubes()">Multiple cubes</button>
                     <button ng-click="drawDNA()">DNA</button>
+                    <button ng-click="drawCustomCharge()">Custom charge</button>
 
                     <table>
                         <tr>
@@ -33,7 +34,7 @@
                             </td>
                             <td>
                                 <button ng-click="increaseLinkDistance(-1)">-</button>
-                                <input ng-model="settings.linkDistance" ng-change="drawGraph()"/>
+                                <input ng-model="settings.linkDistance" ng-change="drawGraph()" />
                                 <button ng-click="increaseLinkDistance(1)">+</button>
                             </td>
                         </tr>
@@ -43,7 +44,7 @@
                             </td>
                             <td>
                                 <button ng-click="increaseLinkStrength(-0.1)">-</button>
-                                <input ng-model="settings.linkStrength" ng-change="drawGraph()"/>
+                                <input ng-model="settings.linkStrength" ng-change="drawGraph()" />
                                 <button ng-click="increaseLinkStrength(0.1)">+</button>
                             </td>
                         </tr>
@@ -74,7 +75,7 @@
                             </td>
                             <td>
                                 <button ng-click="increaseGravity(-0.1)">-</button>
-                                <input ng-model="settings.gravity" ng-change="drawGraph()"/>
+                                <input ng-model="settings.gravity" ng-change="drawGraph()" />
                                 <button ng-click="increaseGravity(0.1)">+</button>
                             </td>
                         </tr>
@@ -94,7 +95,7 @@
                     <div>
                         <span>Click nodes to connect together</span>
                         <label>
-                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="true"/>
+                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="true" />
                             On
                         </label>
                         <label>
@@ -105,7 +106,7 @@
                     <div>
                         <span>Prevent nodes from going outside the containing box</span>
                         <label>
-                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="true"  ng-change="drawGraph()" />
+                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="true" ng-change="drawGraph()" />
                             On
                         </label>
                         <label>
@@ -234,8 +235,9 @@
     <script src="AngularD3-preset-graphene.js"></script>
     <script src="AngularD3-preset-graphene-auto.js"></script>
     <script src="AngularD3-preset-cube.js"></script>
+    <script src="AngularD3-preset-custom-charge.js"></script>
     <script src="AngularD3-preset-DNA.js"></script>
-<script src="AngularD3-preset-multiplecubes.js"></script>
+    <script src="AngularD3-preset-multiplecubes.js"></script>
     <script src="AngularD3-preset-square-lattice.js"></script>
 
     <script src="AngularD3.js"></script>
