@@ -157,8 +157,8 @@ myApp.controller("HomeController", function ($scope) {
         grapheneauto.drawGraphene();
 
 
-        $scope.graph.data = angular.copy(grapheneauto.data);
-        $scope.settings = angular.copy(checkCustomSettings(grapheneauto.settings));
+        $scope.graph.data = angular.copy(graphene.data);
+        $scope.settings = angular.copy(checkCustomSettings(graphene.settings));
         drawGraph();
     }
     $scope.drawCube = function () {
