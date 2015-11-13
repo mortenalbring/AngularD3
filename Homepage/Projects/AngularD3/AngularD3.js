@@ -166,9 +166,9 @@ myApp.controller("HomeController", function ($scope) {
         $scope.settings = angular.copy(checkCustomSettings(cube.settings));
         drawGraph();
     }
-    $scope.drawCustomCharge = function () {
-        $scope.graph.data = angular.copy(customCharge.data);
-        $scope.settings = angular.copy(checkCustomSettings(customCharge.settings));
+    $scope.drawSphere = function () {
+        $scope.graph.data = angular.copy(sphere.data);
+        $scope.settings = angular.copy(checkCustomSettings(sphere.settings));
         drawGraph();
     }
 
