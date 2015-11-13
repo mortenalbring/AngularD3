@@ -13,7 +13,8 @@ body {
     padding: 1em;
 }
 
-.graph-data-table {        
+.graph-data-table {       
+    width:80%; 
     border:1px solid;
     border-color:#808080;
 }
@@ -47,3 +48,27 @@ body {
     border:1px solid;
     background:#f6f6f6;
 }
+
+.settings-control-table i {
+    font-size:0.7em;
+    font-style: normal;    
+    font-weight:bold;
+    border:1px solid;
+    padding-left:0.5em;
+    padding-right:0.5em;
+    border-radius:5px;
+    border-color:#000;
+}
+
+.settings-control-table i:hover {
+    color:#fff;
+    border-color:#0a15cb;
+    background:#0a15cb;
+    cursor:pointer;    
+}
+
+.settings-control-table span {
+    display:block;
+    padding-left:0.1em;
+}
+
