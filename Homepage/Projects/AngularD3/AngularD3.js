@@ -134,7 +134,13 @@ myApp.controller("HomeController", function ($scope) {
         drawGraph();
     }
 
+    $scope.drawWindsors = function() {
+        $scope.graph.data = angular.copy(windsors.data);
 
+        $scope.settings = angular.copy(checkCustomSettings(windsors.settings));
+        drawGraph();
+
+    }
 
     $scope.drawDNA = function () {
 

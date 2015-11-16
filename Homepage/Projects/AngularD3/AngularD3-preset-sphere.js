@@ -3,6 +3,7 @@ var sphere = {
         linkDistance: 10,
         linkStrength: 0.8,
         gravity: 0.2,
+        friction: 0.9,
         lockToContainer: true,
         clickToConnect: false,
         charge: -300,
@@ -13,8 +14,7 @@ var sphere = {
         nodes: [ 
         ],
         edges: [
-        ],
-       
+        ],       
     }
 }
 
