@@ -1,12 +1,12 @@
 var windsors = {
     settings: {
-        linkDistance: 10,
+        linkDistance: 5,
         linkStrength: 0.5,
-        gravity: 0.2,
+        gravity: 0.5,
         friction: 0.9,
         lockToContainer: true,
         clickToConnect: false,
-        charge: -3000,
+        charge: -2000,
         radius: 1,
 
     },
@@ -77,7 +77,22 @@ windsors.makeWindsors = function () {
     windsors.addChildren("Charles, Prince of Wales", "Diana, Princess of Wales",
     ["William, Duke of Cambridge", "Henry, Prince of Wales"]);    
 
-    windsors.addChildren("William, Duke of Cambridge", "Catherine, Duchess of Cambridge", ["George, Princes of Cambridge", "?"]);
+    windsors.addChildren("William, Duke of Cambridge", "Catherine, Duchess of Cambridge",
+        ["George, Princes of Cambridge", "?"]);
+
+    windsors.addChildren("Andrew, Duke of York", "Sarah, Duchess of York",
+        ["Beatrice, Princess of York", "Eugeine, Princess of York"]);
+
+    windsors.addChildren("Edward, Earl of Wessex", "Sophie, Countess of Wessex",
+    ["James, Viscount Severn", "Louise, Lady Louise Windsor"]);
+
+    windsors.addChildren("Anne, Princess Royal", "Mark Phillips, Captain",
+["Peter Phillips", "Zara Phillips"]);
+
+
+    windsors.addChildren("Anne, Princess Royal", "Timothy Laurence, Vice-Admiral", []);
+    windsors.addChildren("Zara Phillips", "Michael Tindall", ["Mia Grace"]);
+    windsors.addChildren("Peter Phillips", "Autumn Phillips", ["Savannah Phillips","Isla Phillips"]);
 
 
 
