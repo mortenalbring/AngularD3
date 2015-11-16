@@ -37,17 +37,22 @@ myApp.controller("HomeController", function ($scope) {
     }
     $scope.increaseLinkStrength = function (val) {
         $scope.settings.linkStrength = $scope.settings.linkStrength + val;
+        if ($scope.settings.linkStrength < 0) {
+            $scope.settings.linkStrength = 0;
+        }
+        if ($scope.settings.linkStrength > 1) {
+            $scope.settings.linkStrength = 1;
+        }
         drawGraph();
     }
-    $scope.increaseFriction = function (val) {
+    $scope.increaseFriction = function (val) {        
         $scope.settings.friction = $scope.settings.friction + val;
-        drawGraph();
-    }
-
-    $scope.increaseValue = function (setting, val) {
-        $scope.$apply(setting, function () {
-            setting = setting + val;
-        })
+        if ($scope.settings.friction < 0) {
+            $scope.settings.friction = 0;
+        }
+        if ($scope.settings.friction > 1) {
+            $scope.settings.friction = 1;
+        }
         drawGraph();
     }
     $scope.increaseCharge = function (val) {
@@ -55,7 +60,8 @@ myApp.controller("HomeController", function ($scope) {
         drawGraph();
     }
     $scope.increaseGravity = function (val) {
-        $scope.settings.gravity = $scope.settings.gravity + val;
+        $scope.settings.gravity = $scope.settings.gravity + val;        
+
         drawGraph();
     }
     $scope.increaseRadius = function (val) {
