@@ -134,7 +134,8 @@ myApp.controller("HomeController", function ($scope) {
         drawGraph();
     }
 
-    $scope.drawWindsors = function() {
+    $scope.drawWindsors = function () {
+        windsors.makeWindsors();
         $scope.graph.data = angular.copy(windsors.data);
 
         $scope.settings = angular.copy(checkCustomSettings(windsors.settings));

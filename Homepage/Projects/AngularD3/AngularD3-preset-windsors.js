@@ -1,42 +1,87 @@
 var windsors = {
     settings: {
-        linkDistance: 30,
-        linkStrength: 0.8,
-        gravity: 0.1,
+        linkDistance: 10,
+        linkStrength: 0.5,
+        gravity: 0.2,
         friction: 0.9,
         lockToContainer: true,
         clickToConnect: false,
-        charge: -900,
+        charge: -3000,
         radius: 1,
 
     },
     data: {
         nodes: [
-            { ID: 1, Name: "Queen Elizabeth II" },
-            { ID: 2, Name: "Philip, Duke of Edinburgh" },
-            { ID: 3, Name: "Diana, Princess of Wales" },
-            { ID: 4, Name: "Charles, Prince of Wales" },
-            { ID: 5, Name: "Camilla, Duchess of Cornwall" },
-            { ID: 6, Name: "Andrew, Duke of York" },
-            { ID: 7, Name: "Sarah, Duchess of York" },
-            { ID: 8, Name: "Edward, Earl of Wessex" },
         ],
         edges: [
-            { StartNode: 1, EndNode: 2 },
-            { StartNode: 1, EndNode: 4 },
-            { StartNode: 2, EndNode: 4 },
-            { StartNode: 3, EndNode: 4 },
-            { StartNode: 4, EndNode: 5 },
-            { StartNode: 1, EndNode: 6 },
-            { StartNode: 2, EndNode: 6 },
-            { StartNode: 6, EndNode: 7 },
-
-            { StartNode: 1, EndNode: 8 },
-            { StartNode: 2, EndNode: 8 },
-            { StartNode: 8, EndNode: 7 },
 
         ],
     }
 }
+
+
+windsors.addIfNew = function (Name) {
+    var ID = windsors.data.nodes.length + 1;
+
+    var existing = windsors.data.nodes.filter(function (e) {
+        return e.Name == Name;
+    });
+    if (existing.length == 0) {
+        var newNode = { ID: ID, Name: Name }
+        windsors.data.nodes.push(newNode)
+        return newNode;
+    }
+    return existing[0];
+}
+
+windsors.addChildren = function (parent1Name, parent2Name, childrenNames) {
+    var startId = windsors.data.nodes.length;
+
+    var parent1Node = windsors.addIfNew(parent1Name);
+    var parent2Node = windsors.addIfNew(parent2Name);
+
+    var existingEdge = windsors.data.edges.filter(function (e) {
+        return e.StartNode == parent1Node.ID && e.EndNode == parent2Node.ID
+    });
+    if (existingEdge.length == 0) {
+        var newEdge = { StartNode: parent1Node.ID, EndNode: parent2Node.ID };
+        windsors.data.edges.push(newEdge);
+    }
+
+    var startId = windsors.data.nodes.length + 1;
+
+    for (var i = 0; i < childrenNames.length; i++) {
+        var newNode = { ID: startId + i, Name: childrenNames[i] };
+        windsors.data.nodes.push(newNode);
+        var newEdge1 = { StartNode: parent1Node.ID, EndNode: newNode.ID }
+        var newEdge2 = { StartNode: parent2Node.ID, EndNode: newNode.ID }
+        windsors.data.edges.push(newEdge1);
+        windsors.data.edges.push(newEdge2);
+    }
+
+
+
+}
+windsors.makeWindsors = function () {
+
+    windsors.data.nodes = [];
+    windsors.data.edges = [];
+    
+    windsors.addChildren("Queen Elizabeth II", "Philip, Duke of Edinburgh",
+        ["Charles, Prince of Wales",
+            "Andrew, Duke of York",
+            "Edward, Earl of Wessex",
+            "Anne, Princess Royal"]);
+    windsors.addChildren("Charles, Prince of Wales", "Camilla, Duchess of Cornwall", []);
+
+    windsors.addChildren("Charles, Prince of Wales", "Diana, Princess of Wales",
+    ["William, Duke of Cambridge", "Henry, Prince of Wales"]);    
+
+    windsors.addChildren("William, Duke of Cambridge", "Catherine, Duchess of Cambridge", ["George, Princes of Cambridge", "?"]);
+
+
+
+}
+
 
 
