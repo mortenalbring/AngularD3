@@ -1,12 +1,12 @@
 var windsors = {
     settings: {
         linkDistance: 5,
-        linkStrength: 0.5,
+        linkStrength: 1,
         gravity: 0.5,
         friction: 0.9,
         lockToContainer: true,
         clickToConnect: false,
-        charge: -2000,
+        charge: -1500,
         radius: 1,
 
     },
@@ -20,7 +20,7 @@ var windsors = {
 }
 
 
-windsors.addIfNew = function (Name) {
+windsors.addIfNew = function (Name,fixed) {
     var ID = windsors.data.nodes.length + 1;
 
     var existing = windsors.data.nodes.filter(function (e) {
@@ -28,17 +28,25 @@ windsors.addIfNew = function (Name) {
     });
     if (existing.length == 0) {
         var newNode = { ID: ID, Name: Name }
+
+        if (fixed) {
+            newNode.fixed = true;
+            newNode.px = 200;
+            newNode.py = 10;
+        }
+        console.log(newNode);
+
         windsors.data.nodes.push(newNode)
         return newNode;
     }
     return existing[0];
 }
 
-windsors.addChildren = function (parent1Name, parent2Name, childrenNames) {
+windsors.addChildren = function (parent1Name, parent2Name, childrenNames,fixParent1,fixParent2) {
     var startId = windsors.data.nodes.length;
 
-    var parent1Node = windsors.addIfNew(parent1Name);
-    var parent2Node = windsors.addIfNew(parent2Name);
+    var parent1Node = windsors.addIfNew(parent1Name, fixParent1);
+    var parent2Node = windsors.addIfNew(parent2Name, fixParent2);
 
     var existingEdge = windsors.data.edges.filter(function (e) {
         return e.StartNode == parent1Node.ID && e.EndNode == parent2Node.ID
@@ -54,9 +62,9 @@ windsors.addChildren = function (parent1Name, parent2Name, childrenNames) {
         var newNode = { ID: startId + i, Name: childrenNames[i] };
         windsors.data.nodes.push(newNode);
         var newEdge1 = { StartNode: parent1Node.ID, EndNode: newNode.ID }
-        var newEdge2 = { StartNode: parent2Node.ID, EndNode: newNode.ID }
+      //  var newEdge2 = { StartNode: parent2Node.ID, EndNode: newNode.ID }
         windsors.data.edges.push(newEdge1);
-        windsors.data.edges.push(newEdge2);
+       // windsors.data.edges.push(newEdge2);
     }
 
 
@@ -71,7 +79,7 @@ windsors.makeWindsors = function () {
         ["Charles, Prince of Wales",
             "Andrew, Duke of York",
             "Edward, Earl of Wessex",
-            "Anne, Princess Royal"]);
+            "Anne, Princess Royal"],true);
     windsors.addChildren("Charles, Prince of Wales", "Camilla, Duchess of Cornwall", []);
 
     windsors.addChildren("Charles, Prince of Wales", "Diana, Princess of Wales",
@@ -97,12 +105,17 @@ windsors.makeWindsors = function () {
 
 
 }
-
-windsors.settings.linkDistance = function(edge) {    
+windsors.settings.linkStrength = function (edge) {
     if (edge.EdgeType == "Couple") {
         return 1;
     }
-    return 15;
+    return 0.3;
+}
+windsors.settings.linkDistance = function(edge) {    
+    if (edge.EdgeType == "Couple") {
+        return 2;
+    }
+    return 10;
 }
 
 windsors.settings.linkClass = function (edge) {    
@@ -112,5 +125,12 @@ windsors.settings.linkClass = function (edge) {
     return "link link-default";
 }
 
+windsors.settings.customTickFunction = function(e,linkData) {
+    var k = 9 * e.alpha;
+    linkData.forEach(function (d, i) {
+        d.source.y -= k;
+        d.target.y += k;
+    });
+}
 
 

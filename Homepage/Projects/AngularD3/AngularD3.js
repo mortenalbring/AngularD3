@@ -11,7 +11,8 @@ myApp.controller("HomeController", function ($scope) {
         radius: 2,
         clickToConnect: true,
         lockToContainer: false,
-        linkClass: function () { return 'link link-default'; }
+        linkClass: function () { return 'link link-default'; },
+        customTickFunction: null,
     }
     function checkCustomSettings(customSettings) {
         //The preset files come with custom settings for various parameters to make the scene look good. 
@@ -337,10 +338,7 @@ myApp.controller("HomeController", function ($scope) {
 
         $scope.graph.linklines.enter()
             .insert("line", ".node")
-            .attr("class", function (e) {
-                console.log(e);
-                return  $scope.settings.linkClass(e);
-            });
+            .attr("class", function (e) { return  $scope.settings.linkClass(e); });
         $scope.graph.linklines.exit().remove();
 
         //Container for both the node and the label describing the node
@@ -421,11 +419,16 @@ myApp.controller("HomeController", function ($scope) {
             return output;
         }
 
-        function tick() {
+        function tick(e) {
+            
+       
+
             gnodes.attr("transform", function (d) {
                 if (d.x && d.y) {
+                    
                     var newx = d.x;
                     var newy = d.y;
+                    
 
                     if ($scope.settings.lockToContainer) {
                         newx = Math.max($scope.settings.radius, Math.min($scope.graph.width - $scope.settings.radius, d.x));
@@ -435,6 +438,10 @@ myApp.controller("HomeController", function ($scope) {
                     return 'translate(' + [newx, newy] + ')';
                 }
             });
+
+           if ($scope.settings.customTickFunction) {
+               $scope.settings.customTickFunction(e, $scope.graph.data.linkData);
+           }
 
             $scope.graph.linklines.attr("x1", function (d) { return d.source.x; })
                 .attr("y1", function (d) { return d.source.y; })
