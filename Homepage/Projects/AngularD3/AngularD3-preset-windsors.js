@@ -44,7 +44,7 @@ windsors.addChildren = function (parent1Name, parent2Name, childrenNames) {
         return e.StartNode == parent1Node.ID && e.EndNode == parent2Node.ID
     });
     if (existingEdge.length == 0) {
-        var newEdge = { StartNode: parent1Node.ID, EndNode: parent2Node.ID };
+        var newEdge = { StartNode: parent1Node.ID, EndNode: parent2Node.ID, EdgeType: "Couple" };
         windsors.data.edges.push(newEdge);
     }
 
@@ -96,6 +96,20 @@ windsors.makeWindsors = function () {
 
 
 
+}
+
+windsors.settings.linkDistance = function(edge) {    
+    if (edge.EdgeType == "Couple") {
+        return 1;
+    }
+    return 15;
+}
+
+windsors.settings.linkClass = function (edge) {    
+    if (edge.EdgeType == "Couple") {
+        return "link-couple";
+    }
+    return "link link-default";
 }
 
 

@@ -10,7 +10,8 @@ myApp.controller("HomeController", function ($scope) {
         gravity: 0.25,
         radius: 2,
         clickToConnect: true,
-        lockToContainer: false
+        lockToContainer: false,
+        linkClass: function () { return 'link link-default'; }
     }
     function checkCustomSettings(customSettings) {
         //The preset files come with custom settings for various parameters to make the scene look good. 
@@ -24,6 +25,8 @@ myApp.controller("HomeController", function ($scope) {
 
         if (customSettings.clickToConnect == undefined) { customSettings.clickToConnect = true; }
         if (customSettings.lockToContainer == undefined) { customSettings.lockToContainer = false; }
+
+        if (!customSettings.linkClass) { customSettings.linkClass = function () { return 'link link-default'; } }
 
         return customSettings;
     }
@@ -335,7 +338,8 @@ myApp.controller("HomeController", function ($scope) {
         $scope.graph.linklines.enter()
             .insert("line", ".node")
             .attr("class", function (e) {
-                return "link link-default";
+                console.log(e);
+                return  $scope.settings.linkClass(e);
             });
         $scope.graph.linklines.exit().remove();
 
@@ -404,10 +408,14 @@ myApp.controller("HomeController", function ($scope) {
                 var targetNode = nodes.filter(function (n) { return n.ID == endId; });
 
                 if ((sourceNode.length == 1) && (targetNode.length == 1)) {
-                    output.push({
+                    var out = {
                         source: sourceNode[0],
                         target: targetNode[0]
-                    });
+                    }
+
+                    if (edges[i].EdgeType) {out.EdgeType = edges[i].EdgeType;}
+
+                    output.push(out);
                 }
             }
             return output;
