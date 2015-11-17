@@ -18,12 +18,12 @@ myApp.controller("HomeController", function ($scope) {
     function checkCustomSettings(customSettings) {
         //The preset files come with custom settings for various parameters to make the scene look good. 
         //If I've forgotten to set one of the parameters, this should prevent the graph from breaking        
-        if (!customSettings.linkDistance) { customSettings.linkDistance = $scope.settings.linkDistance; }
-        if (!customSettings.linkStrength) { customSettings.linkStrength = $scope.settings.linkStrength; }
-        if (!customSettings.friction) { customSettings.friction = $scope.settings.friction; }
-        if (!customSettings.charge) { customSettings.charge = $scope.settings.charge; }
-        if (!customSettings.gravity) { customSettings.gravity = $scope.settings.gravity; }
-        if (!customSettings.radius) { customSettings.radius = $scope.settings.radius; }
+        if (!customSettings.linkDistance) { customSettings.linkDistance = 20; }
+        if (!customSettings.linkStrength) { customSettings.linkStrength = 0.8; }
+        if (!customSettings.friction) { customSettings.friction = 0.9; }
+        if (!customSettings.charge) { customSettings.charge = -1000; }
+        if (!customSettings.gravity) { customSettings.gravity = 0.25; }
+        if (!customSettings.radius) { customSettings.radius = 2; }
 
         if (customSettings.clickToConnect == undefined) { customSettings.clickToConnect = true; }
         if (customSettings.lockToContainer == undefined) { customSettings.lockToContainer = false; }
