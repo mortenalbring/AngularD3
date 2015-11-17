@@ -2,3 +2,19 @@
     stroke: #ff6a00;
     stroke-width: 2px;
 }
+.link-children {
+    stroke:#7566ff;
+    stroke-width:1px;
+}
+
+.node-container-windsor {
+    font-size:0.6em;
+}
+.node-container-windsor:hover {
+    transition: 0.5s;    
+    font-weight:800;
+    cursor:pointer;
+    fill:#ff0000;
+    border:1px solid #808080;
+}
+

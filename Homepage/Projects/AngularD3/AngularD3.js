@@ -12,6 +12,7 @@ myApp.controller("HomeController", function ($scope) {
         clickToConnect: true,
         lockToContainer: false,
         linkClass: function () { return 'link link-default'; },
+        nodeClass: function () { return 'node-container'; },
         customTickFunction: null,
     }
     function checkCustomSettings(customSettings) {
@@ -28,6 +29,7 @@ myApp.controller("HomeController", function ($scope) {
         if (customSettings.lockToContainer == undefined) { customSettings.lockToContainer = false; }
 
         if (!customSettings.linkClass) { customSettings.linkClass = function () { return 'link link-default'; } }
+        if (!customSettings.nodeClass) { customSettings.nodeClass = function () { return 'node-container'; } }
 
         return customSettings;
     }
@@ -347,7 +349,7 @@ myApp.controller("HomeController", function ($scope) {
             .enter()
             .append('g')
             .attr("class", function (d) {
-                return "node-container";
+                return $scope.settings.nodeClass(d);                
             })
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)

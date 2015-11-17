@@ -33,9 +33,7 @@ windsors.addIfNew = function (Name,fixed) {
             newNode.fixed = true;
             newNode.px = 200;
             newNode.py = 10;
-        }
-        console.log(newNode);
-
+        }        
         windsors.data.nodes.push(newNode)
         return newNode;
     }
@@ -86,7 +84,7 @@ windsors.makeWindsors = function () {
     ["William, Duke of Cambridge", "Henry, Prince of Wales"]);    
 
     windsors.addChildren("William, Duke of Cambridge", "Catherine, Duchess of Cambridge",
-        ["George, Princes of Cambridge", "?"]);
+        ["George, Prince of Cambridge", "?"]);
 
     windsors.addChildren("Andrew, Duke of York", "Sarah, Duchess of York",
         ["Beatrice, Princess of York", "Eugeine, Princess of York"]);
@@ -122,10 +120,13 @@ windsors.settings.linkClass = function (edge) {
     if (edge.EdgeType == "Couple") {
         return "link-couple";
     }
-    return "link link-default";
+    return "link-children";
 }
 
-windsors.settings.customTickFunction = function(e,linkData) {
+windsors.settings.nodeClass = function (d) { return 'node-container-windsor'; },
+
+windsors.settings.customTickFunction = function (e, linkData) {
+    //A gentle force that pushes sources up and targets down to force a weak tree
     var k = 9 * e.alpha;
     linkData.forEach(function (d, i) {
         d.source.y -= k;
