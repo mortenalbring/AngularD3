@@ -1,0 +1,18 @@
+.link-couple {
+    stroke: #ff6a00;
+    stroke-width: 1px;
+}
+.link-children {
+    stroke:#7566ff;
+    stroke-width:1px;
+}
+
+.node-container-kongehus {
+    fill:#06004e;
+    font-size:0.6em;
+}
+
+.node-container-norway-and-sweden-king {
+    font-size:0.6em;
+    fill: #8b7604;
+}

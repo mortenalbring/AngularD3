@@ -142,6 +142,17 @@ myApp.controller("HomeController", function ($scope) {
         drawGraph();
     }
 
+    $scope.drawNorskeKongehuset = function() {
+        norskekongehus.makeNorskekongehuset();
+
+        $scope.graph.data = angular.copy(norskekongehus.data);
+
+        $scope.settings = angular.copy(checkCustomSettings(norskekongehus.settings));
+        drawGraph();
+
+
+    }
+
     $scope.drawWindsors = function () {
         windsors.makeWindsors();
         $scope.graph.data = angular.copy(windsors.data);
