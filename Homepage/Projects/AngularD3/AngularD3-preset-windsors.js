@@ -20,7 +20,7 @@ var windsors = {
 }
 
 
-windsors.addIfNew = function (Name,fixed) {
+windsors.addIfNew = function (Name, fixed) {
     var ID = windsors.data.nodes.length + 1;
 
     var existing = windsors.data.nodes.filter(function (e) {
@@ -30,17 +30,22 @@ windsors.addIfNew = function (Name,fixed) {
         var newNode = { ID: ID, Name: Name }
 
         if (fixed) {
+            var fixedCount = windsors.data.nodes.filter(function (e) {
+                return e.fixed == true;
+            })
+            //If a node is fixed, we put it at the top and kinda in the middle and then shift it along a bit depending on 
+            //how many other fixed nodes there currently are
             newNode.fixed = true;
-            newNode.px = 200;
+            newNode.px = 200 + 100 * fixedCount.length;
             newNode.py = 10;
-        }        
+        }
         windsors.data.nodes.push(newNode)
         return newNode;
     }
     return existing[0];
 }
 
-windsors.addChildren = function (parent1Name, parent2Name, childrenNames,fixParent1,fixParent2) {
+windsors.addChildren = function (parent1Name, parent2Name, childrenNames, fixParent1, fixParent2) {
     var startId = windsors.data.nodes.length;
 
     var parent1Node = windsors.addIfNew(parent1Name, fixParent1);
@@ -60,9 +65,13 @@ windsors.addChildren = function (parent1Name, parent2Name, childrenNames,fixPare
         var newNode = { ID: startId + i, Name: childrenNames[i] };
         windsors.data.nodes.push(newNode);
         var newEdge1 = { StartNode: parent1Node.ID, EndNode: newNode.ID }
-      //  var newEdge2 = { StartNode: parent2Node.ID, EndNode: newNode.ID }
         windsors.data.edges.push(newEdge1);
-       // windsors.data.edges.push(newEdge2);
+
+        //Originally I was connecting both parents to all the children, but this ended up producing quite a confusing diagram so now I only 
+        //connect the first parent. Uncomment these lines to connect both parents again. 
+
+        //  var newEdge2 = { StartNode: parent2Node.ID, EndNode: newNode.ID }        
+        // windsors.data.edges.push(newEdge2);
     }
 
 
@@ -72,16 +81,16 @@ windsors.makeWindsors = function () {
 
     windsors.data.nodes = [];
     windsors.data.edges = [];
-    
+
     windsors.addChildren("Queen Elizabeth II", "Philip, Duke of Edinburgh",
         ["Charles, Prince of Wales",
             "Andrew, Duke of York",
             "Edward, Earl of Wessex",
-            "Anne, Princess Royal"],true);
+            "Anne, Princess Royal"], true, true);
     windsors.addChildren("Charles, Prince of Wales", "Camilla, Duchess of Cornwall", []);
 
     windsors.addChildren("Charles, Prince of Wales", "Diana, Princess of Wales",
-    ["William, Duke of Cambridge", "Henry, Prince of Wales"]);    
+    ["William, Duke of Cambridge", "Henry, Prince of Wales"]);
 
     windsors.addChildren("William, Duke of Cambridge", "Catherine, Duchess of Cambridge",
         ["George, Prince of Cambridge", "?"]);
@@ -98,7 +107,7 @@ windsors.makeWindsors = function () {
 
     windsors.addChildren("Anne, Princess Royal", "Timothy Laurence, Vice-Admiral", []);
     windsors.addChildren("Zara Phillips", "Michael Tindall", ["Mia Grace"]);
-    windsors.addChildren("Peter Phillips", "Autumn Phillips", ["Savannah Phillips","Isla Phillips"]);
+    windsors.addChildren("Peter Phillips", "Autumn Phillips", ["Savannah Phillips", "Isla Phillips"]);
 
 
 
@@ -109,14 +118,14 @@ windsors.settings.linkStrength = function (edge) {
     }
     return 0.3;
 }
-windsors.settings.linkDistance = function(edge) {    
+windsors.settings.linkDistance = function (edge) {
     if (edge.EdgeType == "Couple") {
         return 2;
     }
     return 10;
 }
 
-windsors.settings.linkClass = function (edge) {    
+windsors.settings.linkClass = function (edge) {
     if (edge.EdgeType == "Couple") {
         return "link-couple";
     }
