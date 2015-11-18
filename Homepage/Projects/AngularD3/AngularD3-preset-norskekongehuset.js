@@ -106,7 +106,7 @@ norskekongehus.makeNorskekongehuset = function () {
     norskekongehus.addChildren("Ingeborg", "Carl", ["Astrid", "Carl *"]);
 
     norskekongehus.setFamilyType(["Carl II Johan", "Oscar I", "Carl IV", "Oscar II"], "King of Norway and Sweden");
-
+    norskekongehus.setFamilyType(["Desiree", "Josephine", "Sophie", "Louise"], "Queen of Norway and Sweden");
 
 }
 norskekongehus.settings.linkStrength = function (edge) {
@@ -132,6 +132,9 @@ norskekongehus.settings.linkClass = function (edge) {
 norskekongehus.settings.nodeClass = function (d) {        
     if (d.FamilyType == "King of Norway and Sweden") {
         return 'node-container-norway-and-sweden-king'
+    }
+    if (d.FamilyType == "Queen of Norway and Sweden") {
+        return 'node-container-norway-and-sweden-queen'
     }
     return 'node-container-kongehus';
     },

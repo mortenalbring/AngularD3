@@ -14,5 +14,9 @@
 
 .node-container-norway-and-sweden-king {
     font-size:0.6em;
-    fill: #8b7604;
+    fill: #8b4204;
+}
+.node-container-norway-and-sweden-queen {
+    font-size:0.6em;
+    fill: #ac5811;
 }
