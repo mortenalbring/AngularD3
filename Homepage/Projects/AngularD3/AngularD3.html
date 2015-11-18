@@ -4,7 +4,7 @@
     <meta charset='utf-8'>
 
     <link rel="stylesheet" href="containers.css" />
-    <link rel="stylesheet" href="nodestyles.css"/>
+    <link rel="stylesheet" href="nodestyles.css" />
     <link rel="stylesheet" href="AngularD3-preset-windsors.css" />
 
     <style>
@@ -26,7 +26,7 @@
                     <button ng-click="drawCube()">Cube</button>
                     <button ng-click="drawSphere()">Sphere</button>
                     <button ng-click="drawMultipleCubes()">Multiple cubes</button>
-                <button ng-click="drawDNA()">DNA</button>
+                    <button ng-click="drawDNA()">DNA</button>
                     <button ng-click="drawWindsors()">Windsor family tree</button>
 
 
@@ -38,9 +38,17 @@
                                 </span>
                             </td>
                             <td>
-                                <button ng-click="increaseLinkDistance(-1)">-</button>
-                                <input ng-model="settings.linkDistance" ng-change="drawGraph()" />
-                                <button ng-click="increaseLinkDistance(1)">+</button>
+                                <button ng-click="increaseLinkDistance(-1)"
+                                        ng-disabled="!isNumeric(settings.linkDistance)">
+                                    -
+                                </button>
+                                <input ng-model="settings.linkDistance"
+                                       ng-disabled="!isNumeric(settings.linkDistance)"
+                                       ng-change="drawGraph()" />
+                                <button ng-click="increaseLinkDistance(1)"
+                                        ng-disabled="!isNumeric(settings.linkDistance)">
+                                    +
+                                </button>
                             </td>
                         </tr>
                         <tr>
@@ -50,9 +58,17 @@
                                 </span>
                             </td>
                             <td>
-                                <button ng-click="increaseLinkStrength(-0.1)">-</button>
-                                <input ng-model="settings.linkStrength" ng-change="drawGraph()" />
-                                <button ng-click="increaseLinkStrength(0.1)">+</button>
+                                <button ng-click="increaseLinkStrength(-0.1)"
+                                        ng-disabled="!isNumeric(settings.linkStrength)">
+                                    -
+                                </button>
+                                <input ng-model="settings.linkStrength"
+                                       ng-change="drawGraph()"
+                                       ng-disabled="!isNumeric(settings.linkStrength)" />
+                                <button ng-click="increaseLinkStrength(0.1)"
+                                        ng-disabled="!isNumeric(settings.linkStrength)">
+                                    +
+                                </button>
                             </td>
                         </tr>
                         <tr>
@@ -62,9 +78,17 @@
                                 </span>
                             </td>
                             <td>
-                                <button ng-click="increaseFriction(-0.1)">-</button>
-                                <input ng-model="settings.friction" ng-change="drawGraph()" />
-                                <button ng-click="increaseFriction(0.1)">+</button>
+                                <button ng-click="increaseFriction(-0.1)"
+                                        ng-disabled="!isNumeric(settings.friction)">
+                                    -
+                                </button>
+                                <input ng-model="settings.friction"
+                                       ng-change="drawGraph()"
+                                       ng-disabled="!isNumeric(settings.friction)" />
+                                <button ng-click="increaseFriction(0.1)"
+                                        ng-disabled="!isNumeric(settings.friction)">
+                                    +
+                                </button>
                             </td>
                         </tr>
 
@@ -75,9 +99,17 @@
                                 </span>
                             </td>
                             <td>
-                                <button ng-click="increaseCharge(-10)">-</button>
-                                <input ng-model="settings.charge" ng-change="drawGraph()" />
-                                <button ng-click="increaseCharge(10)">+</button>
+                                <button ng-click="increaseCharge(-10)"
+                                        ng-disabled="!isNumeric(settings.charge)">
+                                    -
+                                </button>
+                                <input ng-model="settings.charge"
+                                       ng-change="drawGraph()"
+                                       ng-disabled="!isNumeric(settings.charge)" />
+                                <button ng-click="increaseCharge(10)"
+                                        ng-disabled="!isNumeric(settings.charge)">
+                                    +
+                                </button>
                             </td>
                         </tr>
                         <tr>
@@ -87,9 +119,17 @@
                                 </span>
                             </td>
                             <td>
-                                <button ng-click="increaseGravity(-0.1)">-</button>
-                                <input ng-model="settings.gravity" ng-change="drawGraph()" />
-                                <button ng-click="increaseGravity(0.1)">+</button>
+                                <button ng-click="increaseGravity(-0.1)"
+                                        ng-disabled="!isNumeric(settings.gravity)">
+                                    -
+                                </button>
+                                <input ng-model="settings.gravity"
+                                       ng-disabled="!isNumeric(settings.gravity)"
+                                       ng-change="drawGraph()" />
+                                <button ng-click="increaseGravity(0.1)"
+                                        ng-disabled="!isNumeric(settings.gravity)">
+                                    +
+                                </button>
                             </td>
                         </tr>
                         <tr>
@@ -99,9 +139,17 @@
                                 </span>
                             </td>
                             <td>
-                                <button ng-click="increaseRadius(-1)">-</button>
-                                <input ng-model="settings.radius" ng-change="drawGraph()" />
-                                <button ng-click="increaseRadius(1)">+</button>
+                                <button ng-click="increaseRadius(-1)"
+                                        ng-disabled="!isNumeric(settings.radius)">
+                                    -
+                                </button>
+                                <input ng-model="settings.radius"
+                                       ng-change="drawGraph()"
+                                       ng-disabled="!isNumeric(settings.radius)" />
+                                <button ng-click="increaseRadius(1)"
+                                        ng-disabled="!isNumeric(settings.radius)">
+                                    +
+                                </button>
                             </td>
                         </tr>
 
@@ -255,7 +303,7 @@
     <script src="AngularD3-preset-sphere.js"></script>
     <script src="AngularD3-preset-DNA.js"></script>
     <script src="AngularD3-preset-multiplecubes.js"></script>
-<script src="AngularD3-preset-square-lattice.js"></script>
+    <script src="AngularD3-preset-square-lattice.js"></script>
     <script src="AngularD3-preset-windsors.js"></script>
 
     <script src="AngularD3.js"></script>

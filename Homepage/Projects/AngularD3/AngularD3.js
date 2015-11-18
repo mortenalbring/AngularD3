@@ -34,12 +34,14 @@ myApp.controller("HomeController", function ($scope) {
         return customSettings;
     }
 
-    function isNumeric(n) {
+    $scope.isNumeric = function (n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
     $scope.increaseLinkDistance = function (val) {
-        $scope.settings.linkDistance = $scope.settings.linkDistance + val;
-        drawGraph();
+        if ($scope.isNumeric($scope.settings.linkDistance)) {
+            $scope.settings.linkDistance = $scope.settings.linkDistance + val;
+            drawGraph();
+        }
     }
     $scope.increaseLinkStrength = function (val) {
         $scope.settings.linkStrength = $scope.settings.linkStrength + val;
@@ -51,7 +53,7 @@ myApp.controller("HomeController", function ($scope) {
         }
         drawGraph();
     }
-    $scope.increaseFriction = function (val) {        
+    $scope.increaseFriction = function (val) {
         $scope.settings.friction = $scope.settings.friction + val;
         if ($scope.settings.friction < 0) {
             $scope.settings.friction = 0;
@@ -66,7 +68,7 @@ myApp.controller("HomeController", function ($scope) {
         drawGraph();
     }
     $scope.increaseGravity = function (val) {
-        $scope.settings.gravity = $scope.settings.gravity + val;        
+        $scope.settings.gravity = $scope.settings.gravity + val;
 
         drawGraph();
     }
@@ -276,9 +278,9 @@ myApp.controller("HomeController", function ($scope) {
 
     $scope.drawGraph = function () {
 
-        if (isNumeric($scope.settings.linkDistance) && isNumeric($scope.settings.charge)) {
-            drawGraph();
-        }
+
+        drawGraph();
+
     }
 
     $scope.drawGraph();
@@ -340,7 +342,7 @@ myApp.controller("HomeController", function ($scope) {
 
         $scope.graph.linklines.enter()
             .insert("line", ".node")
-            .attr("class", function (e) { return  $scope.settings.linkClass(e); });
+            .attr("class", function (e) { return $scope.settings.linkClass(e); });
         $scope.graph.linklines.exit().remove();
 
         //Container for both the node and the label describing the node
@@ -349,7 +351,7 @@ myApp.controller("HomeController", function ($scope) {
             .enter()
             .append('g')
             .attr("class", function (d) {
-                return $scope.settings.nodeClass(d);                
+                return $scope.settings.nodeClass(d);
             })
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)
@@ -363,7 +365,7 @@ myApp.controller("HomeController", function ($scope) {
             .attr("r", $scope.settings.radius);
 
         var labels = gnodes.append("text")
-            .attr("class", "label-text")            
+            .attr("class", "label-text")
             .text(function (d) { return d.Name });
 
 
@@ -413,7 +415,7 @@ myApp.controller("HomeController", function ($scope) {
                         target: targetNode[0]
                     }
 
-                    if (edges[i].EdgeType) {out.EdgeType = edges[i].EdgeType;}
+                    if (edges[i].EdgeType) { out.EdgeType = edges[i].EdgeType; }
 
                     output.push(out);
                 }
@@ -422,15 +424,15 @@ myApp.controller("HomeController", function ($scope) {
         }
 
         function tick(e) {
-            
-       
+
+
 
             gnodes.attr("transform", function (d) {
                 if (d.x && d.y) {
-                    
+
                     var newx = d.x;
                     var newy = d.y;
-                    
+
 
                     if ($scope.settings.lockToContainer) {
                         newx = Math.max($scope.settings.radius, Math.min($scope.graph.width - $scope.settings.radius, d.x));
@@ -441,9 +443,9 @@ myApp.controller("HomeController", function ($scope) {
                 }
             });
 
-           if ($scope.settings.customTickFunction) {
-               $scope.settings.customTickFunction(e, $scope.graph.data.linkData);
-           }
+            if ($scope.settings.customTickFunction) {
+                $scope.settings.customTickFunction(e, $scope.graph.data.linkData);
+            }
 
             $scope.graph.linklines.attr("x1", function (d) { return d.source.x; })
                 .attr("y1", function (d) { return d.source.y; })
