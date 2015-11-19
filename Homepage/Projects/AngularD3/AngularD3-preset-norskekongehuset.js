@@ -22,14 +22,17 @@ var norskekongehus = {
 }
 
 
-norskekongehus.addIfNew = function (Name, fixed) {
+norskekongehus.addIfNew = function (Element, fixed) {
+    var Name = Element.Name;
+    var Family = Element.FamilyType;
+
     var ID = norskekongehus.data.nodes.length + 1;
 
     var existing = norskekongehus.data.nodes.filter(function (e) {
-        return e.Name == Name;
+        return (e.Name == Name) && (e.FamilyType == Family);
     });
     if (existing.length == 0) {
-        var newNode = { ID: ID, Name: Name }
+        var newNode = { ID: ID, Name: Name, FamilyType: Family }
 
         if (fixed) {
             var fixedCount = norskekongehus.data.nodes.filter(function (e) {
@@ -47,23 +50,12 @@ norskekongehus.addIfNew = function (Name, fixed) {
     return existing[0];
 }
 
-norskekongehus.setFamilyType = function(names, type) {
-    for (var i = 0; i < names.length; i++) {
-        var matching = norskekongehus.data.nodes.filter(function(e) {
-            return e.Name == names[i];
-        });
 
-        for (var j = 0; j < matching.length; j++) {
-            matching[j].FamilyType = type;
-        }
-    }
-}
-
-norskekongehus.addChildren = function (parent1Name, parent2Name, childrenNames, fixParent1, fixParent2) {
+norskekongehus.addChildren = function (parent1, parent2, children, fixParent1, fixParent2) {
     var startId = norskekongehus.data.nodes.length;
 
-    var parent1Node = norskekongehus.addIfNew(parent1Name, fixParent1);
-    var parent2Node = norskekongehus.addIfNew(parent2Name, fixParent2);
+    var parent1Node = norskekongehus.addIfNew(parent1, fixParent1);
+    var parent2Node = norskekongehus.addIfNew(parent2, fixParent2);
 
     var existingEdge = norskekongehus.data.edges.filter(function (e) {
         return e.StartNode == parent1Node.ID && e.EndNode == parent2Node.ID
@@ -75,8 +67,8 @@ norskekongehus.addChildren = function (parent1Name, parent2Name, childrenNames, 
 
     var startId = norskekongehus.data.nodes.length + 1;
 
-    for (var i = 0; i < childrenNames.length; i++) {
-        var newNode = norskekongehus.addIfNew(childrenNames[i]);
+    for (var i = 0; i < children.length; i++) {
+        var newNode = norskekongehus.addIfNew(children[i]);
         //var newNode = { ID: startId + i, Name: childrenNames[i] };
 
         //norskekongehus.data.nodes.push(newNode);
@@ -98,35 +90,222 @@ norskekongehus.makeNorskekongehuset = function () {
     norskekongehus.data.nodes = [];
     norskekongehus.data.edges = [];
 
-    norskekongehus.addChildren("Carl II Johan", "Desiree", ["Oscar I"]);
+    norskekongehus.addChildren(
+    {
+        Name: "Carl III Johan",
+        FamilyType: "King of Norway and Sweden"
+    },
+    {
+        Name: "Desiree",
+        FamilyType: "Queen of Norway and Sweden"
+    }, [{ Name: "Oscar I", FamilyType: "King of Norway and Sweden" }],false,false);
 
-    norskekongehus.addChildren("Oscar I", "Josephine", ["Carl IV", "Oscar II"]);
 
-    norskekongehus.addChildren("Oscar II", "Sophie", ["Carl", "Gustaf V"]);
-    norskekongehus.addChildren("Carl IV", "Louise", ["Louise *"]);
-    norskekongehus.addChildren("Frederik VIII", "Louise *", ["Haakon VII","Christian X", "Ingeborg"]);
-    norskekongehus.addChildren("Ingeborg", "Carl", ["Astrid", "Carl *"]);
+    norskekongehus.addChildren(
+    {
+        Name: "Oscar I",
+        FamilyType: "King of Norway and Sweden"
+    },
+    {
+        Name: "Josephine",
+        FamilyType: "Queen of Norway and Sweden"
+    }, [{ Name: "Carl IV", FamilyType: "King of Norway and Sweden" },
+        { Name: "Oscar II", FamilyType: "King of Norway and Sweden" }
+    ]);
 
-    norskekongehus.addChildren("Christian IX", "Louise **", ["Alexandra", "Frederik VIII"]);
+    norskekongehus.addChildren(
+   {
+       Name: "Oscar II",
+       FamilyType: "King of Norway and Sweden"
+   },
+   {
+       Name: "Sophie",
+       FamilyType: "Queen of Norway and Sweden"
+   }, [{ Name: "Carl", FamilyType: "Prince of Sweden" },
+       { Name: "Gustaf V", FamilyType: "King of Sweden" }
+   ]);
 
-    norskekongehus.addChildren("Gustaf V", "Victoria of Baden", ["Gustaf VI Adolf"]);
-    norskekongehus.addChildren("Gustaf VI Adolf", "Margaret of Connaught", ["Gustaf Adolf"]);
-    norskekongehus.addChildren("Gustaf Adolf", "Sibylla", ["Carl XVI Gustaf"]);
+    norskekongehus.addChildren(
+      {
+          Name: "Carl IV",
+          FamilyType: "King of Norway and Sweden"
+      },
+      {
+          Name: "Louise",
+          FamilyType: "Queen of Norway and Sweden"
+      }, [{ Name: "Louise *", FamilyType: "Queen of Denmark" }]);
 
-    norskekongehus.addChildren("Haakon VII", "Maud", ["Olav V"]);
+    norskekongehus.addChildren(
+{
+    Name: "Frederik VIII",
+    FamilyType: "King of Denmark"
+},
+{
+    Name: "Louise *",
+    FamilyType: "Queen of Denmark"
+}, [{ Name: "Haakon VII", FamilyType: "King of Norway" },
+   { Name: "Christian X", FamilyType: "King of Denmark" },
+   { Name: "Ingeborg", FamilyType: "Princess of Sweden" }
+]);
 
-    norskekongehus.setFamilyType(["Carl II Johan", "Oscar I", "Carl IV", "Oscar II"], "King of Norway and Sweden");
-    norskekongehus.setFamilyType(["Desiree", "Josephine", "Sophie", "Louise"], "Queen of Norway and Sweden");
+    norskekongehus.addChildren(
+{
+    Name: "Carl",
+    FamilyType: "Prince of Sweden"
+},
+{
+    Name: "Ingeborg",
+    FamilyType: "Princess of Sweden"
+}, [{ Name: "Astrid", FamilyType: "Queen of Belgium" },
+{ Name: "Carl *", FamilyType: "Prince of Sweden" },
+{ Name: "Margaretha", FamilyType: "Princess of Sweden" },
+{ Name: "Martha", FamilyType: "Crown Princess of Norway" }
+]);
 
-    norskekongehus.setFamilyType(["Louise **","Louise *"], "Queen of Denmark");
-    norskekongehus.setFamilyType(["Christian IX","Frederik VIII","Christian X"], "King of Denmark");
-    norskekongehus.setFamilyType(["Gustaf V", "Gustaf VI Adolf", "Carl XVI Gustaf"], "King of Sweden");
-    norskekongehus.setFamilyType(["Victoria of Baden"], "Queen of Sweden");
-    norskekongehus.setFamilyType(["Gustaf Adolf", "Prince of Sweden"]);
-    norskekongehus.setFamilyType(["Sibylla", "Princess of Sachsen-Coburg-Gotha"]);
+    norskekongehus.addChildren(
+{
+    Name: "Christian IX",
+    FamilyType: "King of Denmark"
+},
+{
+    Name: "Louise **",
+    FamilyType: "Queen of Denmark"
+}, [{ Name: "Alexandra", FamilyType: "Queen of The United Kingdom" },
+{ Name: "Frederik VIII", FamilyType: "King of Denmark" }]);
 
-    norskekongehus.setFamilyType(["Haakon VII","Olav V"], "King of Norway");
-    norskekongehus.setFamilyType(["Maud"], "Queen of Norway");
+
+    norskekongehus.addChildren(
+{
+    Name: "Edvard VII",
+    FamilyType: "King of the United Kingdom"
+},
+{
+    Name: "Alexandra",
+    FamilyType: "Queen of The United Kingdom"
+}, [{ Name: "Maud", FamilyType: "Queen of Norway" },
+{ Name: "George V", FamilyType: "King of Denmark" }]);
+
+
+
+
+    norskekongehus.addChildren(
+{
+    Name: "Gustaf V",
+    FamilyType: "King of Sweden"
+},
+{
+    Name: "Victoria of Baden",
+    FamilyType: "Queen of Sweden"
+}, [{ Name: "Gustaf VI Adolf", FamilyType: "King of Sweden" }]);
+
+    norskekongehus.addChildren(
+{
+    Name: "Gustaf VI Adolf",
+    FamilyType: "King of Sweden"
+},
+{
+    Name: "Margaret of Connaught",
+    FamilyType: "Princess of Sweden"
+}, [{ Name: "Ingrid", FamilyType: "Queen of Denmark" },
+    { Name: "Gustaf Adolf", FamilyType: "Prince of Sweden" }]);
+
+    norskekongehus.addChildren(
+{
+    Name: "Gustaf Adolf",
+    FamilyType: "Prince of Sweden"
+},
+{
+    Name: "Sibylla",
+    FamilyType: "Princess of Sachsen-Coburg-Gotha"
+}, [{ Name: "Carl XVI Gustaf", FamilyType: "King of Sweden" }]);
+
+
+    norskekongehus.addChildren(
+{
+    Name: "Haakon VII",
+    FamilyType: "King of Norway"
+},
+{
+    Name: "Maud",
+    FamilyType: "Queen of Norway"
+}, [{ Name: "Olav V", FamilyType: "King of Norway" }]);
+
+    norskekongehus.addChildren(
+{
+    Name: "Olav V",
+    FamilyType: "King of Norway"
+},
+{
+    Name: "Martha",
+    FamilyType: "Crown Princess of Norway"
+}, [{ Name: "Ragnhild", FamilyType: "Princess of Norway" },
+{ Name: "Astrid", FamilyType: "Princess of Norway" },
+{ Name: "Harald V", FamilyType: "King of Norway" }
+]
+);
+
+    norskekongehus.addChildren(
+{
+    Name: "Harald V",
+    FamilyType: "King of Norway"
+},
+{
+    Name: "Sonja",
+    FamilyType: "Queen of Norway"
+}, [{ Name: "Haakon", FamilyType: "Crown Prince of Norway" },
+{ Name: "Martha Louise", FamilyType: "Princess Of Norway" },
+{ Name: "Harald V", FamilyType: "King of Norway" }
+]
+);
+
+
+    norskekongehus.addChildren(
+{
+    Name: "Victoria",
+    FamilyType: "Queen of the United Kingdom"
+},
+{
+    Name: "Albert",
+    FamilyType: "Prince of Sachsen-Coburg-Gotha"
+}, [{ Name: "Edvard VII", FamilyType: "King of the United Kingdom" },
+    {Name: "Arthur", FamilyType: "Duke of Connaught and Strathearn" }
+]
+);
+
+    norskekongehus.addChildren(
+{
+    Name: "Arthur",
+    FamilyType: "Duke of Connaught and Strathearn"
+},
+{
+    Name: "Louise Margareth",
+    FamilyType: "Princess of Prussia"
+}, [{ Name: "Margaret of Connaught", FamilyType: "Princess of Sweden" }]
+);
+
+    norskekongehus.addChildren(
+{
+    Name: "Christian X",
+    FamilyType: "King of Denmark"
+},
+{
+    Name: "Alexandrine",
+    FamilyType: "Princess of Mecklenburg-Schwerin"
+}, [{ Name: "Frederik IX", FamilyType: "King of Denmark" }]
+);
+
+    norskekongehus.addChildren(
+{
+    Name: "Frederik IX",
+    FamilyType: "King of Denmark"
+},
+{
+    Name: "Ingrid",
+    FamilyType: "Queen of Denmark"
+}, [{ Name: "Margrethe II", FamilyType: "Queen of Denmark" }]
+);
+
+
 
 
 }
@@ -134,13 +313,13 @@ norskekongehus.settings.linkStrength = function (edge) {
     if (edge.EdgeType == "Couple") {
         return 1;
     }
-    return 0.3;
+    return 0.8;
 }
 norskekongehus.settings.linkDistance = function (edge) {
     if (edge.EdgeType == "Couple") {
         return 2;
     }
-    return 10;
+    return 4;
 }
 
 norskekongehus.settings.linkClass = function (edge) {
@@ -150,7 +329,7 @@ norskekongehus.settings.linkClass = function (edge) {
     return "link-children";
 }
 
-norskekongehus.settings.nodeClass = function (d) {        
+norskekongehus.settings.nodeClass = function (d) {
     if (d.FamilyType == "King of Norway and Sweden") {
         return 'node-container-kongehus node-container-norway-and-sweden-king'
     }
@@ -178,11 +357,11 @@ norskekongehus.settings.nodeClass = function (d) {
 
 
     return 'node-container-kongehus node-container-kongehus-default';
-    },
+},
 
 norskekongehus.settings.customTickFunction = function (e, linkData) {
     //A gentle force that pushes sources up and targets down to force a weak tree
-    var k = 9 * e.alpha;
+    var k = 7 * e.alpha;
     linkData.forEach(function (d, i) {
         d.source.y -= k;
         d.target.y += k;
