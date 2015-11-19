@@ -7,10 +7,17 @@
     stroke-width:1px;
 }
 
-.node-container-kongehus {
+.node-container-kongehus-default {
     fill:#06004e;
+}
+
+.node-container-kongehus {    
     font-size:0.6em;
 }
+.node-container-kongehus:hover {    
+    cursor:pointer;
+}
+
 
 .node-container-norway-and-sweden-king {
     font-size:0.6em;
@@ -20,3 +27,21 @@
     font-size:0.6em;
     fill: #ac5811;
 }
+.node-container-denmark-queen {
+    font-size:0.6em;
+    fill: #54ac11;
+}
+.node-container-denmark-king {
+    font-size:0.6em;
+    fill: #418e06;
+}
+
+.node-container-sweden-queen {
+    font-size:0.6em;
+    fill: #3d4fb8;
+}
+.node-container-sweden-king {
+    font-size:0.6em;
+    fill: #091f9f;
+}
+
