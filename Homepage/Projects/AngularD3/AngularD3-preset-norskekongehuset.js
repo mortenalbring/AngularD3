@@ -76,8 +76,10 @@ norskekongehus.addChildren = function (parent1Name, parent2Name, childrenNames, 
     var startId = norskekongehus.data.nodes.length + 1;
 
     for (var i = 0; i < childrenNames.length; i++) {
-        var newNode = { ID: startId + i, Name: childrenNames[i] };
-        norskekongehus.data.nodes.push(newNode);
+        var newNode = norskekongehus.addIfNew(childrenNames[i]);
+        //var newNode = { ID: startId + i, Name: childrenNames[i] };
+
+        //norskekongehus.data.nodes.push(newNode);
         var newEdge1 = { StartNode: parent1Node.ID, EndNode: newNode.ID }
         norskekongehus.data.edges.push(newEdge1);
 
@@ -102,11 +104,18 @@ norskekongehus.makeNorskekongehuset = function () {
 
     norskekongehus.addChildren("Oscar II", "Sophie", ["Carl", "Gustaf V"]);
     norskekongehus.addChildren("Carl IV", "Louise", ["Louise *"]);
-    norskekongehus.addChildren("Fredrik VIII", "Louise *", ["Christian X", "Ingeborg"]);
+    norskekongehus.addChildren("Frederik VIII", "Louise *", ["Christian X", "Ingeborg"]);
     norskekongehus.addChildren("Ingeborg", "Carl", ["Astrid", "Carl *"]);
+
+    norskekongehus.addChildren("Christian IX", "Louise **", ["Alexandra", "Frederik VIII"]);
 
     norskekongehus.setFamilyType(["Carl II Johan", "Oscar I", "Carl IV", "Oscar II"], "King of Norway and Sweden");
     norskekongehus.setFamilyType(["Desiree", "Josephine", "Sophie", "Louise"], "Queen of Norway and Sweden");
+
+    norskekongehus.setFamilyType(["Louise **","Louise *"], "Queen of Denmark");
+    norskekongehus.setFamilyType(["Christian IX","Frederik VIII","Christian X"], "King of Denmark");
+    norskekongehus.setFamilyType(["Gustav V"], "King of Sweden");
+
 
 }
 norskekongehus.settings.linkStrength = function (edge) {
@@ -131,12 +140,25 @@ norskekongehus.settings.linkClass = function (edge) {
 
 norskekongehus.settings.nodeClass = function (d) {        
     if (d.FamilyType == "King of Norway and Sweden") {
-        return 'node-container-norway-and-sweden-king'
+        return 'node-container-kongehus node-container-norway-and-sweden-king'
     }
     if (d.FamilyType == "Queen of Norway and Sweden") {
-        return 'node-container-norway-and-sweden-queen'
+        return 'node-container-kongehus node-container-norway-and-sweden-queen'
     }
-    return 'node-container-kongehus';
+    if (d.FamilyType == "Queen of Denmark") {
+        return 'node-container-kongehus node-container-denmark-queen'
+    }
+    if (d.FamilyType == "King of Denmark") {
+        return 'node-container-kongehus node-container-denmark-king'
+    }
+    if (d.FamilyType == "King of Sweden") {
+        return 'node-container-kongehus node-container-sweden-king'
+    }
+    if (d.FamilyType == "Queen of Sweden") {
+        return 'node-container-kongehus node-container-sweden-queen'
+    }
+
+    return 'node-container-kongehus node-container-kongehus-default';
     },
 
 norskekongehus.settings.customTickFunction = function (e, linkData) {
