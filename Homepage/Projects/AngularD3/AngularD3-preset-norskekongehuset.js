@@ -5,7 +5,7 @@ var norskekongehus = {
         linkDistance: 5,
         linkStrength: 1,
         gravity: 0.5,
-        friction: 0.9,
+        friction: 0.6,
         lockToContainer: true,
         clickToConnect: false,
         charge: -1500,
@@ -98,23 +98,35 @@ norskekongehus.makeNorskekongehuset = function () {
     norskekongehus.data.nodes = [];
     norskekongehus.data.edges = [];
 
-    norskekongehus.addChildren("Carl II Johan", "Desiree", ["Oscar I"], true, true);
+    norskekongehus.addChildren("Carl II Johan", "Desiree", ["Oscar I"]);
 
     norskekongehus.addChildren("Oscar I", "Josephine", ["Carl IV", "Oscar II"]);
 
     norskekongehus.addChildren("Oscar II", "Sophie", ["Carl", "Gustaf V"]);
     norskekongehus.addChildren("Carl IV", "Louise", ["Louise *"]);
-    norskekongehus.addChildren("Frederik VIII", "Louise *", ["Christian X", "Ingeborg"]);
+    norskekongehus.addChildren("Frederik VIII", "Louise *", ["Haakon VII","Christian X", "Ingeborg"]);
     norskekongehus.addChildren("Ingeborg", "Carl", ["Astrid", "Carl *"]);
 
     norskekongehus.addChildren("Christian IX", "Louise **", ["Alexandra", "Frederik VIII"]);
+
+    norskekongehus.addChildren("Gustaf V", "Victoria of Baden", ["Gustaf VI Adolf"]);
+    norskekongehus.addChildren("Gustaf VI Adolf", "Margaret of Connaught", ["Gustaf Adolf"]);
+    norskekongehus.addChildren("Gustaf Adolf", "Sibylla", ["Carl XVI Gustaf"]);
+
+    norskekongehus.addChildren("Haakon VII", "Maud", ["Olav V"]);
 
     norskekongehus.setFamilyType(["Carl II Johan", "Oscar I", "Carl IV", "Oscar II"], "King of Norway and Sweden");
     norskekongehus.setFamilyType(["Desiree", "Josephine", "Sophie", "Louise"], "Queen of Norway and Sweden");
 
     norskekongehus.setFamilyType(["Louise **","Louise *"], "Queen of Denmark");
     norskekongehus.setFamilyType(["Christian IX","Frederik VIII","Christian X"], "King of Denmark");
-    norskekongehus.setFamilyType(["Gustav V"], "King of Sweden");
+    norskekongehus.setFamilyType(["Gustaf V", "Gustaf VI Adolf", "Carl XVI Gustaf"], "King of Sweden");
+    norskekongehus.setFamilyType(["Victoria of Baden"], "Queen of Sweden");
+    norskekongehus.setFamilyType(["Gustaf Adolf", "Prince of Sweden"]);
+    norskekongehus.setFamilyType(["Sibylla", "Princess of Sachsen-Coburg-Gotha"]);
+
+    norskekongehus.setFamilyType(["Haakon VII","Olav V"], "King of Norway");
+    norskekongehus.setFamilyType(["Maud"], "Queen of Norway");
 
 
 }
@@ -157,6 +169,13 @@ norskekongehus.settings.nodeClass = function (d) {
     if (d.FamilyType == "Queen of Sweden") {
         return 'node-container-kongehus node-container-sweden-queen'
     }
+    if (d.FamilyType == "King of Norway") {
+        return 'node-container-kongehus node-container-norway-king'
+    }
+    if (d.FamilyType == "Queen of Norway") {
+        return 'node-container-kongehus node-container-norway-queen'
+    }
+
 
     return 'node-container-kongehus node-container-kongehus-default';
     },

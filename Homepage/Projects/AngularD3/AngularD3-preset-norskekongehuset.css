@@ -8,7 +8,7 @@
 }
 
 .node-container-kongehus-default {
-    fill:#06004e;
+    fill:#4b4b4b;
 }
 
 .node-container-kongehus {    
@@ -45,3 +45,11 @@
     fill: #091f9f;
 }
 
+.node-container-norway-queen {
+    font-size:0.6em;
+    fill: #be2525;
+}
+.node-container-norway-king {
+    font-size:0.6em;
+    fill: #b10f0f;
+}
