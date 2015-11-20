@@ -41,10 +41,8 @@
     font-weight: 900;
 
     fill: #fff;
-    stroke: #ffffff;
-    stroke-width: 0.25px;    
 }
 
 #tooltip-container {
-    fill:red;    
+    fill:#2529fb;        
 }

@@ -85,12 +85,32 @@ myApp.controller("HomeController", function ($scope) {
         svg: null,
         force: null,
         data: {
-            nodes: [{ ID: 1, Name: "Test Node 1" },
-                { ID: 2, Name: 'Test Node 2' },
-                { ID: 3, Name: 'Test Node 3' },
-                { ID: 4, Name: 'Test Node 4' },
-                { ID: 5, Name: 'Test Node 5' },
-                { ID: 6, Name: 'Test Node 6' },
+            nodes: [{
+                ID: 1,
+                Name: "Test Node 1",
+                TooltipText: "Test Node 1"
+            },
+                {
+                    ID: 2,
+                    Name: 'Test Node 2',
+                    TooltipText: ["Test Node 2","Test 1", "Test 2", "Test 3"]
+                },
+                {
+                    ID: 3,
+                    Name: 'Test Node 3'
+                },
+                {
+                    ID: 4,
+                    Name: 'Test Node 4'
+                },
+                {
+                    ID: 5,
+                    Name: 'Test Node 5'
+                },
+                {
+                    ID: 6,
+                    Name: 'Test Node 6'
+                },
             ],
 
             edges: [{ StartNode: 1, EndNode: 2 },
@@ -394,36 +414,40 @@ myApp.controller("HomeController", function ($scope) {
 
         // Generates a tooltip for a SVG circle element based on its ID
         function addTooltip(container) {
-
-            console.log(container);
+            if (!container.TooltipText) {return;}
+            
 
             var x = parseFloat(container.x);
             var y = parseFloat(container.y);
             var r = 2;
-            var text = container.Name;
-
+           
             if (y < 120) {
                 y = y + 100;
             } else {
                 y = y - 100;
             }
-            
-            
-
             var tooltip = d3.select(".svg-container")
-                .append("text")
-                .text(text)
+                .append("text")                
                 .attr("x", x)
                 .attr("y", y)
                 .attr("dy", -r * 6)
                 .attr("id", "tooltip");
 
+            //If the tooltip text is an array, we iterate through and put in some tspans for each element for a new 'line'.
+            //Otherwise we just put it as the text propery of the tooltip
+            if (!Array.isArray(container.TooltipText)) {                
+                tooltip.text(container.TooltipText);
+            } else {                
+                for (var i = 0; i < container.TooltipText.length; i++) {                    
+                    tooltip.append("tspan").text(container.TooltipText[i]).attr("x",x).attr("dy","1.2em");
 
-
+                }
+            }
+            
+            //This draws the rectangle behind the tooltip as a 'border'
             var bbox = tooltip.node().getBBox();
             var padding = 2;
-
-            var rect = d3.select(".svg-container")
+            d3.select(".svg-container")
                 .insert("rect","#tooltip")
                 .attr("x", bbox.x - padding)
                 .attr("y", bbox.y - padding)
