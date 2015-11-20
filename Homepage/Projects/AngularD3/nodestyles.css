@@ -35,3 +35,16 @@
     stroke: #777;
     stroke-width: 2px;
 }
+
+#tooltip {
+    font-size: 10pt;
+    font-weight: 900;
+
+    fill: #fff;
+    stroke: #ffffff;
+    stroke-width: 0.25px;    
+}
+
+#tooltip-container {
+    fill:red;    
+}

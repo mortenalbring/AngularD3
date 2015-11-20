@@ -285,13 +285,8 @@ myApp.controller("HomeController", function ($scope) {
     }
 
 
-
-
     $scope.drawGraph = function () {
-
-
         drawGraph();
-
     }
 
     $scope.drawGraph();
@@ -311,7 +306,6 @@ myApp.controller("HomeController", function ($scope) {
     }
 
     function drawGraph() {
-
         d3.select("svg").remove();
         if ($scope.graph.force) {
             $scope.graph.force.stop();
@@ -397,13 +391,62 @@ myApp.controller("HomeController", function ($scope) {
                 })
             }
         }
+
+        // Generates a tooltip for a SVG circle element based on its ID
+        function addTooltip(container) {
+
+            console.log(container);
+
+            var x = parseFloat(container.x);
+            var y = parseFloat(container.y);
+            var r = 2;
+            var text = container.Name;
+
+            if (y < 120) {
+                y = y + 100;
+            } else {
+                y = y - 100;
+            }
+            
+            
+
+            var tooltip = d3.select(".svg-container")
+                .append("text")
+                .text(text)
+                .attr("x", x)
+                .attr("y", y)
+                .attr("dy", -r * 6)
+                .attr("id", "tooltip");
+
+
+
+            var bbox = tooltip.node().getBBox();
+            var padding = 2;
+
+            var rect = d3.select(".svg-container")
+                .insert("rect","#tooltip")
+                .attr("x", bbox.x - padding)
+                .attr("y", bbox.y - padding)
+                .attr("width", bbox.width + (padding * 2))
+                .attr("height", bbox.height + (padding * 2))                
+                .attr("id", "tooltip-container");                
+
+        }
+
         function mouseover(d) {
+
+            addTooltip(d);
+
             $scope.$apply(function () {
                 $scope.highlightConnectedNodes(d.ID);
             })
             d3.select(this).select("circle").transition().duration(750).attr("r", $scope.settings.radius * 2);
         }
         function mouseout() {
+
+            d3.select("#tooltip").remove();
+            d3.select("#tooltip-container").remove();
+
             $scope.$apply(function () {
                 $scope.clearHighlights();
             })
