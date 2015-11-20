@@ -142,166 +142,482 @@ norskekongehus.makeNorskekongehuset = function () {
 
     var CarlJohan = {
         Name: "Carl III Johan",
-        FamilyType: "King of Norway and Sweden"
+        FamilyType: "King of Norway and Sweden",
+        Titles: ["King of Norway and Sweden", "Marshal of France", "Prince of Ponte Corvo"],
+        House: "Bernadotte",
+        Born: 1763,
+        Died: 1844
     };
     var Desiree = {
         Name: "Desiree",
-        FamilyType: "Queen of Norway and Sweden"
+        FamilyType: "Queen of Norway and Sweden",
+        Titles: ["Queen of Norway and Sweden", "Princess of Ponte Corvo"],
+        Born: 1777,
+        Died: 1860
     }
-    var OscarI = { Name: "Oscar I", FamilyType: "King of Norway and Sweden" };
+    var OscarI = {
+        Name: "Oscar I",
+        FamilyType: "King of Norway and Sweden",
+        Titles: ["King of Norway and Sweden"],
+        House: "Bernadotte",
+        Born: 1799,
+        Died: 1859
+    };
 
     norskekongehus.addChildren(CarlJohan, Desiree, [OscarI], false, false);
 
     var Josephine = {
         Name: "Josephine",
-        FamilyType: "Queen of Norway and Sweden"
+        FamilyType: "Queen of Norway and Sweden",
+        Titles: ["Queen of Norway and Sweden", "Princess of Leuchtenberg"],
+        House: "Beauharnais",
+        Born: 1807,
+        Died: 1876
     }
-    var CarlIV = { Name: "Carl IV", FamilyType: "King of Norway and Sweden" };
-    var OscarII = { Name: "Oscar II", FamilyType: "King of Norway and Sweden" };
+    var CarlIV = {
+        Name: "Carl IV",
+        FamilyType: "King of Norway and Sweden",
+        Titles: ["King of Norway and Sweden"],
+        House: "Bernadotte",
+        Born: 1826,
+        Died: 1872
+    };
+    var OscarII = {
+        Name: "Oscar II",
+        FamilyType: "King of Norway and Sweden",
+        Titles: ["King of Norway", "King of Sweden"],
+        House: "Bernadotte",
+        Born: 1829,
+        Died: 1907
+    };
     norskekongehus.addChildren(OscarI, Josephine, [CarlIV, OscarII]);
 
     var Sophie = {
         Name: "Sophie",
-        FamilyType: "Queen of Norway and Sweden"
+        FamilyType: "Queen of Norway and Sweden",
+        Titles: ["Queen consort of Sweden", "Queen consort of Norway", "Princess of Nassau"],
+        House: "Nassau-Weilburg",
+        Born: 1836,
+        Died: 1913
     };
 
-    var Carl = { Name: "Carl", FamilyType: "Prince of Sweden" };
-    var GustafV = { Name: "Gustaf V", FamilyType: "King of Sweden" };
+    var Carl = {
+        Name: "Carl",
+        FamilyType: "Prince of Sweden",
+        Titles: ["Prince of Sweden", "Duke of Vastergotland"],
+        House: "Bernadotte",
+        Born: 1861,
+        Died: 1951
+    };
+    var GustafV = {
+        Name: "Gustaf V",
+        FamilyType: "King of Sweden",
+        Titles: ["King of Sweden"],
+        House: "Bernadotte",
+        Born: 1858,
+        Died: 1950
+    };
     norskekongehus.addChildren(OscarII, Sophie, [Carl, GustafV]);
 
     var CarlIV = {
         Name: "Carl IV",
-        FamilyType: "King of Norway and Sweden"
+        FamilyType: "King of Norway and Sweden",
+        Titles: ["King of Norway and Sweden"],
+        House: "Bernadotte",
+        Born: 1826,
+        Died: 1872
     };
     var Louise = {
         Name: "Louise",
-        FamilyType: "Queen of Norway and Sweden"
+        FamilyType: "Queen of Norway and Sweden",
+        Titles: ["Princess of the Netherlands", "Queen of Norway and Sweden"],
+        House: "Orange-Nassau",
+        Born: 1828,
+        Died: 1871
     };
-    var Louise2 = { Name: "Louise *", FamilyType: "Queen of Denmark" };
+    var Louise2 = {
+        Name: "Louise *",
+        FamilyType: "Queen of Denmark",
+        Titles: ["Queen of Denmark", "Princess of Norway and Sweden"],
+        House: "Bernadotte",
+        Born: 1851,
+        Died: 1926
+    };
     norskekongehus.addChildren(CarlIV, Louise, [Louise2]);
 
-    var FrederikVIII = { Name: "Frederik VIII", FamilyType: "King of Denmark" };
+    var FrederikVIII = {
+        Name: "Frederik VIII",
+        FamilyType: "King of Denmark",
+        Titles: ["King of Denmark"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1843,
+        Died: 1912
+    };
 
-    var HaakonVII = { Name: "Haakon VII", FamilyType: "King of Norway" };
-    var ChristianX = { Name: "Christian X", FamilyType: "King of Denmark" };
-    var Ingeborg = { Name: "Ingeborg", FamilyType: "Princess of Sweden" };
+    var HaakonVII = {
+        Name: "Haakon VII",
+        FamilyType: "King of Norway",
+        Titles: ["King of Norway", "Prince of Denmark"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1872,
+        Died: 1957
+    };
+    var ChristianX = {
+        Name: "Christian X",
+        FamilyType: "King of Denmark",
+        Titles: ["King of Denmark", "King of Iceland"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1870,
+        Died: 1947
+    };
+    var Ingeborg = {
+        Name: "Ingeborg",
+        FamilyType: "Princess of Sweden",
+        Titles: ["Princess of Sweden", "Princess of Denmark"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1878,
+        Died: 1958
+    };
     norskekongehus.addChildren(FrederikVIII, Louise2, [HaakonVII, ChristianX, Ingeborg]);
 
-    var Astrid = { Name: "Astrid", FamilyType: "Queen of Belgium" };
-    var Carl2 = { Name: "Carl *", FamilyType: "Prince of Sweden" }
-    var Margaretha = { Name: "Margaretha", FamilyType: "Princess of Sweden" };
-    var Martha = { Name: "Martha", FamilyType: "Crown Princess of Norway" };
+    var Astrid = {
+        Name: "Astrid",
+        FamilyType: "Queen of Belgium",
+        Titles: ["Queen of Belgium", "Princess of Sweden"],
+        House: "Bernadotte",
+        Born: 1905,
+        Died: 1935
+    };
+    var Carl2 = {
+        Name: "Carl *",
+        FamilyType: "Prince of Sweden",
+        Titles: ["Prince of Sweden", "Duke of Ostergotland"],
+        House: "Bernadotte",
+        Born: 1911,
+        Died: 2003
+    }
+    var Margaretha = {
+        Name: "Margaretha",
+        FamilyType: "Princess of Sweden",
+        Titles: ["Princess of Sweden and Norway", "Princess of Sweden"],
+        House: "Bernadotte",
+        Born: 1899,
+        Died: 1977
+    };
+    var Martha = {
+        Name: "Martha",
+        FamilyType: "Crown Princess of Norway",
+        Titles: ["Princess of Norway"],
+        House: "Bernadotte",
+        Born: 1901,
+        Died: 1954
+    };
     norskekongehus.addChildren(Carl, Ingeborg, [Astrid, Carl2, Margaretha, Martha]);
 
     var ChristianIX = {
         Name: "Christian IX",
-        FamilyType: "King of Denmark"
+        FamilyType: "King of Denmark",
+        Titles: ["King of Denmark", "Prince of Schleswig-Holstein-Sonderburg-Glycksburg"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1818,
+        Died: 1906
     };
     var Louise3 = {
         Name: "Louise **",
-        FamilyType: "Queen of Denmark"
+        FamilyType: "Queen of Denmark",
+        Titles: ["Queen of Denmark", "Princess of Hessen-Kassel"],
+        House: "Hesse-Kassel",
+        Born: 1817,
+        Died: 1898
     };
-    var Alexandra = { Name: "Alexandra", FamilyType: "Queen of The United Kingdom" };
+    var Alexandra = {
+        Name: "Alexandra",
+        FamilyType: "Queen of The United Kingdom",
+        Titles: ["Queen of The United Kingdom", "Princess of Denmark"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1844,
+        Died: 1925
+    };
 
     norskekongehus.addChildren(ChristianIX, Louise3, [Alexandra, FrederikVIII]);
 
     var EdvardVII = {
-        Name: "Edvard VII",
-        FamilyType: "King of the United Kingdom"
+        Name: "Edward VII",
+        FamilyType: "King of the United Kingdom",
+        House: "Saxe-Coburg and Gotha",
+        Born: 1841,
+        Died: 1910
     };
 
-    var Maud = { Name: "Maud", FamilyType: "Queen of Norway" };
-    var GeorgeV = { Name: "George V", FamilyType: "King of Denmark" };
+    var Maud = {
+        Name: "Maud",
+        FamilyType: "Queen of Norway",
+        Titles: ["Queen of Norway", "Princess of Wales"],
+        House: "Saxe-Coburg and Gotha",
+        Born: 1869,
+        Died: 1938
+    };
+    var GeorgeV = {
+        Name: "George V",
+        FamilyType: "King of the United Kingdom",
+        Titles: ["King of the United Kingdom"],
+        House: "Windsor",
+        Born: 1865,
+        Died: 1936
+    };
     norskekongehus.addChildren(EdvardVII, Alexandra, [Maud, GeorgeV]);
 
     var GustafV = {
         Name: "Gustaf V",
-        FamilyType: "King of Sweden"
+        FamilyType: "King of Sweden",
+        Titles: ["King of Sweden"],
+        House: "Bernadotte",
+        Born: 1858,
+        Died: 1950
     }
     var VictoriaBaden = {
         Name: "Victoria of Baden",
-        FamilyType: "Queen of Sweden"
+        FamilyType: "Queen of Sweden",
+        Titles: ["Queen of Sweden", "Princess of Baden"],
+        House: "Zahringen",
+        Born: 1862,
+        Died: 1930
     };
-    var GustafVIAdolf = { Name: "Gustaf VI Adolf", FamilyType: "King of Sweden" };
+    var GustafVIAdolf = {
+        Name: "Gustaf VI Adolf",
+        FamilyType: "King of Sweden",
+        Titles: ["King of Sweden"],
+        House: "Bernadotte",
+        Born: 1882,
+        Died: 1973
+    };
 
     norskekongehus.addChildren(GustafV, VictoriaBaden, [GustafVIAdolf]);
 
+
     var MargaretConnaught = {
         Name: "Margaret of Connaught",
-        FamilyType: "Princess of Sweden"
+        FamilyType: "Princess of Sweden",
+        Titles: ["Princess of Sweden", "Duchess of Skane"],
+        House: "Saxe-Coburg and Gotha",
+        Born: 1882,
+        Died: 1920
     };
-    var Ingrid = { Name: "Ingrid", FamilyType: "Queen of Denmark" }
-    var GustafAdolf = { Name: "Gustaf Adolf", FamilyType: "Prince of Sweden" };
+    var Ingrid = {
+        Name: "Ingrid",
+        FamilyType: "Queen of Denmark",
+        Titles: ["Queen of Denmark", "Princess of Sweden"],
+        House: "Bernadotte",
+        Born: 1910,
+        Died: 2000
+    }
+    var GustafAdolf = {
+        Name: "Gustaf Adolf",
+        FamilyType: "Prince of Sweden",
+        Titles: ["Prince of Sweden", "Duke of Vasterbotten"],
+        House: "Bernadotte",
+        Born: 1906,
+        Died: 1947
+    };
     norskekongehus.addChildren(GustafVIAdolf, MargaretConnaught, [Ingrid, GustafAdolf]);
+
+
+    var LouiseMountbatten = {
+        Name: "Louise Mountbatten",
+        FamilyType: "Queen of Sweden",
+        Titles: ["Queen of Sweden", "Princess of Battenberg"],
+        House: "Battenberg",
+        Born: 1889,
+        Died: 1965
+    }
+
+    norskekongehus.addChildren(GustafVIAdolf, LouiseMountbatten, []);
+
 
     var Sibylla = {
         Name: "Sibylla",
-        FamilyType: "Princess of Sachsen-Coburg-Gotha"
+        FamilyType: "Princess of Sachsen-Coburg-Gotha",
+        Titles: ["Duchess of Vasterbotten"],
+        House: "Saxe-Coburg and Gotha",
+        Born: 1908,
+        Died: 1972
     };
-    var CarlXVIGustaf = { Name: "Carl XVI Gustaf", FamilyType: "King of Sweden" }
+    var CarlXVIGustaf = {
+        Name: "Carl XVI Gustaf",
+        FamilyType: "King of Sweden",
+        Titles: ["King of Sweden"],
+        House: "Bernadotte",
+        Born: 1946
+    }
     norskekongehus.addChildren(GustafAdolf, Sibylla, [CarlXVIGustaf]);
 
-    var OlavV = { Name: "Olav V", FamilyType: "King of Norway" };
+    var OlavV = {
+        Name: "Olav V",
+        FamilyType: "King of Norway",
+        Titles: ["King of Norway", "Prince of Denmark"],
+        House: "Schleswig-Holstein-Sonderburg-Glycksburg",
+        Born: 1903,
+        Died: 1991
+    };
     norskekongehus.addChildren(HaakonVII, Maud, [OlavV]);
 
-    var Ragnhild = { Name: "Ragnhild", FamilyType: "Princess of Norway" };
-    var Astrid2 = { Name: "Astrid", FamilyType: "Princess of Norway" };
-    var HaraldV = { Name: "Harald V", FamilyType: "King of Norway" };
+    var Ragnhild = {
+        Name: "Ragnhild",
+        FamilyType: "Princess of Norway",
+        Titles: ["Princess of Norway"],
+        House: "Glucksburg",
+        Born: 1930,
+        Died: 2012
+    };
+    var Astrid2 = {
+        Name: "Astrid",
+        FamilyType: "Princess of Norway",
+        Titles: ["Princess of Norway"],
+        House: "Glucksburg",
+        Born: 1932
+    };
+    var HaraldV = {
+        Name: "Harald V",
+        FamilyType: "King of Norway",
+        Titles: ["King of Norway"],
+        House: "Glucksburg",
+        Born: 1937
+    };
     norskekongehus.addChildren(OlavV, Martha, [Ragnhild, Astrid2, HaraldV]);
 
     var Sonja = {
         Name: "Sonja",
-        FamilyType: "Queen of Norway"
+        FamilyType: "Queen of Norway",
+        Titles: ["Queen of Norway"],
+        Born: 1937
     }
 
-    var Haakon = { Name: "Haakon", FamilyType: "Crown Prince of Norway" };
-    var MarthaLouise = { Name: "Martha Louise", FamilyType: "Princess Of Norway" }
+    var Haakon = {
+        Name: "Haakon",
+        FamilyType: "Crown Prince of Norway",
+        Titles: ["Crown Prince of Norway"],
+        House: "Glucksburg",
+        Born: 1973
+    };
+    var MarthaLouise = {
+        Name: "Martha Louise",
+        FamilyType: "Princess Of Norway",
+        Titles: ["Princess of Norway"],
+        House: "Glucksburg",
+        Born: 1971
+    }
 
     norskekongehus.addChildren(HaraldV, Sonja, [Haakon, MarthaLouise]);
 
     var Victoria = {
         Name: "Victoria",
-        FamilyType: "Queen of the United Kingdom"
+        FamilyType: "Queen of the United Kingdom",
+        Titles: ["Queen of the United Kingdom"],
+        House: "Hanover",
+        Born: 1819,
+        Died: 1901
     };
     var Albert = {
         Name: "Albert",
-        FamilyType: "Prince of Sachsen-Coburg-Gotha"
+        FamilyType: "Prince of Sachsen-Coburg-Gotha",
+        Titles: ["Prince consort of the United Kingdom"],
+        House: "Saxe-Coburg and Gotha",
+        Born: 1819,
+        Died: 1861
     };
-    var Arthur = { Name: "Arthur", FamilyType: "Duke of Connaught and Strathearn" };
-    var Leopold = { Name: "Leopold", FamilyType: "Duke of Albany" }
-    norskekongehus.addChildren(Victoria, Albert
-, [EdvardVII, Arthur, Leopold]);
+    var Arthur = {
+        Name: "Arthur",
+        FamilyType: "Duke of Connaught and Strathearn",
+        Titles: ["Duke of Connaught and Strathearn"],
+        House: "Windsor",
+        Born: 1874,
+        Died: 1942
+    };
+    var Leopold = {
+        Name: "Leopold",
+        FamilyType: "Duke of Albany",
+        Titles: ["Duke of Albany"],
+        House: "Saxe-Coburg and Gotha",
+        Born: 1853,
+        Died: 1884
+    }
+    norskekongehus.addChildren(Victoria, Albert, [EdvardVII, Arthur, Leopold]);
 
-    var Helene = { Name: "Helene Friederike", FamilyType: "Duchess of Albany" };
-    var Alice = { Name: "Alice of Albany", FamilyType: "Countess of Athlone" };
-    var Charles = { Name: "Charles", FamilyType: "Duke of Albany" };
+    var Helene = {
+        Name: "Helene Friederike",
+        FamilyType: "Duchess of Albany",
+        Titles: ["Duchess of Albany"],
+        House: "Waldeck and Pyrmont",
+        Born: 1861,
+        Died: 1922
+    };
+    var Alice = {
+        Name: "Alice of Albany",
+        FamilyType: "Countess of Athlone",
+        Titles: ["Countess of Athlone"],
+        House: "Windsor",
+        Born: 1883,
+        Died: 1981
+    };
+    var Charles = {
+        Name: "Charles",
+        FamilyType: "Duke of Albany",
+        Titles: ["Duke of Albany"],
+        House: "Saxe-Coburg and Gotha",
+        Born: 1884,
+        Died: 1954
+    };
     norskekongehus.addChildren(Leopold, Helene, [Alice, Charles]);
 
-    var VictoriaAdelaide = { Name: "Victoria Adelaide", FamilyType: "Princess of Schleswig-Holstein" }
+    var VictoriaAdelaide = {
+        Name: "Victoria Adelaide",
+        FamilyType: "Princess of Schleswig-Holstein",
+        Titles: ["Princess of Schleswig-Holstein"],
+        House: "Schleswig-Holstein-Sonderburg-Glücksburg",
+        Born: 1885,
+        Died: 1970
+    }
     norskekongehus.addChildren(Charles, VictoriaAdelaide, [Sibylla, ]);
-
 
     var LouiseMargareth = {
         Name: "Louise Margareth",
-        FamilyType: "Princess of Prussia"
+        FamilyType: "Princess of Prussia",
+        Titles: ["Princess of Prussia", "Duchess of Connaught and Strathearn"],
+        House: "Hohenzollern",
+        Born: 1860,
+        Died: 1917
     };
 
     norskekongehus.addChildren(Arthur, LouiseMargareth, [MargaretConnaught]);
 
     var Alexandrine = {
         Name: "Alexandrine",
-        FamilyType: "Princess of Mecklenburg-Schwerin"
+        FamilyType: "Queen of Denmark",
+        Titles: ["Queen of Denmark", "Queen of Iceland", "Duchess of Mecklenburg-Schwerin"],
+        House: "Mecklenburg-Schwerin",
+        Born: 1879,
+        Died: 1952
     };
 
-    var FrederikIX = { Name: "Frederik IX", FamilyType: "King of Denmark" };
+    var FrederikIX = {
+        Name: "Frederik IX",
+        FamilyType: "King of Denmark",
+        House: "Glucksburg",
+        Born: 1899,
+        Died: 1972
+    };
 
     norskekongehus.addChildren(ChristianX, Alexandrine, [FrederikIX]);
 
-    var MargretheII = { Name: "Margrethe II", FamilyType: "Queen of Denmark" };
+    var MargretheII = {
+        Name: "Margrethe II",
+        FamilyType: "Queen of Denmark",
+        House: "Glucksburg",
+        Born: 1972
+    };
     norskekongehus.addChildren(FrederikIX, Ingrid, [MargretheII]);
 
     norskekongehus.makeTooltipText(norskekongehus.data.nodes);
-
 
 }
 norskekongehus.settings.linkStrength = function (edge) {
