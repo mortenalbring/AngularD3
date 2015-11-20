@@ -32,7 +32,13 @@ norskekongehus.addIfNew = function (Element, fixed) {
         return (e.Name == Name) && (e.FamilyType == Family);
     });
     if (existing.length == 0) {
-        var newNode = { ID: ID, Name: Name, FamilyType: Family }
+        var newNode = {
+            ID: ID, Name: Name,
+            FamilyType: Family,
+            Born: Element.Born,
+            Died: Element.Died,
+            Titles: Element.Titles
+        }
 
         if (fixed) {
             var fixedCount = norskekongehus.data.nodes.filter(function (e) {
@@ -89,7 +95,21 @@ norskekongehus.makeTooltipText = function () {
 
     for (var i = 0; i < nodes.length; i++) {
         var t = [];
-        t.push(nodes[i].Name + " - " + nodes[i].FamilyType);
+        var nodeName = nodes[i].Name + " (" + nodes[i].Born + " - ";
+
+        if (nodes[i].Died) {
+            nodeName = nodeName + nodes[i].Died;
+        }
+        nodeName = nodeName + ")";
+
+        t.push(nodeName);
+
+        if (nodes[i].Titles) {
+
+
+            var titles = nodes[i].Titles.join(", ");
+            t.push(titles);
+        }
 
 
 
@@ -573,7 +593,7 @@ norskekongehus.makeNorskekongehuset = function () {
         Name: "Victoria Adelaide",
         FamilyType: "Princess of Schleswig-Holstein",
         Titles: ["Princess of Schleswig-Holstein"],
-        House: "Schleswig-Holstein-Sonderburg-Glücksburg",
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1885,
         Died: 1970
     }
