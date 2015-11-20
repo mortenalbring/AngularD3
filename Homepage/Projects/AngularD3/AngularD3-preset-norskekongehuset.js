@@ -97,8 +97,9 @@ norskekongehus.makeTooltipText = function () {
             return (e.EdgeType == "Couple" && (e.StartNode == nodes[i].ID || e.EndNode == nodes[i].ID));
         });
 
+        var spouseID = 0;
         for (var j = 0; j < spouseEdges.length; j++) {
-            var spouseID;
+            
             if (spouseEdges[j].StartNode != nodes[i].ID) { spouseID = spouseEdges[j].StartNode }
             if (spouseEdges[j].EndNode != nodes[i].ID) { spouseID = spouseEdges[j].EndNode }
 
@@ -110,6 +111,22 @@ norskekongehus.makeTooltipText = function () {
                 t.push("Married to " + spouseNodes[0].Name + " - " + spouseNodes[0].FamilyType);
             }
             
+        }
+        var childrenNames = [];
+
+        var childrenEdges = edges.filter(function (e) {
+            return (e.EdgeType != "Couple" && (e.StartNode == nodes[i].ID || (e.StartNode == spouseID)));
+        })        
+        for (var k = 0; k < childrenEdges.length; k++) {
+            var childNode = nodes.filter(function(e) {
+                return e.ID == childrenEdges[k].EndNode;
+            });
+            if (childNode.length > 0) {
+                childrenNames.push(childNode[0].Name)                
+            }
+        }
+        if (childrenNames.length > 0) {
+            t.push("Children : " + childrenNames.join(", "));
         }
 
         nodes[i].TooltipText = t;
@@ -301,9 +318,23 @@ norskekongehus.makeNorskekongehuset = function () {
     Name: "Albert",
     FamilyType: "Prince of Sachsen-Coburg-Gotha"
 }, [{ Name: "Edvard VII", FamilyType: "King of the United Kingdom" },
-    { Name: "Arthur", FamilyType: "Duke of Connaught and Strathearn" }
+    { Name: "Arthur", FamilyType: "Duke of Connaught and Strathearn" },
+    { Name: "Leopold", FamilyType: "Duke of Albany" }
 ]
 );
+    norskekongehus.addChildren({ Name: "Leopold", FamilyType: "Duke of Albany" },
+    { Name: "Helene Friederike", FamilyType: "Duchess of Albany" },
+    [
+        { Name: "Alice of Albany", FamilyType: "Countess of Athlone" },
+        { Name: "Charles", FamilyType: "Duke of Albany" }
+    ]);
+    norskekongehus.addChildren({ Name: "Charles", FamilyType: "Duke of Albany" },
+    { Name: "Victoria Adelaide", FamilyType: "Princess of Schleswig-Holstein" },
+    [
+        { Name: "Sibylla", FamilyType: "Princess of Sachsen-Coburg-Gotha" },
+    ]);
+
+
 
     norskekongehus.addChildren(
 {
@@ -344,15 +375,15 @@ norskekongehus.makeNorskekongehuset = function () {
 }
 norskekongehus.settings.linkStrength = function (edge) {
     if (edge.EdgeType == "Couple") {
-        return 1;
+        return 4;
     }
     return 0.8;
 }
 norskekongehus.settings.linkDistance = function (edge) {
     if (edge.EdgeType == "Couple") {
-        return 2;
+        return 0.1;
     }
-    return 4;
+    return 1;
 }
 
 norskekongehus.settings.linkClass = function (edge) {

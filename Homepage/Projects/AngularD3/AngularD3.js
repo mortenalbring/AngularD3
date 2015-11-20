@@ -423,10 +423,10 @@ myApp.controller("HomeController", function ($scope) {
            
             //If the node is quite high up, we shift it down a bit
             //Otherwise, we shift it up a bit. This is because we don't want to the tooltip covering the node itself
-            if (y < 60) {
-                y = y + 50;
+            if (y < 120) {
+                y = y + 100;
             } else {
-                y = y - 50;
+                y = y - 100;
             }
             //If the node is more than halfway across the graph, we shift the tooltip across a bit
             //to make sure it doesn't overflow outside the container. Probably a more elegant way of doing this
