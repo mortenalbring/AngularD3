@@ -419,18 +419,24 @@ myApp.controller("HomeController", function ($scope) {
 
             var x = parseFloat(container.x);
             var y = parseFloat(container.y);
-            var r = 2;
            
-            if (y < 120) {
-                y = y + 100;
+           
+            //If the node is quite high up, we shift it down a bit
+            //Otherwise, we shift it up a bit. This is because we don't want to the tooltip covering the node itself
+            if (y < 60) {
+                y = y + 50;
             } else {
-                y = y - 100;
+                y = y - 50;
+            }
+            //If the node is more than halfway across the graph, we shift the tooltip across a bit
+            //to make sure it doesn't overflow outside the container. Probably a more elegant way of doing this
+            if (x > ($scope.graph.width / 2)) {
+                x = (x / 2);
             }
             var tooltip = d3.select(".svg-container")
                 .append("text")                
                 .attr("x", x)
-                .attr("y", y)
-                .attr("dy", -r * 6)
+                .attr("y", y)                
                 .attr("id", "tooltip");
 
             //If the tooltip text is an array, we iterate through and put in some tspans for each element for a new 'line'.
@@ -444,7 +450,7 @@ myApp.controller("HomeController", function ($scope) {
                 }
             }
             
-            //This draws the rectangle behind the tooltip as a 'border'
+            //This draws the rectangle behind the tooltip as a 'border'            
             var bbox = tooltip.node().getBBox();
             var padding = 2;
             d3.select(".svg-container")
