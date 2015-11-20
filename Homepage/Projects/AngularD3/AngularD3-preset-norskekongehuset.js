@@ -81,10 +81,43 @@ norskekongehus.addChildren = function (parent1, parent2, children, fixParent1, f
         //  var newEdge2 = { StartNode: parent2Node.ID, EndNode: newNode.ID }        
         // norskekongehus.data.edges.push(newEdge2);
     }
-
-
-
 }
+
+norskekongehus.makeTooltipText = function () {
+    var nodes = norskekongehus.data.nodes;
+    var edges = norskekongehus.data.edges;
+
+    for (var i = 0; i < nodes.length; i++) {
+        var t = [];
+        t.push(nodes[i].Name + " - " + nodes[i].FamilyType);        
+
+        
+
+        var spouseEdges = edges.filter(function(e) {
+            return (e.EdgeType == "Couple" && (e.StartNode == nodes[i].ID || e.EndNode == nodes[i].ID));
+        });
+
+        for (var j = 0; j < spouseEdges.length; j++) {
+            var spouseID;
+            if (spouseEdges[j].StartNode != nodes[i].ID) { spouseID = spouseEdges[j].StartNode }
+            if (spouseEdges[j].EndNode != nodes[i].ID) { spouseID = spouseEdges[j].EndNode }
+
+            var spouseNodes = nodes.filter(function(e) {
+                return e.ID == spouseID;
+            });
+
+            if (spouseNodes.length > 0) {
+                t.push("Married to " + spouseNodes[0].Name + " - " + spouseNodes[0].FamilyType);
+            }
+            
+        }
+
+        nodes[i].TooltipText = t;
+    }
+
+    
+}
+
 norskekongehus.makeNorskekongehuset = function () {
 
     norskekongehus.data.nodes = [];
@@ -98,7 +131,7 @@ norskekongehus.makeNorskekongehuset = function () {
     {
         Name: "Desiree",
         FamilyType: "Queen of Norway and Sweden"
-    }, [{ Name: "Oscar I", FamilyType: "King of Norway and Sweden" }],false,false);
+    }, [{ Name: "Oscar I", FamilyType: "King of Norway and Sweden" }], false, false);
 
 
     norskekongehus.addChildren(
@@ -268,7 +301,7 @@ norskekongehus.makeNorskekongehuset = function () {
     Name: "Albert",
     FamilyType: "Prince of Sachsen-Coburg-Gotha"
 }, [{ Name: "Edvard VII", FamilyType: "King of the United Kingdom" },
-    {Name: "Arthur", FamilyType: "Duke of Connaught and Strathearn" }
+    { Name: "Arthur", FamilyType: "Duke of Connaught and Strathearn" }
 ]
 );
 
@@ -305,7 +338,7 @@ norskekongehus.makeNorskekongehuset = function () {
 }, [{ Name: "Margrethe II", FamilyType: "Queen of Denmark" }]
 );
 
-
+    norskekongehus.makeTooltipText(norskekongehus.data.nodes);
 
 
 }
