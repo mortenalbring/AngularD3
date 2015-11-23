@@ -8,7 +8,7 @@ var norskekongehus = {
         friction: 0.6,
         lockToContainer: true,
         clickToConnect: false,
-        charge: -1000,
+        charge: -800,
         radius: 1,
 
     },
@@ -37,7 +37,8 @@ norskekongehus.addIfNew = function (Element, fixed) {
             FamilyType: Family,
             Born: Element.Born,
             Died: Element.Died,
-            Titles: Element.Titles
+            Titles: Element.Titles,
+            House: Element.House
         }
 
         if (fixed) {
@@ -105,12 +106,13 @@ norskekongehus.makeTooltipText = function () {
         t.push(nodeName);
 
         if (nodes[i].Titles) {
-
-
             var titles = nodes[i].Titles.join(", ");
             t.push(titles);
         }
 
+        if (nodes[i].House) {
+            t.push("House of " + nodes[i].House);
+        }
 
 
         var spouseEdges = edges.filter(function (e) {
@@ -158,16 +160,99 @@ norskekongehus.orderByBorn = function () {
         var aParam = a.Born;
         var bParam = b.Born;
         return (aParam == bParam) ? 0 : (aParam > bParam) ? 1 : -1;
-    });
-    console.log(orderedNodes);
-    orderedNodes[0].py = 10;
-    orderedNodes[0].px = 100;
-    orderedNodes[0].fixed = false;
-
-    return orderedNodes;
+    });    
 }
 
+
 norskekongehus.makeNorskekongehuset = function () {
+
+    norskekongehus.constructData();
+
+    norskekongehus.makeTooltipText(norskekongehus.data.nodes);
+
+    var temphouses = [];
+    for (var i = 0; i < norskekongehus.data.nodes.length; i++) {
+        console.log(norskekongehus.data.nodes[i]);
+        if (norskekongehus.data.nodes[i].House) {        
+            var indx = temphouses.indexOf(norskekongehus.data.nodes[i].House);
+            if (indx === -1) {
+                temphouses.push(norskekongehus.data.nodes[i].House);
+            }
+        }
+    }
+
+    for (var i = 0; i < temphouses.length; i++) {
+        var nodecount = norskekongehus.data.nodes.filter(function (e) {
+            return e.House == temphouses[i];
+        });
+
+        console.log(temphouses[i] + " " + nodecount.length)
+
+    }
+    //console.log(temphouses);
+
+   // norskekongehus.data.nodes = norskekongehus.orderByBorn();
+
+}
+norskekongehus.settings.linkStrength = function (edge) {
+    if (edge.EdgeType == "Couple") {
+        return 4;
+    }
+    return 2;
+}
+norskekongehus.settings.linkDistance = function (edge) {
+    if (edge.EdgeType == "Couple") {
+        return 0.1;
+    }
+    return 0.1;
+}
+
+norskekongehus.settings.linkClass = function (edge) {
+    if (edge.EdgeType == "Couple") {
+        return "link-couple";
+    }
+    return "link-children";
+}
+
+norskekongehus.settings.nodeClass = function (d) {
+
+    if ((d.House) && (d.House == "Bernadotte")) {
+        return 'node-container-kongehus node-container-bernadotte';
+    }
+    if ((d.House) && (d.House == "Schleswig-Holstein-Sonderburg-Glucksburg")) {
+        return 'node-container-kongehus node-container-schleswig-holstein-sonderburg-glucksburg';
+    }
+    if ((d.House) && (d.House == "Windsor")) {
+        return 'node-container-kongehus node-container-windsor';
+    }
+    if ((d.House) && (d.House == "Saxe-Coburg and Gotha")) {
+        return 'node-container-kongehus node-container-saxe-coburg-and-gotha';
+    }
+    if ((d.House) && (d.House == "Schleswig-Holstein-Sonderburg-Glucksburg")) {
+        return 'node-container-kongehus node-container-glucksburg';
+    }
+
+    return 'node-container-kongehus node-container-kongehus-default';
+},
+
+norskekongehus.settings.customTickFunction = function (e, linkData) {
+    //A gentle force that pushes sources up and targets down to force a weak tree
+    var k = -0.5 * e.alpha;
+    linkData.forEach(function (d, i) {       
+            if (d.source.Born > d.target.Born) {
+                d.source.y -= k * (d.target.Born - d.source.Born);
+                d.target.y += k * (d.target.Born - d.source.Born);
+            } else {
+                d.source.y += k * (d.source.Born - d.target.Born);
+                d.target.y -= k * (d.source.Born - d.target.Born);
+            }
+        
+    });
+
+}
+
+
+norskekongehus.constructData = function () {
 
     norskekongehus.data.nodes = [];
     norskekongehus.data.edges = [];
@@ -349,7 +434,7 @@ norskekongehus.makeNorskekongehuset = function () {
     var ChristianIX = {
         Name: "Christian IX",
         FamilyType: "King of Denmark",
-        Titles: ["King of Denmark", "Prince of Schleswig-Holstein-Sonderburg-Glycksburg"],
+        Titles: ["King of Denmark", "Prince of Schleswig-Holstein-Sonderburg-Glucksburg"],
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1818,
         Died: 1906
@@ -487,7 +572,7 @@ norskekongehus.makeNorskekongehuset = function () {
         Name: "Olav V",
         FamilyType: "King of Norway",
         Titles: ["King of Norway", "Prince of Denmark"],
-        House: "Schleswig-Holstein-Sonderburg-Glycksburg",
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1903,
         Died: 1991
     };
@@ -497,7 +582,7 @@ norskekongehus.makeNorskekongehuset = function () {
         Name: "Ragnhild",
         FamilyType: "Princess of Norway",
         Titles: ["Princess of Norway"],
-        House: "Glucksburg",
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1930,
         Died: 2012
     };
@@ -505,14 +590,14 @@ norskekongehus.makeNorskekongehuset = function () {
         Name: "Astrid",
         FamilyType: "Princess of Norway",
         Titles: ["Princess of Norway"],
-        House: "Glucksburg",
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1932
     };
     var HaraldV = {
         Name: "Harald V",
         FamilyType: "King of Norway",
         Titles: ["King of Norway"],
-        House: "Glucksburg",
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1937
     };
     norskekongehus.addChildren(OlavV, Martha, [Ragnhild, Astrid2, HaraldV]);
@@ -528,14 +613,14 @@ norskekongehus.makeNorskekongehuset = function () {
         Name: "Haakon",
         FamilyType: "Crown Prince of Norway",
         Titles: ["Crown Prince of Norway"],
-        House: "Glucksburg",
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1973
     };
     var MarthaLouise = {
         Name: "Martha Louise",
         FamilyType: "Princess Of Norway",
         Titles: ["Princess of Norway"],
-        House: "Glucksburg",
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1971
     }
 
@@ -634,7 +719,7 @@ norskekongehus.makeNorskekongehuset = function () {
     var FrederikIX = {
         Name: "Frederik IX",
         FamilyType: "King of Denmark",
-        House: "Glucksburg",
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1899,
         Died: 1972
     };
@@ -644,79 +729,11 @@ norskekongehus.makeNorskekongehuset = function () {
     var MargretheII = {
         Name: "Margrethe II",
         FamilyType: "Queen of Denmark",
-        House: "Glucksburg",
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1972
     };
     norskekongehus.addChildren(FrederikIX, Ingrid, [MargretheII]);
 
-    norskekongehus.makeTooltipText(norskekongehus.data.nodes);
-
-    norskekongehus.data.nodes = norskekongehus.orderByBorn();
 
 }
-norskekongehus.settings.linkStrength = function (edge) {
-    if (edge.EdgeType == "Couple") {
-        return 4;
-    }
-    return 2;
-}
-norskekongehus.settings.linkDistance = function (edge) {
-    if (edge.EdgeType == "Couple") {
-        return 0.1;
-    }
-    return 0.1;
-}
-
-norskekongehus.settings.linkClass = function (edge) {
-    if (edge.EdgeType == "Couple") {
-        return "link-couple";
-    }
-    return "link-children";
-}
-
-norskekongehus.settings.nodeClass = function (d) {
-    if (d.FamilyType == "King of Norway and Sweden") {
-        return 'node-container-kongehus node-container-norway-and-sweden-king'
-    }
-    if (d.FamilyType == "Queen of Norway and Sweden") {
-        return 'node-container-kongehus node-container-norway-and-sweden-queen'
-    }
-    if (d.FamilyType == "Queen of Denmark") {
-        return 'node-container-kongehus node-container-denmark-queen'
-    }
-    if (d.FamilyType == "King of Denmark") {
-        return 'node-container-kongehus node-container-denmark-king'
-    }
-    if (d.FamilyType == "King of Sweden") {
-        return 'node-container-kongehus node-container-sweden-king'
-    }
-    if (d.FamilyType == "Queen of Sweden") {
-        return 'node-container-kongehus node-container-sweden-queen'
-    }
-    if (d.FamilyType == "King of Norway") {
-        return 'node-container-kongehus node-container-norway-king'
-    }
-    if (d.FamilyType == "Queen of Norway") {
-        return 'node-container-kongehus node-container-norway-queen'
-    }
-
-
-    return 'node-container-kongehus node-container-kongehus-default';
-},
-
-norskekongehus.settings.customTickFunction = function (e, linkData) {
-    //A gentle force that pushes sources up and targets down to force a weak tree
-    var k = -1 * e.alpha;
-    linkData.forEach(function (d, i) {       
-            if (d.source.Born > d.target.Born) {
-                d.source.y -= k * (d.target.Born - d.source.Born);
-                d.target.y += k * (d.target.Born - d.source.Born);
-            } else {
-                d.source.y += k * (d.source.Born - d.target.Born);
-                d.target.y -= k * (d.source.Born - d.target.Born);
-            }
-        
-    });
-}
-
 

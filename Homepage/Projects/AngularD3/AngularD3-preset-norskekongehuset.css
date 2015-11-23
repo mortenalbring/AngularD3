@@ -8,7 +8,7 @@
 }
 
 .node-container-kongehus-default {
-    fill:#4b4b4b;
+    fill:#000000;
 }
 
 .node-container-kongehus {    
@@ -16,8 +16,24 @@
 }
 .node-container-kongehus:hover {    
     cursor:pointer;
+    font-weight:800;
 }
 
+.node-container-bernadotte {
+    fill:#7566ff;
+}
+.node-container-schleswig-holstein-sonderburg-glucksburg {
+    fill:#418e06;
+}
+.node-container-windsor {
+    fill:#091f9f;
+}
+.node-container-saxe-coburg-and-gotha {
+    fill:#003932;
+}
+.node-container-glucksburg {
+    fill:#900404;
+}
 
 .node-container-norway-and-sweden-king {
     font-size:0.6em;
