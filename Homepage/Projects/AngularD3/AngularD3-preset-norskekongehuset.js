@@ -153,12 +153,19 @@ norskekongehus.makeTooltipText = function () {
     }
 }
 
-norskekongehus.orderByBorn = function() {
-    var orderedNodes = norskekongehus.data.nodes.sort(function(a, b) {
+norskekongehus.orderByBorn = function () {
+    var orderedNodes = norskekongehus.data.nodes.sort(function (a, b) {
         var aParam = a.Born;
         var bParam = b.Born;
         return (aParam == bParam) ? 0 : (aParam > bParam) ? 1 : -1;
     });
+    console.log(orderedNodes);
+    for (var i = 0; i < orderedNodes.length; i++) {
+        orderedNodes[i].py = 100 + (i * 10);
+        orderedNodes[i].px = 100;
+        orderedNodes[i].fixed = false;
+    }
+    return orderedNodes;
 }
 
 norskekongehus.makeNorskekongehuset = function () {
@@ -645,18 +652,20 @@ norskekongehus.makeNorskekongehuset = function () {
 
     norskekongehus.makeTooltipText(norskekongehus.data.nodes);
 
+ //   norskekongehus.data.nodes = norskekongehus.orderByBorn();
+
 }
 norskekongehus.settings.linkStrength = function (edge) {
     if (edge.EdgeType == "Couple") {
         return 4;
     }
-    return 0.8;
+    return 2;
 }
 norskekongehus.settings.linkDistance = function (edge) {
     if (edge.EdgeType == "Couple") {
         return 0.1;
     }
-    return 1;
+    return 0.3;
 }
 
 norskekongehus.settings.linkClass = function (edge) {
@@ -698,10 +707,16 @@ norskekongehus.settings.nodeClass = function (d) {
 
 norskekongehus.settings.customTickFunction = function (e, linkData) {
     //A gentle force that pushes sources up and targets down to force a weak tree
-    var k = 7 * e.alpha;
-    linkData.forEach(function (d, i) {
-        d.source.y -= k;
-        d.target.y += k;
+    var k = 20 * e.alpha;
+    linkData.forEach(function (d, i) {       
+            if (d.source.Born > d.target.Born) {
+                d.source.y -= k;
+                d.target.y += k;
+            } else {
+                d.source.y += k;
+                d.target.y -= k;
+            }
+        
     });
 }
 
