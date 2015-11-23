@@ -19,6 +19,23 @@
     font-weight:800;
 }
 
+.node-container-norway {
+    fill:#cc0000;
+}
+.node-container-sweden {
+    fill:#0307c4;
+}
+.node-container-denmark {
+    fill:#187e00;
+}
+.node-container-germany {
+    fill:#8b4204;
+}
+.node-container-united-kingdom {
+    fill:#37048b;
+}
+
+
 .node-container-bernadotte {
     fill:#7566ff;
 }

@@ -24,17 +24,17 @@ var norskekongehus = {
 
 norskekongehus.addIfNew = function (Element, fixed) {
     var Name = Element.Name;
-    var Family = Element.FamilyType;
+    var Family = Element.Country;
 
     var ID = norskekongehus.data.nodes.length + 1;
 
     var existing = norskekongehus.data.nodes.filter(function (e) {
-        return (e.Name == Name) && (e.FamilyType == Family);
+        return (e.Name == Name) && (e.Country == Family);
     });
     if (existing.length == 0) {
         var newNode = {
             ID: ID, Name: Name,
-            FamilyType: Family,
+            Country: Family,
             Born: Element.Born,
             Died: Element.Died,
             Titles: Element.Titles,
@@ -130,7 +130,7 @@ norskekongehus.makeTooltipText = function () {
             });
 
             if (spouseNodes.length > 0) {
-                t.push("Married to " + spouseNodes[0].Name + " - " + spouseNodes[0].FamilyType);
+                t.push("Married to " + spouseNodes[0].Name + " - " + spouseNodes[0].Country);
             }
 
         }
@@ -216,20 +216,20 @@ norskekongehus.settings.linkClass = function (edge) {
 
 norskekongehus.settings.nodeClass = function (d) {
 
-    if ((d.House) && (d.House == "Bernadotte")) {
-        return 'node-container-kongehus node-container-bernadotte';
+    if (d.Country == "Norway") {
+        return 'node-container-kongehus node-container-norway';
     }
-    if ((d.House) && (d.House == "Schleswig-Holstein-Sonderburg-Glucksburg")) {
-        return 'node-container-kongehus node-container-schleswig-holstein-sonderburg-glucksburg';
+    if (d.Country == "Sweden") {
+        return 'node-container-kongehus node-container-sweden';
     }
-    if ((d.House) && (d.House == "Windsor")) {
-        return 'node-container-kongehus node-container-windsor';
+    if (d.Country == "Denmark") {
+        return 'node-container-kongehus node-container-denmark';
     }
-    if ((d.House) && (d.House == "Saxe-Coburg and Gotha")) {
-        return 'node-container-kongehus node-container-saxe-coburg-and-gotha';
+    if (d.Country == "Germany") {
+        return 'node-container-kongehus node-container-germany';
     }
-    if ((d.House) && (d.House == "Schleswig-Holstein-Sonderburg-Glucksburg")) {
-        return 'node-container-kongehus node-container-glucksburg';
+    if (d.Country == "United Kingdom") {
+        return 'node-container-kongehus node-container-united-kingdom';
     }
 
     return 'node-container-kongehus node-container-kongehus-default';
@@ -237,14 +237,14 @@ norskekongehus.settings.nodeClass = function (d) {
 
 norskekongehus.settings.customTickFunction = function (e, linkData) {
     //A gentle force that pushes sources up and targets down to force a weak tree
-    var k = -0.5 * e.alpha;
+    var k = 20 * e.alpha;
     linkData.forEach(function (d, i) {       
             if (d.source.Born > d.target.Born) {
-                d.source.y -= k * (d.target.Born - d.source.Born);
-                d.target.y += k * (d.target.Born - d.source.Born);
+                d.source.y -= k;
+                d.target.y += k;
             } else {
-                d.source.y += k * (d.source.Born - d.target.Born);
-                d.target.y -= k * (d.source.Born - d.target.Born);
+                d.source.y += k;
+                d.target.y -= k;
             }
         
     });
@@ -259,7 +259,7 @@ norskekongehus.constructData = function () {
 
     var CarlJohan = {
         Name: "Carl III Johan",
-        FamilyType: "King of Norway and Sweden",
+        Country: "Norway and Sweden",
         Titles: ["King of Norway and Sweden", "Marshal of France", "Prince of Ponte Corvo"],
         House: "Bernadotte",
         Born: 1763,
@@ -267,14 +267,14 @@ norskekongehus.constructData = function () {
     };
     var Desiree = {
         Name: "Desiree",
-        FamilyType: "Queen of Norway and Sweden",
+        Country: "Norway and Sweden",
         Titles: ["Queen of Norway and Sweden", "Princess of Ponte Corvo"],
         Born: 1777,
         Died: 1860
     }
     var OscarI = {
         Name: "Oscar I",
-        FamilyType: "King of Norway and Sweden",
+        Country: "Norway and Sweden",
         Titles: ["King of Norway and Sweden"],
         House: "Bernadotte",
         Born: 1799,
@@ -285,7 +285,7 @@ norskekongehus.constructData = function () {
 
     var Josephine = {
         Name: "Josephine",
-        FamilyType: "Queen of Norway and Sweden",
+        Country: "Norway and Sweden",
         Titles: ["Queen of Norway and Sweden", "Princess of Leuchtenberg"],
         House: "Beauharnais",
         Born: 1807,
@@ -293,7 +293,7 @@ norskekongehus.constructData = function () {
     }
     var CarlIV = {
         Name: "Carl IV",
-        FamilyType: "King of Norway and Sweden",
+        Country: "Norway and Sweden",
         Titles: ["King of Norway and Sweden"],
         House: "Bernadotte",
         Born: 1826,
@@ -301,7 +301,7 @@ norskekongehus.constructData = function () {
     };
     var OscarII = {
         Name: "Oscar II",
-        FamilyType: "King of Norway and Sweden",
+        Country: "Norway and Sweden",
         Titles: ["King of Norway", "King of Sweden"],
         House: "Bernadotte",
         Born: 1829,
@@ -311,7 +311,7 @@ norskekongehus.constructData = function () {
 
     var Sophie = {
         Name: "Sophie",
-        FamilyType: "Queen of Norway and Sweden",
+        Country: "Norway and Sweden",
         Titles: ["Queen consort of Sweden", "Queen consort of Norway", "Princess of Nassau"],
         House: "Nassau-Weilburg",
         Born: 1836,
@@ -320,7 +320,7 @@ norskekongehus.constructData = function () {
 
     var Carl = {
         Name: "Carl",
-        FamilyType: "Prince of Sweden",
+        Country: "Sweden",
         Titles: ["Prince of Sweden", "Duke of Vastergotland"],
         House: "Bernadotte",
         Born: 1861,
@@ -328,7 +328,7 @@ norskekongehus.constructData = function () {
     };
     var GustafV = {
         Name: "Gustaf V",
-        FamilyType: "King of Sweden",
+        Country: "Sweden",
         Titles: ["King of Sweden"],
         House: "Bernadotte",
         Born: 1858,
@@ -338,7 +338,7 @@ norskekongehus.constructData = function () {
 
     var CarlIV = {
         Name: "Carl IV",
-        FamilyType: "King of Norway and Sweden",
+        Country: "Norway and Sweden",
         Titles: ["King of Norway and Sweden"],
         House: "Bernadotte",
         Born: 1826,
@@ -346,7 +346,7 @@ norskekongehus.constructData = function () {
     };
     var Louise = {
         Name: "Louise",
-        FamilyType: "Queen of Norway and Sweden",
+        Country: "Norway and Sweden",
         Titles: ["Princess of the Netherlands", "Queen of Norway and Sweden"],
         House: "Orange-Nassau",
         Born: 1828,
@@ -354,7 +354,7 @@ norskekongehus.constructData = function () {
     };
     var Louise2 = {
         Name: "Louise *",
-        FamilyType: "Queen of Denmark",
+        Country: "Denmark",
         Titles: ["Queen of Denmark", "Princess of Norway and Sweden"],
         House: "Bernadotte",
         Born: 1851,
@@ -364,7 +364,7 @@ norskekongehus.constructData = function () {
 
     var FrederikVIII = {
         Name: "Frederik VIII",
-        FamilyType: "King of Denmark",
+        Country: "Denmark",
         Titles: ["King of Denmark"],
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1843,
@@ -373,7 +373,7 @@ norskekongehus.constructData = function () {
 
     var HaakonVII = {
         Name: "Haakon VII",
-        FamilyType: "King of Norway",
+        Country: "Norway",
         Titles: ["King of Norway", "Prince of Denmark"],
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1872,
@@ -381,7 +381,7 @@ norskekongehus.constructData = function () {
     };
     var ChristianX = {
         Name: "Christian X",
-        FamilyType: "King of Denmark",
+        Country: "Denmark",
         Titles: ["King of Denmark", "King of Iceland"],
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1870,
@@ -389,7 +389,7 @@ norskekongehus.constructData = function () {
     };
     var Ingeborg = {
         Name: "Ingeborg",
-        FamilyType: "Princess of Sweden",
+       Country: "Sweden",
         Titles: ["Princess of Sweden", "Princess of Denmark"],
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1878,
@@ -399,7 +399,7 @@ norskekongehus.constructData = function () {
 
     var Astrid = {
         Name: "Astrid",
-        FamilyType: "Queen of Belgium",
+        Country: "Belgium",
         Titles: ["Queen of Belgium", "Princess of Sweden"],
         House: "Bernadotte",
         Born: 1905,
@@ -407,7 +407,7 @@ norskekongehus.constructData = function () {
     };
     var Carl2 = {
         Name: "Carl *",
-        FamilyType: "Prince of Sweden",
+        Country: "Sweden",
         Titles: ["Prince of Sweden", "Duke of Ostergotland"],
         House: "Bernadotte",
         Born: 1911,
@@ -415,7 +415,7 @@ norskekongehus.constructData = function () {
     }
     var Margaretha = {
         Name: "Margaretha",
-        FamilyType: "Princess of Sweden",
+       Country: "Sweden",
         Titles: ["Princess of Sweden and Norway", "Princess of Sweden"],
         House: "Bernadotte",
         Born: 1899,
@@ -423,7 +423,7 @@ norskekongehus.constructData = function () {
     };
     var Martha = {
         Name: "Martha",
-        FamilyType: "Crown Princess of Norway",
+        Country: "Norway",
         Titles: ["Princess of Norway"],
         House: "Bernadotte",
         Born: 1901,
@@ -433,7 +433,7 @@ norskekongehus.constructData = function () {
 
     var ChristianIX = {
         Name: "Christian IX",
-        FamilyType: "King of Denmark",
+        Country: "Denmark",
         Titles: ["King of Denmark", "Prince of Schleswig-Holstein-Sonderburg-Glucksburg"],
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1818,
@@ -441,7 +441,7 @@ norskekongehus.constructData = function () {
     };
     var Louise3 = {
         Name: "Louise **",
-        FamilyType: "Queen of Denmark",
+        Country: "Denmark",
         Titles: ["Queen of Denmark", "Princess of Hessen-Kassel"],
         House: "Hesse-Kassel",
         Born: 1817,
@@ -449,7 +449,7 @@ norskekongehus.constructData = function () {
     };
     var Alexandra = {
         Name: "Alexandra",
-        FamilyType: "Queen of The United Kingdom",
+        Country: "United Kingdom",
         Titles: ["Queen of The United Kingdom", "Princess of Denmark"],
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1844,
@@ -460,7 +460,7 @@ norskekongehus.constructData = function () {
 
     var EdvardVII = {
         Name: "Edward VII",
-        FamilyType: "King of the United Kingdom",
+        Country: "United Kingdom",
         House: "Saxe-Coburg and Gotha",
         Born: 1841,
         Died: 1910
@@ -468,7 +468,7 @@ norskekongehus.constructData = function () {
 
     var Maud = {
         Name: "Maud",
-        FamilyType: "Queen of Norway",
+        Country: "Norway",
         Titles: ["Queen of Norway", "Princess of Wales"],
         House: "Saxe-Coburg and Gotha",
         Born: 1869,
@@ -476,7 +476,7 @@ norskekongehus.constructData = function () {
     };
     var GeorgeV = {
         Name: "George V",
-        FamilyType: "King of the United Kingdom",
+        Country: "United Kingdom",
         Titles: ["King of the United Kingdom"],
         House: "Windsor",
         Born: 1865,
@@ -484,9 +484,49 @@ norskekongehus.constructData = function () {
     };
     norskekongehus.addChildren(EdvardVII, Alexandra, [Maud, GeorgeV]);
 
+    var MaryOfTeck = {
+        Name: "Mary of Teck",
+        Country: "United Kingdom",
+        Titles: ["Queen of the United Kingdom"],
+        House: "Wurttemberg",
+        Born: 1867,
+        Died: 1953
+    }
+    
+    var GeorgeIV = {
+        Name: "George VI",
+        Country: "United Kingdom",
+        Titles: ["King of the United Kingdom"],
+        House: "Windsor",
+        Born: 1895,
+        Died: 1952
+    }
+
+    norskekongehus.addChildren(GeorgeV, MaryOfTeck, [GeorgeIV]);
+
+    var ElizabethBowes = {
+        Name: "Elizabeth Bowes-Lyon",
+        Country: "United Kingdom",
+        Titles: ["Queen of the United Kingdom"],
+        House: "Windsor",
+        Born: 1900,
+        Died: 2002
+    }
+
+    var Elizabeth = {
+        Name: "Elizabeth II",
+        Country: "United Kingdom",
+        Titles: ["Queen of the United Kingdom"],
+        House: "Windsor",
+        Born: 1952,        
+    }
+
+    norskekongehus.addChildren(GeorgeIV, ElizabethBowes, [Elizabeth]);
+
+
     var GustafV = {
         Name: "Gustaf V",
-        FamilyType: "King of Sweden",
+        Country: "Sweden",
         Titles: ["King of Sweden"],
         House: "Bernadotte",
         Born: 1858,
@@ -494,7 +534,7 @@ norskekongehus.constructData = function () {
     }
     var VictoriaBaden = {
         Name: "Victoria of Baden",
-        FamilyType: "Queen of Sweden",
+        Country: "Sweden",
         Titles: ["Queen of Sweden", "Princess of Baden"],
         House: "Zahringen",
         Born: 1862,
@@ -502,7 +542,7 @@ norskekongehus.constructData = function () {
     };
     var GustafVIAdolf = {
         Name: "Gustaf VI Adolf",
-        FamilyType: "King of Sweden",
+        Country: "Sweden",
         Titles: ["King of Sweden"],
         House: "Bernadotte",
         Born: 1882,
@@ -514,7 +554,7 @@ norskekongehus.constructData = function () {
 
     var MargaretConnaught = {
         Name: "Margaret of Connaught",
-        FamilyType: "Princess of Sweden",
+       Country: "Sweden",
         Titles: ["Princess of Sweden", "Duchess of Skane"],
         House: "Saxe-Coburg and Gotha",
         Born: 1882,
@@ -522,7 +562,7 @@ norskekongehus.constructData = function () {
     };
     var Ingrid = {
         Name: "Ingrid",
-        FamilyType: "Queen of Denmark",
+        Country: "Denmark",
         Titles: ["Queen of Denmark", "Princess of Sweden"],
         House: "Bernadotte",
         Born: 1910,
@@ -530,7 +570,7 @@ norskekongehus.constructData = function () {
     }
     var GustafAdolf = {
         Name: "Gustaf Adolf",
-        FamilyType: "Prince of Sweden",
+        Country: "Sweden",
         Titles: ["Prince of Sweden", "Duke of Vasterbotten"],
         House: "Bernadotte",
         Born: 1906,
@@ -541,7 +581,7 @@ norskekongehus.constructData = function () {
 
     var LouiseMountbatten = {
         Name: "Louise Mountbatten",
-        FamilyType: "Queen of Sweden",
+        Country: "Sweden",
         Titles: ["Queen of Sweden", "Princess of Battenberg"],
         House: "Battenberg",
         Born: 1889,
@@ -553,7 +593,7 @@ norskekongehus.constructData = function () {
 
     var Sibylla = {
         Name: "Sibylla",
-        FamilyType: "Princess of Sachsen-Coburg-Gotha",
+        Country: "Sweden",
         Titles: ["Duchess of Vasterbotten"],
         House: "Saxe-Coburg and Gotha",
         Born: 1908,
@@ -561,7 +601,7 @@ norskekongehus.constructData = function () {
     };
     var CarlXVIGustaf = {
         Name: "Carl XVI Gustaf",
-        FamilyType: "King of Sweden",
+        Country: "Sweden",
         Titles: ["King of Sweden"],
         House: "Bernadotte",
         Born: 1946
@@ -570,7 +610,7 @@ norskekongehus.constructData = function () {
 
     var OlavV = {
         Name: "Olav V",
-        FamilyType: "King of Norway",
+        Country: "Norway",
         Titles: ["King of Norway", "Prince of Denmark"],
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1903,
@@ -580,7 +620,7 @@ norskekongehus.constructData = function () {
 
     var Ragnhild = {
         Name: "Ragnhild",
-        FamilyType: "Princess of Norway",
+       Country: "Norway",
         Titles: ["Princess of Norway"],
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1930,
@@ -588,14 +628,14 @@ norskekongehus.constructData = function () {
     };
     var Astrid2 = {
         Name: "Astrid",
-        FamilyType: "Princess of Norway",
+       Country: "Norway",
         Titles: ["Princess of Norway"],
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1932
     };
     var HaraldV = {
         Name: "Harald V",
-        FamilyType: "King of Norway",
+        Country: "Norway",
         Titles: ["King of Norway"],
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1937
@@ -604,21 +644,21 @@ norskekongehus.constructData = function () {
 
     var Sonja = {
         Name: "Sonja",
-        FamilyType: "Queen of Norway",
+        Country: "Norway",
         Titles: ["Queen of Norway"],
         Born: 1937
     }
 
     var Haakon = {
         Name: "Haakon",
-        FamilyType: "Crown Prince of Norway",
+        Country: "Norway",
         Titles: ["Crown Prince of Norway"],
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1973
     };
     var MarthaLouise = {
         Name: "Martha Louise",
-        FamilyType: "Princess Of Norway",
+       Country: "Norway",
         Titles: ["Princess of Norway"],
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1971
@@ -628,7 +668,7 @@ norskekongehus.constructData = function () {
 
     var Victoria = {
         Name: "Victoria",
-        FamilyType: "Queen of the United Kingdom",
+        Country: "United Kingdom",
         Titles: ["Queen of the United Kingdom"],
         House: "Hanover",
         Born: 1819,
@@ -636,7 +676,7 @@ norskekongehus.constructData = function () {
     };
     var Albert = {
         Name: "Albert",
-        FamilyType: "Prince of Sachsen-Coburg-Gotha",
+        Country: "United Kingdom",
         Titles: ["Prince consort of the United Kingdom"],
         House: "Saxe-Coburg and Gotha",
         Born: 1819,
@@ -644,7 +684,7 @@ norskekongehus.constructData = function () {
     };
     var Arthur = {
         Name: "Arthur",
-        FamilyType: "Duke of Connaught and Strathearn",
+        Country: "United Kingdom",
         Titles: ["Duke of Connaught and Strathearn"],
         House: "Windsor",
         Born: 1874,
@@ -652,7 +692,7 @@ norskekongehus.constructData = function () {
     };
     var Leopold = {
         Name: "Leopold",
-        FamilyType: "Duke of Albany",
+        Country: "United Kingdom",
         Titles: ["Duke of Albany"],
         House: "Saxe-Coburg and Gotha",
         Born: 1853,
@@ -662,7 +702,7 @@ norskekongehus.constructData = function () {
 
     var Helene = {
         Name: "Helene Friederike",
-        FamilyType: "Duchess of Albany",
+        Country: "Germany",
         Titles: ["Duchess of Albany"],
         House: "Waldeck and Pyrmont",
         Born: 1861,
@@ -670,7 +710,7 @@ norskekongehus.constructData = function () {
     };
     var Alice = {
         Name: "Alice of Albany",
-        FamilyType: "Countess of Athlone",
+        Country: "United Kingdom",
         Titles: ["Countess of Athlone"],
         House: "Windsor",
         Born: 1883,
@@ -678,7 +718,7 @@ norskekongehus.constructData = function () {
     };
     var Charles = {
         Name: "Charles",
-        FamilyType: "Duke of Albany",
+        Country: "Germany",
         Titles: ["Duke of Albany"],
         House: "Saxe-Coburg and Gotha",
         Born: 1884,
@@ -688,7 +728,7 @@ norskekongehus.constructData = function () {
 
     var VictoriaAdelaide = {
         Name: "Victoria Adelaide",
-        FamilyType: "Princess of Schleswig-Holstein",
+       Country: "Prussia",
         Titles: ["Princess of Schleswig-Holstein"],
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1885,
@@ -698,7 +738,7 @@ norskekongehus.constructData = function () {
 
     var LouiseMargareth = {
         Name: "Louise Margareth",
-        FamilyType: "Princess of Prussia",
+       Country: "Prussia",
         Titles: ["Princess of Prussia", "Duchess of Connaught and Strathearn"],
         House: "Hohenzollern",
         Born: 1860,
@@ -709,7 +749,7 @@ norskekongehus.constructData = function () {
 
     var Alexandrine = {
         Name: "Alexandrine",
-        FamilyType: "Queen of Denmark",
+        Country: "Denmark",
         Titles: ["Queen of Denmark", "Queen of Iceland", "Duchess of Mecklenburg-Schwerin"],
         House: "Mecklenburg-Schwerin",
         Born: 1879,
@@ -718,7 +758,7 @@ norskekongehus.constructData = function () {
 
     var FrederikIX = {
         Name: "Frederik IX",
-        FamilyType: "King of Denmark",
+        Country: "Denmark",
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1899,
         Died: 1972
@@ -728,7 +768,7 @@ norskekongehus.constructData = function () {
 
     var MargretheII = {
         Name: "Margrethe II",
-        FamilyType: "Queen of Denmark",
+        Country: "Denmark",
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
         Born: 1972
     };
