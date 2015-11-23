@@ -8,7 +8,7 @@ var norskekongehus = {
         friction: 0.6,
         lockToContainer: true,
         clickToConnect: false,
-        charge: -1500,
+        charge: -1000,
         radius: 1,
 
     },
@@ -160,11 +160,10 @@ norskekongehus.orderByBorn = function () {
         return (aParam == bParam) ? 0 : (aParam > bParam) ? 1 : -1;
     });
     console.log(orderedNodes);
-    for (var i = 0; i < orderedNodes.length; i++) {
-        orderedNodes[i].py = 100 + (i * 10);
-        orderedNodes[i].px = 100;
-        orderedNodes[i].fixed = false;
-    }
+    orderedNodes[0].py = 10;
+    orderedNodes[0].px = 100;
+    orderedNodes[0].fixed = false;
+
     return orderedNodes;
 }
 
@@ -652,7 +651,7 @@ norskekongehus.makeNorskekongehuset = function () {
 
     norskekongehus.makeTooltipText(norskekongehus.data.nodes);
 
- //   norskekongehus.data.nodes = norskekongehus.orderByBorn();
+    norskekongehus.data.nodes = norskekongehus.orderByBorn();
 
 }
 norskekongehus.settings.linkStrength = function (edge) {
@@ -665,7 +664,7 @@ norskekongehus.settings.linkDistance = function (edge) {
     if (edge.EdgeType == "Couple") {
         return 0.1;
     }
-    return 0.3;
+    return 0.1;
 }
 
 norskekongehus.settings.linkClass = function (edge) {
@@ -707,14 +706,14 @@ norskekongehus.settings.nodeClass = function (d) {
 
 norskekongehus.settings.customTickFunction = function (e, linkData) {
     //A gentle force that pushes sources up and targets down to force a weak tree
-    var k = 20 * e.alpha;
+    var k = -1 * e.alpha;
     linkData.forEach(function (d, i) {       
             if (d.source.Born > d.target.Born) {
-                d.source.y -= k;
-                d.target.y += k;
+                d.source.y -= k * (d.target.Born - d.source.Born);
+                d.target.y += k * (d.target.Born - d.source.Born);
             } else {
-                d.source.y += k;
-                d.target.y -= k;
+                d.source.y += k * (d.source.Born - d.target.Born);
+                d.target.y -= k * (d.source.Born - d.target.Born);
             }
         
     });
