@@ -151,8 +151,14 @@ norskekongehus.makeTooltipText = function () {
 
         nodes[i].TooltipText = t;
     }
+}
 
-
+norskekongehus.orderByBorn = function() {
+    var orderedNodes = norskekongehus.data.nodes.sort(function(a, b) {
+        var aParam = a.Born;
+        var bParam = b.Born;
+        return (aParam == bParam) ? 0 : (aParam > bParam) ? 1 : -1;
+    });
 }
 
 norskekongehus.makeNorskekongehuset = function () {
