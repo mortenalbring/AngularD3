@@ -24,17 +24,20 @@ var norskekongehus = {
 
 norskekongehus.addIfNew = function (Element, fixed) {
     var Name = Element.Name;
-    var Family = Element.Country;
+    var Country = Element.Country;
 
     var ID = norskekongehus.data.nodes.length + 1;
 
     var existing = norskekongehus.data.nodes.filter(function (e) {
-        return (e.Name == Name) && (e.Country == Family);
+        return (e.Name == Name)
+            && (e.Country == Country)
+            && (e.Born == Element.Born)
+            && (e.Died == Element.Died);
     });
     if (existing.length == 0) {
         var newNode = {
             ID: ID, Name: Name,
-            Country: Family,
+            Country: Country,
             Born: Element.Born,
             Died: Element.Died,
             Titles: Element.Titles,
@@ -356,7 +359,7 @@ norskekongehus.constructData = function () {
         Died: 1871
     };
     var Louise2 = {
-        Name: "Louise *",
+        Name: "Louise",
         Country: "Denmark",
         Titles: ["Queen of Denmark", "Princess of Norway and Sweden"],
         House: "Bernadotte",
@@ -409,7 +412,7 @@ norskekongehus.constructData = function () {
         Died: 1935
     };
     var Carl2 = {
-        Name: "Carl *",
+        Name: "Carl",
         Country: "Sweden",
         Titles: ["Prince of Sweden", "Duke of Ostergotland"],
         House: "Bernadotte",
@@ -443,7 +446,7 @@ norskekongehus.constructData = function () {
         Died: 1906
     };
     var Louise3 = {
-        Name: "Louise **",
+        Name: "Louise",
         Country: "Denmark",
         Titles: ["Queen of Denmark", "Princess of Hessen-Kassel"],
         House: "Hesse-Kassel",
@@ -458,8 +461,32 @@ norskekongehus.constructData = function () {
         Born: 1844,
         Died: 1925
     };
+    var Dagmar = {
+        Name: "Dagmar",
+        Country: "Russia",
+        Titles: ["Princess of Denmark", "Empress of All the Russias"],
+        House: "Romanov-Holstein-Gottorp",
+        Born: 1847,
+        Died: 1928
+    }
+    var Thyra = {
+        Name: "Thyra",
+        Country: "Denmark",
+        Titles: ["Princess of Denmark", "Duchess of Cumberland and Teviotdale"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1853,
+        Died: 1933
+    }
+    var Valdemar = {
+        Name: "Valdemar",
+        Country: "Denmark",
+        Titles: ["Prince of Denmark"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1858,
+        Died: 1939
+    }
 
-    norskekongehus.addChildren(ChristianIX, Louise3, [Alexandra, FrederikVIII]);
+    
 
     var EdvardVII = {
         Name: "Edward VII",
@@ -822,7 +849,7 @@ norskekongehus.constructData = function () {
         Died: 1972
     };
 
-    norskekongehus.addChildren(ChristianX, Alexandrine, [FrederikIX,GeorgeI]);
+    norskekongehus.addChildren(ChristianX, Alexandrine, [FrederikIX]);
 
     var MargretheII = {
         Name: "Margrethe II",
@@ -831,7 +858,7 @@ norskekongehus.constructData = function () {
         Born: 1972
     };
     norskekongehus.addChildren(FrederikIX, Ingrid, [MargretheII]);
-
+    norskekongehus.addChildren(ChristianIX, Louise3, [Alexandra, FrederikVIII, GeorgeI,Dagmar,Thyra,Valdemar]);
 
 }
 
