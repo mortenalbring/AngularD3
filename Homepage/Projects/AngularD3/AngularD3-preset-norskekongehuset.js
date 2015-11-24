@@ -222,6 +222,9 @@ norskekongehus.settings.nodeClass = function (d) {
     if (d.Country == "Sweden") {
         return 'node-container-kongehus node-container-sweden';
     }
+    if (d.Country == "Norway and Sweden") {
+        return 'node-container-kongehus node-container-norway-and-sweden';
+    }
     if (d.Country == "Denmark") {
         return 'node-container-kongehus node-container-denmark';
     }
@@ -523,6 +526,61 @@ norskekongehus.constructData = function () {
 
     norskekongehus.addChildren(GeorgeIV, ElizabethBowes, [Elizabeth]);
 
+    var Phillip = {
+        Name: "Phillip",
+        Country: "United Kingdom",
+        Titles: ["Duke of Edinburgh"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1921,
+    }
+    var Charles2 = {
+        Name: "Charles",
+        Country: "United Kingdom",
+        Titles: ["Prince of Wales","Duke of Rothesay"],
+        House: "Windsor",
+        Born: 1948
+    }
+    norskekongehus.addChildren(Elizabeth, Phillip, [Charles2]);
+
+
+    var Andrew = {
+        Name: "Andrew",
+        Country: "Greece",
+        Titles: ["Prince of Greece and Denmark"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1882,
+        Died: 1944
+    }
+    var AliceBattenberg = {
+        Name: "Alice of Battenberg",
+        Country: "Germany",
+        Titles: ["Princess of Greece and Denmark"],
+        House: "Battenberg",
+        Born: 1885,
+        Died: 1969
+    }
+    
+    norskekongehus.addChildren(Andrew, AliceBattenberg, [Phillip]);
+
+
+    var GeorgeI = {
+        Name: "George I",
+        Country: "Greece",
+        Titles: ["King of Greece", "Prince of Schleswig-Holstein-Sonderburg-Glucksburg"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1863,
+        Died: 1913
+    }
+    var Olga = {
+        Name: "Olga Constantinovna",
+        Country: "Greece",
+        Titles: ["Queen of Greece", "Grand Duchess of Russia"],
+        House: "Holstein-Gottorp-Romanov",
+        Born: 1851,
+        Died: 1926
+    }
+
+    norskekongehus.addChildren(GeorgeI, Olga, [Andrew]);
 
     var GustafV = {
         Name: "Gustaf V",
@@ -764,7 +822,7 @@ norskekongehus.constructData = function () {
         Died: 1972
     };
 
-    norskekongehus.addChildren(ChristianX, Alexandrine, [FrederikIX]);
+    norskekongehus.addChildren(ChristianX, Alexandrine, [FrederikIX,GeorgeI]);
 
     var MargretheII = {
         Name: "Margrethe II",
