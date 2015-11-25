@@ -1,4 +1,4 @@
-//Data courtesy of http://www.royalcourt.no/slektstre.html?tid=28695
+//Data courtesy of http://www.royalcourt.no/slektstre.html?tid=28695 with additional information from Wikipedia
 
 var norskekongehus = {
     settings: {
@@ -23,21 +23,24 @@ var norskekongehus = {
 
 
 norskekongehus.addIfNew = function (Element, fixed) {
-    var Name = Element.Name;
-    var Country = Element.Country;
-
+    /// <summary>
+    /// Adds a new nodes to the data.nodes array if it doesn't exist there already, based on its Name, Country, Born and Died values
+    /// </summary>
+    /// <param name="Element" type="type">Element to be added</param>
+    /// <param name="fixed" type="type">Whether the node ought to be 'fixed' in place or not</param>
+    /// <returns type="">Returns the node, either one that is new or one that exists</returns>
     var ID = norskekongehus.data.nodes.length + 1;
 
     var existing = norskekongehus.data.nodes.filter(function (e) {
-        return (e.Name == Name)
-            && (e.Country == Country)
+        return (e.Name == Element.Name)
+            && (e.Country == Element.Country)
             && (e.Born == Element.Born)
             && (e.Died == Element.Died);
     });
     if (existing.length == 0) {
         var newNode = {
-            ID: ID, Name: Name,
-            Country: Country,
+            ID: ID, Name: Element.Name,
+            Country: Element.Country,
             Born: Element.Born,
             Died: Element.Died,
             Titles: Element.Titles,
@@ -207,7 +210,7 @@ norskekongehus.settings.linkDistance = function (edge) {
     if (edge.EdgeType == "Couple") {
         return 0.1;
     }
-    return 0.1;
+    return 0.2;
 }
 
 norskekongehus.settings.linkClass = function (edge) {
@@ -218,32 +221,43 @@ norskekongehus.settings.linkClass = function (edge) {
 }
 
 norskekongehus.settings.nodeClass = function (d) {
+    var base = 'node-container-kongehus';
+    var output = base;
 
     if (d.Country == "Norway") {
-        return 'node-container-kongehus node-container-norway';
+        output = base + ' node-container-norway';
     }
     if (d.Country == "Sweden") {
-        return 'node-container-kongehus node-container-sweden';
+        output = base + ' node-container-sweden';
     }
     if (d.Country == "Norway and Sweden") {
-        return 'node-container-kongehus node-container-norway-and-sweden';
+        output = base + ' node-container-norway-and-sweden';
     }
     if (d.Country == "Denmark") {
-        return 'node-container-kongehus node-container-denmark';
+        output = base + ' node-container-denmark';
     }
     if (d.Country == "Germany") {
-        return 'node-container-kongehus node-container-germany';
+        output = base + ' node-container-germany';
     }
     if (d.Country == "United Kingdom") {
-        return 'node-container-kongehus node-container-united-kingdom';
+        output = base + ' node-container-united-kingdom';
     }
 
-    return 'node-container-kongehus node-container-kongehus-default';
+    if (output == base) {
+        output = base + ' node-container-kongehus-default'
+    }
+
+    if (d.Died) {
+        output = output + ' dead';
+    } else {
+        output = output + ' alive';
+    }
+    return output;
 },
 
 norskekongehus.settings.customTickFunction = function (e, linkData) {
     //A gentle force that pushes sources up and targets down to force a weak tree
-    var k = 20 * e.alpha;
+    var k = 6 * e.alpha;
     linkData.forEach(function (d, i) {       
             if (d.source.Born > d.target.Born) {
                 d.source.y -= k;
@@ -251,8 +265,7 @@ norskekongehus.settings.customTickFunction = function (e, linkData) {
             } else {
                 d.source.y += k;
                 d.target.y -= k;
-            }
-        
+            }             
     });
 
 }
@@ -855,10 +868,10 @@ norskekongehus.constructData = function () {
         Name: "Margrethe II",
         Country: "Denmark",
         House: "Schleswig-Holstein-Sonderburg-Glucksburg",
-        Born: 1972
+        Born: 1940
     };
     norskekongehus.addChildren(FrederikIX, Ingrid, [MargretheII]);
     norskekongehus.addChildren(ChristianIX, Louise3, [Alexandra, FrederikVIII, GeorgeI,Dagmar,Thyra,Valdemar]);
-
+    
 }
 

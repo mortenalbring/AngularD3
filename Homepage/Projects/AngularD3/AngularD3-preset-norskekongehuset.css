@@ -17,6 +17,7 @@
 .node-container-kongehus:hover {    
     cursor:pointer;
     font-weight:800;
+    opacity:1;
 }
 
 .node-container-norway {
@@ -36,6 +37,13 @@
 }
 .node-container-united-kingdom {
     fill:#37048b;
+}
+
+.dead {    
+    opacity:0.7;
+}
+.alive {    
+    font-weight:500;
 }
 
 
