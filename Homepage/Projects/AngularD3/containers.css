@@ -8,6 +8,13 @@ body {
     flex-wrap:wrap;    
 }
 
+.item-left {
+    width:30%;
+}
+.item-right {
+    width:70%;
+}
+
 .item {    
     width:45%;
     padding: 1em;
