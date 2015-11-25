@@ -26,9 +26,9 @@ norskekongehus.addIfNew = function (Element, fixed) {
     /// <summary>
     /// Adds a new nodes to the data.nodes array if it doesn't exist there already, based on its Name, Country, Born and Died values
     /// </summary>
-    /// <param name="Element" type="type">Element to be added</param>
-    /// <param name="fixed" type="type">Whether the node ought to be 'fixed' in place or not</param>
-    /// <returns type="">Returns the node, either one that is new or one that exists</returns>
+    /// <param name="Element" type="obj">Element to be added</param>
+    /// <param name="fixed" type="bool">Whether the node ought to be 'fixed' in place or not</param>
+    /// <returns type="obj">Returns the node, either one that is new or one that exists</returns>
     var ID = norskekongehus.data.nodes.length + 1;
 
     var existing = norskekongehus.data.nodes.filter(function (e) {
@@ -65,11 +65,19 @@ norskekongehus.addIfNew = function (Element, fixed) {
 
 
 norskekongehus.addChildren = function (parent1, parent2, children, fixParent1, fixParent2) {
+    /// <summary>
+    /// General method for adding data to the nodes and edges arrays, based on relationships. 
+    /// If the nodes already exist, then just new edges are created. If not, then new nodes and new edges are created.
+    /// </summary>
+    /// <param name="parent1" type="obj">First parent object</param>
+    /// <param name="parent2" type="obj">Second parent object</param>
+    /// <param name="children" type="array">Array of children</param>
+    /// <param name="fixParent1" type="bool">Whether parent 1 ought to be fixed in place</param>
+    /// <param name="fixParent2" type="bool">Whether parent 2 ought to be fixed in place</param>
     var startId = norskekongehus.data.nodes.length;
 
     var parent1Node = norskekongehus.addIfNew(parent1, fixParent1);
     var parent2Node = norskekongehus.addIfNew(parent2, fixParent2);
-
     var existingEdge = norskekongehus.data.edges.filter(function (e) {
         return e.StartNode == parent1Node.ID && e.EndNode == parent2Node.ID
     });
@@ -82,9 +90,7 @@ norskekongehus.addChildren = function (parent1, parent2, children, fixParent1, f
 
     for (var i = 0; i < children.length; i++) {
         var newNode = norskekongehus.addIfNew(children[i]);
-        //var newNode = { ID: startId + i, Name: childrenNames[i] };
 
-        //norskekongehus.data.nodes.push(newNode);
         var newEdge1 = { StartNode: parent1Node.ID, EndNode: newNode.ID }
         norskekongehus.data.edges.push(newEdge1);
 
@@ -97,34 +103,39 @@ norskekongehus.addChildren = function (parent1, parent2, children, fixParent1, f
 }
 
 norskekongehus.makeTooltipText = function () {
+    /// <summary>
+    /// Constructs the tooltip (hover) text information about the element
+    /// Each node gets an array of information that is displayed, each element on a new line
+    /// </summary>
     var nodes = norskekongehus.data.nodes;
     var edges = norskekongehus.data.edges;
 
     for (var i = 0; i < nodes.length; i++) {
         var t = [];
+        
+        //On the first line, we have the individuals name and birth (and death) years
         var nodeName = nodes[i].Name + " (" + nodes[i].Born + " - ";
-
         if (nodes[i].Died) {
             nodeName = nodeName + nodes[i].Died;
         }
         nodeName = nodeName + ")";
-
         t.push(nodeName);
 
+        //On the next line, we have their titles
         if (nodes[i].Titles) {
             var titles = nodes[i].Titles.join(", ");
             t.push(titles);
         }
 
+        //Then we have their House (e.g, 'House of Schleswig-Holstein-Sonderburg-Glucksburg')
         if (nodes[i].House) {
             t.push("House of " + nodes[i].House);
         }
 
-
+        //Then we find the edges with EdgeType 'couple' and insert a line indicating the names of their spouse(s)
         var spouseEdges = edges.filter(function (e) {
             return (e.EdgeType == "Couple" && (e.StartNode == nodes[i].ID || e.EndNode == nodes[i].ID));
         });
-
         var spouseID = 0;
         for (var j = 0; j < spouseEdges.length; j++) {
 
@@ -138,10 +149,10 @@ norskekongehus.makeTooltipText = function () {
             if (spouseNodes.length > 0) {
                 t.push("Married to " + spouseNodes[0].Name + " - " + spouseNodes[0].Country);
             }
-
         }
-        var childrenNames = [];
 
+        //Then we find the edges without the EdgeType 'couple' and insert a line indicating the names of their children
+        var childrenNames = [];
         var childrenEdges = edges.filter(function (e) {
             return (e.EdgeType != "Couple" && (e.StartNode == nodes[i].ID || (e.StartNode == spouseID)));
         })
@@ -156,17 +167,9 @@ norskekongehus.makeTooltipText = function () {
         if (childrenNames.length > 0) {
             t.push("Children : " + childrenNames.join(", "));
         }
-
+        //And then attach that array to be displayed as a tooltip on hover over the node
         nodes[i].TooltipText = t;
     }
-}
-
-norskekongehus.orderByBorn = function () {
-    var orderedNodes = norskekongehus.data.nodes.sort(function (a, b) {
-        var aParam = a.Born;
-        var bParam = b.Born;
-        return (aParam == bParam) ? 0 : (aParam > bParam) ? 1 : -1;
-    });    
 }
 
 
@@ -176,29 +179,7 @@ norskekongehus.makeNorskekongehuset = function () {
 
     norskekongehus.makeTooltipText(norskekongehus.data.nodes);
 
-    var temphouses = [];
-    for (var i = 0; i < norskekongehus.data.nodes.length; i++) {
-        console.log(norskekongehus.data.nodes[i]);
-        if (norskekongehus.data.nodes[i].House) {        
-            var indx = temphouses.indexOf(norskekongehus.data.nodes[i].House);
-            if (indx === -1) {
-                temphouses.push(norskekongehus.data.nodes[i].House);
-            }
-        }
-    }
-
-    for (var i = 0; i < temphouses.length; i++) {
-        var nodecount = norskekongehus.data.nodes.filter(function (e) {
-            return e.House == temphouses[i];
-        });
-
-        console.log(temphouses[i] + " " + nodecount.length)
-
-    }
-    //console.log(temphouses);
-
-   // norskekongehus.data.nodes = norskekongehus.orderByBorn();
-
+  
 }
 norskekongehus.settings.linkStrength = function (edge) {
     if (edge.EdgeType == "Couple") {
@@ -214,6 +195,11 @@ norskekongehus.settings.linkDistance = function (edge) {
 }
 
 norskekongehus.settings.linkClass = function (edge) {
+    /// <summary>
+    /// Sets the appropriate CSS class based on certain properties of the edge
+    /// </summary>
+    /// <param name="edge" type="type">Edge</param>
+    /// <returns type="">CSS class name</returns>
     if (edge.EdgeType == "Couple") {
         return "link-couple";
     }
@@ -221,6 +207,11 @@ norskekongehus.settings.linkClass = function (edge) {
 }
 
 norskekongehus.settings.nodeClass = function (d) {
+    /// <summary>
+    /// Sets the appropriate CSS class based on certain properties of the node
+    /// </summary>
+    /// <param name="d" type="type">Node</param>
+    /// <returns type="">CSS class name</returns>
     var base = 'node-container-kongehus';
     var output = base;
 
@@ -272,6 +263,12 @@ norskekongehus.settings.customTickFunction = function (e, linkData) {
 
 
 norskekongehus.constructData = function () {
+    /// <summary>
+    /// This constructs all the data about the kings, queens, princes, princesses and other minor royals of Europe. 
+    /// This is not a complete list of all the children of all the individuals, only a select list of those that made 
+    /// interesting connections to other royal houses starting from Carl II Johan. 
+    /// This took quite a long time to compile, but was pretty fun! Christian IX is like the root node of Europe. 
+    /// </summary>
 
     norskekongehus.data.nodes = [];
     norskekongehus.data.edges = [];
