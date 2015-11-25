@@ -12,13 +12,47 @@ body {
     width:30%;
 }
 .item-right {
-    width:70%;
+    width:65%;
 }
 
 .item {    
     width:45%;
     padding: 1em;
 }
+
+.presets-list {
+    width:50%;
+        padding-left:0;
+}
+.presets-list li {
+    list-style:none;        
+}
+.presets-list li a {
+    background:#1d22e9;    
+    color:#fff;
+    margin:0.5em;
+    padding:0.3em;
+    border:1px solid;
+    border-color: #060d72;
+    border-radius:5px;
+    font-size:0.8em;
+    display: block;    
+    cursor:pointer;
+}
+.presets-list li a:hover {
+    transition:0.1s;
+    background: #38c101;
+    border-color: #2b8f02;
+    
+    color:#fff;
+}
+
+.control-bar {
+    background: #e8e8e8;
+    border-right: 1px solid #000;
+    
+}
+
 
 .graph-data-table {       
     width:80%; 
@@ -33,6 +67,7 @@ body {
 
 .graph-data-table th,td {
     padding-left:0.5em;
+    font-size:0.8em;
 }
 
 .graph-data-table th {
@@ -50,7 +85,7 @@ body {
 
 #graph-container {
     margin-top:2em;
-    width:600px;
+    width:80%;
     height:600px;
     border:1px solid;
     background:#f6f6f6;

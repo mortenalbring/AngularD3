@@ -16,35 +16,35 @@
             <h1>Angular with D3</h1>
             
             <div class="container">
-                <div class="item-left">
+                <div class="item-left control-bar">
                     <strong>Preset arrangements</strong>
-                    <ul>
+                    <ul class="presets-list">
                         <li>
-                            <button ng-click="randomise()">Randomise!</button>
+                            <a ng-click="randomise()">Randomise!</a>
                         </li>
                         <li>
-                            <button ng-click="drawSquareLattice()">Square lattice</button>
+                            <a ng-click="drawSquareLattice()">Square lattice</a>
                         </li>
                         <li>
-                            <button ng-click="drawGraphene()">Hexagonal lattice</button>
+                            <a ng-click="drawGraphene()">Hexagonal lattice</a>
                         </li>
                         <li>
-                            <button ng-click="drawCube()">Cube</button>
+                            <a ng-click="drawCube()">Cube</a>
                         </li>
                         <li>
-                            <button ng-click="drawSphere()">Sphere</button>
+                            <a ng-click="drawSphere()">Sphere</a>
                         </li>
                         <li>
-                            <button ng-click="drawMultipleCubes()">Multiple cubes</button>
+                            <a ng-click="drawMultipleCubes()">Multiple cubes</a>
                         </li>
                         <li>
-                            <button ng-click="drawDNA()">DNA</button>
+                            <a ng-click="drawDNA()">DNA</a>
                         </li>
                         <li>
-                            <button ng-click="drawWindsors()">British monarchy</button>
+                            <a ng-click="drawWindsors()">British monarchy</a>
                         </li>
                         <li>
-                            <button ng-click="drawNorskeKongehuset()">Norwegian monarchy</button>
+                            <a ng-click="drawNorskeKongehuset()">Norwegian monarchy</a>
                         </li>
                     </ul>
 
@@ -195,7 +195,10 @@
                             <input type="radio" ng-model="settings.lockToContainer" data-ng-value="false" ng-change="drawGraph()" />
                             Off
                         </label>
+                        
                     </div>
+                    <button ng-click="drawGraph()">Redraw graph</button>
+                    
 
 
 
@@ -267,7 +270,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <button ng-click="drawGraph()">Redraw graph</button>
+                           
                         </div>
                     </div>
                 </div>

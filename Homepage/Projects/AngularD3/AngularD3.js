@@ -79,7 +79,7 @@ myApp.controller("HomeController", function ($scope) {
 
 
     $scope.graph = {
-        width: 600,
+        width: parseInt(d3.select('#graph-container').style('width'),10),
         height: 600,
         margin: 30,
         svg: null,
@@ -310,6 +310,11 @@ myApp.controller("HomeController", function ($scope) {
     }
 
     $scope.drawGraph();
+    
+
+    function resize() {
+        console.log("moop");
+    }
 
     function makeEdges(StartNodeID, EndNodeID) {
         var newEdge = {
@@ -330,6 +335,8 @@ myApp.controller("HomeController", function ($scope) {
         if ($scope.graph.force) {
             $scope.graph.force.stop();
         }
+
+        $scope.graph.width = parseInt(d3.select('#graph-container').style('width'), 10),
 
 
         $scope.graph.data.linkData = linksIndexes($scope.graph.data.edges, $scope.graph.data.nodes);
