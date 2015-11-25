@@ -85,12 +85,32 @@ myApp.controller("HomeController", function ($scope) {
         svg: null,
         force: null,
         data: {
-            nodes: [{ ID: 1, Name: "Test Node 1" },
-                { ID: 2, Name: 'Test Node 2' },
-                { ID: 3, Name: 'Test Node 3' },
-                { ID: 4, Name: 'Test Node 4' },
-                { ID: 5, Name: 'Test Node 5' },
-                { ID: 6, Name: 'Test Node 6' },
+            nodes: [{
+                ID: 1,
+                Name: "Test Node 1",
+                TooltipText: "Test Node 1"
+            },
+                {
+                    ID: 2,
+                    Name: 'Test Node 2',
+                    TooltipText: ["Test Node 2","Test 1", "Test 2", "Test 3"]
+                },
+                {
+                    ID: 3,
+                    Name: 'Test Node 3'
+                },
+                {
+                    ID: 4,
+                    Name: 'Test Node 4'
+                },
+                {
+                    ID: 5,
+                    Name: 'Test Node 5'
+                },
+                {
+                    ID: 6,
+                    Name: 'Test Node 6'
+                },
             ],
 
             edges: [{ StartNode: 1, EndNode: 2 },
@@ -140,6 +160,17 @@ myApp.controller("HomeController", function ($scope) {
             }
         }
         drawGraph();
+    }
+
+    $scope.drawNorskeKongehuset = function() {
+        norskekongehus.makeNorskekongehuset();
+
+        $scope.graph.data = angular.copy(norskekongehus.data);
+
+        $scope.settings = angular.copy(checkCustomSettings(norskekongehus.settings));
+        drawGraph();
+
+
     }
 
     $scope.drawWindsors = function () {
@@ -274,13 +305,8 @@ myApp.controller("HomeController", function ($scope) {
     }
 
 
-
-
     $scope.drawGraph = function () {
-
-
         drawGraph();
-
     }
 
     $scope.drawGraph();
@@ -300,7 +326,6 @@ myApp.controller("HomeController", function ($scope) {
     }
 
     function drawGraph() {
-
         d3.select("svg").remove();
         if ($scope.graph.force) {
             $scope.graph.force.stop();
@@ -386,13 +411,72 @@ myApp.controller("HomeController", function ($scope) {
                 })
             }
         }
+
+        // Generates a tooltip for a SVG circle element based on its ID
+        function addTooltip(container) {
+            if (!container.TooltipText) {return;}
+            
+
+            var x = parseFloat(container.x);
+            var y = parseFloat(container.y);
+           
+           
+            //If the node is quite high up, we shift it down a bit
+            //Otherwise, we shift it up a bit. This is because we don't want to the tooltip covering the node itself
+            if (y < 120) {
+                y = y + 100;
+            } else {
+                y = y - 100;
+            }
+            //If the node is more than halfway across the graph, we shift the tooltip across a bit
+            //to make sure it doesn't overflow outside the container. Probably a more elegant way of doing this
+            if (x > ($scope.graph.width / 2)) {
+                x = (x / 2);
+            }
+            var tooltip = d3.select(".svg-container")
+                .append("text")                
+                .attr("x", x)
+                .attr("y", y)                
+                .attr("id", "tooltip");
+
+            //If the tooltip text is an array, we iterate through and put in some tspans for each element for a new 'line'.
+            //Otherwise we just put it as the text propery of the tooltip
+            if (!Array.isArray(container.TooltipText)) {                
+                tooltip.text(container.TooltipText);
+            } else {                
+                for (var i = 0; i < container.TooltipText.length; i++) {                    
+                    tooltip.append("tspan").text(container.TooltipText[i]).attr("x",x).attr("dy","1.2em");
+
+                }
+            }
+            
+            //This draws the rectangle behind the tooltip as a 'border'            
+            var bbox = tooltip.node().getBBox();
+            var padding = 2;
+            d3.select(".svg-container")
+                .insert("rect","#tooltip")
+                .attr("x", bbox.x - padding)
+                .attr("y", bbox.y - padding)
+                .attr("width", bbox.width + (padding * 2))
+                .attr("height", bbox.height + (padding * 2))                
+                .attr("id", "tooltip-container");                
+
+        }
+
         function mouseover(d) {
+
+            addTooltip(d);
+
             $scope.$apply(function () {
                 $scope.highlightConnectedNodes(d.ID);
             })
             d3.select(this).select("circle").transition().duration(750).attr("r", $scope.settings.radius * 2);
         }
         function mouseout() {
+
+            d3.select("#tooltip").remove();
+            d3.select("#tooltip-container").remove();
+
             $scope.$apply(function () {
                 $scope.clearHighlights();
             })

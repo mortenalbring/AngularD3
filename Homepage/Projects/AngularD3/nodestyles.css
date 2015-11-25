@@ -35,3 +35,14 @@
     stroke: #777;
     stroke-width: 2px;
 }
+
+#tooltip {
+    font-size: 8pt;
+    font-weight: 400;
+
+    fill: #fff;
+}
+
+#tooltip-container {
+    fill:#2529fb;        
+}
