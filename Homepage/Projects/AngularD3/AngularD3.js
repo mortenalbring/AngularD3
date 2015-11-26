@@ -130,7 +130,7 @@ myApp.controller("HomeController", function ($scope) {
 
     $scope.preset = {};
 
-    $scope.preset.select = {};
+    
     $scope.preset.options = [{
         ID: 1,
         Title: "Randomise!",
@@ -194,24 +194,17 @@ myApp.controller("HomeController", function ($scope) {
                 $scope.drawNorskeKongehuset();
             }
         },
-
-
-
-
-
-
-
-
     ]
+
+    $scope.preset.select = $scope.preset.options[0];
 
 
 
 
 
     $scope.changePreset = function () {
-        console.log($scope.preset.select);
 
-        var match = $scope.preset.options.filter(function (e) { return e.ID == $scope.preset.select });
+        var match = $scope.preset.options.filter(function (e) { return e.ID == $scope.preset.select.ID });
 
         if (match.length == 0) { return; }
 

@@ -3,25 +3,27 @@
 <head>
     <meta charset='utf-8'>
 
-    <link rel="stylesheet" href="containers.css" />
-    <link rel="stylesheet" href="nodestyles.css" />
-    <link rel="stylesheet" href="AngularD3-preset-windsors.css" />
-    <link rel="stylesheet" href="AngularD3-preset-norskekongehuset.css" />
+    <link rel="stylesheet" href="styles/containers.css" />
+    <link rel="stylesheet" href="styles/nodestyles.css" />
+    <link rel="stylesheet" href="presets/AngularD3-preset-windsors.css" />
+    <link rel="stylesheet" href="presets/AngularD3-preset-norskekongehuset.css" />
     <style>
     </style>
 </head>
-<body>
-    <div ng-app="myApp">
-        <div ng-controller="HomeController">
-            <h1>Angular with D3</h1>
-            
+<body ng-app="myApp">    
+        <div ng-controller="HomeController">                       
             <div class="container">
                 <div class="item-left control-bar">
+                    <h1>Angular with D3</h1>
                     <strong>Preset arrangements</strong>
                     <br />
 
-                    <select ng-model="preset.select" ng-change="changePreset()" data-ng-attr-size="{{preset.options.length+1}}">                        
-                        <option ng-repeat="option in preset.options" value="{{option.ID}}">{{option.Title}}</option>
+                    <select class="preset-select"
+                             ng-model="preset.select"
+                             ng-change="changePreset()" 
+                            data-ng-attr-size="{{preset.options.length+1}}"
+                            ng-options="option.Title for option in preset.options track by option.ID"
+                            >                                                
                     </select>
 
                     
@@ -253,13 +255,9 @@
                     </div>
                 </div>
 
+                <div class="item-right">                   
+                    <div id="graph-container"></div>
 
-
-
-
-
-
-                <div class="item-right">
                     <span ng-if="clicked.StartNode">
                         Click on a node to connect to {{clicked.StartNode.Name}} [{{clicked.StartNode.ID}}]
                     </span>
@@ -269,24 +267,21 @@
                     <span ng-if="!clicked.StartNode && !settings.clickToConnect">
                         Click and drag nodes to move them around
                     </span>
-
-                    <div id="graph-container"></div>
                 </div>
             </div>
         </div>
-
-    </div>
+    
     <script src="packages/angular.min.js"></script>
     <script src='packages/d3.min.js'></script>
-    <script src="AngularD3-preset-graphene.js"></script>
-    <script src="AngularD3-preset-graphene-auto.js"></script>
-    <script src="AngularD3-preset-cube.js"></script>
-    <script src="AngularD3-preset-sphere.js"></script>
-    <script src="AngularD3-preset-DNA.js"></script>
-    <script src="AngularD3-preset-multiplecubes.js"></script>
-    <script src="AngularD3-preset-square-lattice.js"></script>
-    <script src="AngularD3-preset-windsors.js"></script>
-    <script src="AngularD3-preset-norskekongehuset.js"></script>
+    <script src="presets/AngularD3-preset-graphene.js"></script>
+    <script src="presets/AngularD3-preset-graphene-auto.js"></script>
+    <script src="presets/AngularD3-preset-cube.js"></script>
+    <script src="presets/AngularD3-preset-sphere.js"></script>
+    <script src="presets/AngularD3-preset-DNA.js"></script>
+    <script src="presets/AngularD3-preset-multiplecubes.js"></script>
+    <script src="presets/AngularD3-preset-square-lattice.js"></script>
+    <script src="presets/AngularD3-preset-windsors.js"></script>
+    <script src="presets/AngularD3-preset-norskekongehuset.js"></script>
 
     <script src="AngularD3.js"></script>
 </body>

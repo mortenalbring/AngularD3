@@ -1,11 +1,12 @@
 body {
     background:#fffdf8;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+margin:0;
 }
 
 .container {
     display:flex;
-    flex-wrap:wrap;    
+    flex-wrap:wrap;        
 }
 
 .item-left {
@@ -20,8 +21,13 @@ body {
     padding: 1em;
 }
 
+.preset-select {
+    width:100%;        
+}
+
 
 .control-bar {
+    padding:0.3em;
     background: #e8e8e8;
     border-right: 1px solid;
     border-top: 1px solid;
