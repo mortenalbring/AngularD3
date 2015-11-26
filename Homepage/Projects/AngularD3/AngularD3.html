@@ -17,238 +17,253 @@
             <div class="item-left control-bar">
                 <h1>Angular with D3</h1>
 
-                <strong>Preset arrangements</strong>
-                <br />
-
-                <select class="preset-select"
-                        ng-model="preset.select"
-                        ng-change="changePreset()"
-                        data-ng-attr-size="{{preset.options.length}}"
-ng-options="option.Title for option in preset.options track by option.ID"></select>
-
-
-                <table class="settings-control-table">
-                    <tr>
-                        <td>
-                            <span title="Distance between nodes. The distances are weak geometric constraints that tend towards the desired value. ">
-                                Link distance <i>?</i>
-                            </span>
-                        </td>
-                        <td>
-                            <button ng-click="increaseLinkDistance(-1)"
-                                    ng-disabled="!isNumeric(settings.linkDistance)">
-                                -
-                            </button>
-                            <input ng-model="settings.linkDistance"
-                                   ng-disabled="!isNumeric(settings.linkDistance)"
-                                   ng-change="drawGraph()" />
-                            <button ng-click="increaseLinkDistance(1)"
-                                    ng-disabled="!isNumeric(settings.linkDistance)">
-                                +
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span title="Rigidity of links between nodes. Values between 0 and 1.">
-                                Link strength <i>?</i>
-                            </span>
-                        </td>
-                        <td>
-                            <button ng-click="increaseLinkStrength(-0.1)"
-                                    ng-disabled="!isNumeric(settings.linkStrength)">
-                                -
-                            </button>
-                            <input ng-model="settings.linkStrength"
-                                   ng-change="drawGraph()"
-                                   ng-disabled="!isNumeric(settings.linkStrength)" />
-                            <button ng-click="increaseLinkStrength(0.1)"
-                                    ng-disabled="!isNumeric(settings.linkStrength)">
-                                +
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span title="How much node movements are slowed down. Values are between 0 (nodes frozen in place) and 1 (frictionless)">
-                                Friction <i>?</i>
-                            </span>
-                        </td>
-                        <td>
-                            <button ng-click="increaseFriction(-0.1)"
-                                    ng-disabled="!isNumeric(settings.friction)">
-                                -
-                            </button>
-                            <input ng-model="settings.friction"
-                                   ng-change="drawGraph()"
-                                   ng-disabled="!isNumeric(settings.friction)" />
-                            <button ng-click="increaseFriction(0.1)"
-                                    ng-disabled="!isNumeric(settings.friction)">
-                                +
-                            </button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <span title="How much nodes repel or attract eachother. Negative values cause repulsion, positive values cause attraction">
-                                Charge <i>?</i>
-                            </span>
-                        </td>
-                        <td>
-                            <button ng-click="increaseCharge(-10)"
-                                    ng-disabled="!isNumeric(settings.charge)">
-                                -
-                            </button>
-                            <input ng-model="settings.charge"
-                                   ng-change="drawGraph()"
-                                   ng-disabled="!isNumeric(settings.charge)" />
-                            <button ng-click="increaseCharge(10)"
-                                    ng-disabled="!isNumeric(settings.charge)">
-                                +
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span title="A weak force that pulls nodes towards the centre of the graph">
-                                Gravity <i>?</i>
-                            </span>
-                        </td>
-                        <td>
-                            <button ng-click="increaseGravity(-0.1)"
-                                    ng-disabled="!isNumeric(settings.gravity)">
-                                -
-                            </button>
-                            <input ng-model="settings.gravity"
-                                   ng-disabled="!isNumeric(settings.gravity)"
-                                   ng-change="drawGraph()" />
-                            <button ng-click="increaseGravity(0.1)"
-                                    ng-disabled="!isNumeric(settings.gravity)">
-                                +
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span title="How big the node circles are">
-                                Node radius <i>?</i>
-                            </span>
-                        </td>
-                        <td>
-                            <button ng-click="increaseRadius(-1)"
-                                    ng-disabled="!isNumeric(settings.radius)">
-                                -
-                            </button>
-                            <input ng-model="settings.radius"
-                                   ng-change="drawGraph()"
-                                   ng-disabled="!isNumeric(settings.radius)" />
-                            <button ng-click="increaseRadius(1)"
-                                    ng-disabled="!isNumeric(settings.radius)">
-                                +
-                            </button>
-                        </td>
-                    </tr>
-
-                </table>
-
-                <div>
-                    <span>Click nodes to connect together</span>
-                    <label>
-                        <input type="radio" ng-model="settings.clickToConnect" data-ng-value="true" />
-                        On
-                    </label>
-                    <label>
-                        <input type="radio" ng-model="settings.clickToConnect" data-ng-value="false" />
-                        Off
-                    </label>
-                </div>
-                <div>
-                    <span>Prevent nodes from going outside the containing box</span>
-                    <label>
-                        <input type="radio" ng-model="settings.lockToContainer" data-ng-value="true" ng-change="drawGraph()" />
-                        On
-                    </label>
-                    <label>
-                        <input type="radio" ng-model="settings.lockToContainer" data-ng-value="false" ng-change="drawGraph()" />
-                        Off
-                    </label>
+                <div class="options-container">
+                    <h2>Preset arrangements</h2>
+                    <select class="preset-select"
+                            ng-model="preset.select"
+                            ng-change="changePreset()"
+                            data-ng-attr-size="{{preset.options.length}}"
+                            ng-options="option.Title for option in preset.options track by option.ID"></select>
 
                 </div>
                 <button ng-click="drawGraph()">Redraw graph</button>
+                <button ng-show="!display.showSettings" 
+                        ng-click="display.showSettings=true;display.showNodesTable=false">Show settings</button>
+                <button ng-show="!display.showNodesTable"
+                        ng-click="display.showSettings=false;display.showNodesTable=true">Show nodes table</button>
+
+                <div ng-show="display.showSettings">
 
 
+                    <div class="options-container">
+                        <h2>Graph settings</h2>
+                        <table class="settings-control-table">
+                            <tr>
+                                <td>
+                                    <span title="Distance between nodes. The distances are weak geometric constraints that tend towards the desired value. ">
+                                        Link distance <i>?</i>
+                                    </span>
+                                </td>
+                                <td>
+                                    <button ng-click="increaseLinkDistance(-1)"
+                                            ng-disabled="!isNumeric(settings.linkDistance)">
+                                        -
+                                    </button>
+                                    <input ng-model="settings.linkDistance"
+                                           ng-disabled="!isNumeric(settings.linkDistance)"
+                                           ng-change="drawGraph()" />
+                                    <button ng-click="increaseLinkDistance(1)"
+                                            ng-disabled="!isNumeric(settings.linkDistance)">
+                                        +
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span title="Rigidity of links between nodes. Values between 0 and 1.">
+                                        Link strength <i>?</i>
+                                    </span>
+                                </td>
+                                <td>
+                                    <button ng-click="increaseLinkStrength(-0.1)"
+                                            ng-disabled="!isNumeric(settings.linkStrength)">
+                                        -
+                                    </button>
+                                    <input ng-model="settings.linkStrength"
+                                           ng-change="drawGraph()"
+                                           ng-disabled="!isNumeric(settings.linkStrength)" />
+                                    <button ng-click="increaseLinkStrength(0.1)"
+                                            ng-disabled="!isNumeric(settings.linkStrength)">
+                                        +
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span title="How much node movements are slowed down. Values are between 0 (nodes frozen in place) and 1 (frictionless)">
+                                        Friction <i>?</i>
+                                    </span>
+                                </td>
+                                <td>
+                                    <button ng-click="increaseFriction(-0.1)"
+                                            ng-disabled="!isNumeric(settings.friction)">
+                                        -
+                                    </button>
+                                    <input ng-model="settings.friction"
+                                           ng-change="drawGraph()"
+                                           ng-disabled="!isNumeric(settings.friction)" />
+                                    <button ng-click="increaseFriction(0.1)"
+                                            ng-disabled="!isNumeric(settings.friction)">
+                                        +
+                                    </button>
+                                </td>
+                            </tr>
 
-
-                <div class="container">
-                    <div class="item">
-                        <h2>Nodes</h2>
-                        <small>
-                            Highlight nodes in the table to see connected nodes and click on nodes to connect them together.
-                            You can also add new nodes using the input boxes. Leave the ID or Name fields blank to autogenerate values.
-                        </small>
-                        <br />
-
-                        <input ng-model="newID" placeholder="ID (blank to autogenerate)">
-                        <input ng-model="newName" placeholder="Name (blank to autogenerate)">
-                        <button ng-click="addNode(newID,newName)">Add node</button>
-                        <table class="graph-data-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="node in graph.data.nodes"
-                                    class="node-select"
-                                    ng-mouseover="highlightConnectedNodes(node.ID)"
-                                    ng-mouseout="clearHighlights()"
-                                    ng-click="setClickedNode(node)"
-                                    ng-class="{'node-clicked' : node.clicked,
-                                'node-highlight' : node.highlight}">
-                                    <td>
-                                        {{node.ID}}
-                                    </td>
-                                    <td>
-                                        {{node.Name}}
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tr>
+                                <td>
+                                    <span title="How much nodes repel or attract eachother. Negative values cause repulsion, positive values cause attraction">
+                                        Charge <i>?</i>
+                                    </span>
+                                </td>
+                                <td>
+                                    <button ng-click="increaseCharge(-10)"
+                                            ng-disabled="!isNumeric(settings.charge)">
+                                        -
+                                    </button>
+                                    <input ng-model="settings.charge"
+                                           ng-change="drawGraph()"
+                                           ng-disabled="!isNumeric(settings.charge)" />
+                                    <button ng-click="increaseCharge(10)"
+                                            ng-disabled="!isNumeric(settings.charge)">
+                                        +
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span title="A weak force that pulls nodes towards the centre of the graph">
+                                        Gravity <i>?</i>
+                                    </span>
+                                </td>
+                                <td>
+                                    <button ng-click="increaseGravity(-0.1)"
+                                            ng-disabled="!isNumeric(settings.gravity)">
+                                        -
+                                    </button>
+                                    <input ng-model="settings.gravity"
+                                           ng-disabled="!isNumeric(settings.gravity)"
+                                           ng-change="drawGraph()" />
+                                    <button ng-click="increaseGravity(0.1)"
+                                            ng-disabled="!isNumeric(settings.gravity)">
+                                        +
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span title="How big the node circles are">
+                                        Node radius <i>?</i>
+                                    </span>
+                                </td>
+                                <td>
+                                    <button ng-click="increaseRadius(-1)"
+                                            ng-disabled="!isNumeric(settings.radius)">
+                                        -
+                                    </button>
+                                    <input ng-model="settings.radius"
+                                           ng-change="drawGraph()"
+                                           ng-disabled="!isNumeric(settings.radius)" />
+                                    <button ng-click="increaseRadius(1)"
+                                            ng-disabled="!isNumeric(settings.radius)">
+                                        +
+                                    </button>
+                                </td>
+                            </tr>
                         </table>
                     </div>
-                    <div class="item">
-                        <h2>Edges</h2>
-                        <small>This shows which nodes are currently connected together. You can manually connect nodes by creating a new edge using the input boxes </small>
 
+                    <div class="options-container">
+                        <small>Click nodes to connect together</small>
                         <br />
 
-                        <input ng-model="newStartNode" placeholder="Start Node ID">
-                        <input ng-model="newEndNode" placeholder="End Node ID">
-                        <button ng-disabled="!newStartNode || !newEndNode"
-                                ng-click="addEdge(newStartNode,newEndNode)">
-                            Add edge
-                        </button>
+                        <label>
+                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="true" />
+                            On
+                        </label>
+                        <label>
+                            <input type="radio" ng-model="settings.clickToConnect" data-ng-value="false" />
+                            Off
+                        </label>
+                    </div>
+                    <div class="options-container">
+                        <small>Prevent nodes from going outside the containing box</small>
+                        <br />
+                        <label>
+                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="true" ng-change="drawGraph()" />
+                            On
+                        </label>
+                        <label>
+                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="false" ng-change="drawGraph()" />
+                            Off
+                        </label>
 
-                        <table class="graph-data-table">
-                            <thead>
-                                <tr>
-                                    <th>Start Node ID</th>
-                                    <th>End Node ID</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="edge in graph.data.edges">
-                                    <td>
-                                        {{edge.StartNode}}
-                                    </td>
-                                    <td>
-                                        {{edge.EndNode}}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    </div>
+                </div>
+               
 
+
+
+                <div ng-show="display.showNodesTable">
+                    <div class="container">
+                        <div class="item">
+                            <h2>Nodes</h2>
+                            <small>
+                                Highlight nodes in the table to see connected nodes and click on nodes to connect them together.
+                                You can also add new nodes using the input boxes. Leave the ID or Name fields blank to autogenerate values.
+                            </small>
+                            <br />
+
+                            <input ng-model="newID" placeholder="ID (blank to autogenerate)">
+                            <input ng-model="newName" placeholder="Name (blank to autogenerate)">
+                            <button ng-click="addNode(newID,newName)">Add node</button>
+                            <table class="graph-data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="node in graph.data.nodes"
+                                        class="node-select"
+                                        ng-mouseover="highlightConnectedNodes(node.ID)"
+                                        ng-mouseout="clearHighlights()"
+                                        ng-click="setClickedNode(node)"
+                                        ng-class="{'node-clicked' : node.clicked,
+                                'node-highlight' : node.highlight}">
+                                        <td>
+                                            {{node.ID}}
+                                        </td>
+                                        <td>
+                                            {{node.Name}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="item">
+                            <h2>Edges</h2>
+                            <small>This shows which nodes are currently connected together. You can manually connect nodes by creating a new edge using the input boxes </small>
+
+                            <br />
+
+                            <input ng-model="newStartNode" placeholder="Start Node ID">
+                            <input ng-model="newEndNode" placeholder="End Node ID">
+                            <button ng-disabled="!newStartNode || !newEndNode"
+                                    ng-click="addEdge(newStartNode,newEndNode)">
+                                Add edge
+                            </button>
+
+                            <table class="graph-data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Start Node ID</th>
+                                        <th>End Node ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="edge in graph.data.edges">
+                                        <td>
+                                            {{edge.StartNode}}
+                                        </td>
+                                        <td>
+                                            {{edge.EndNode}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@ margin:0;
 
 .container {
     display:flex;
-    flex-wrap:wrap;        
+    flex-wrap:wrap;    
 }
 
 .item-left {
@@ -26,43 +26,16 @@ margin:0;
 }
 
 
-.control-bar {
-    padding:0.3em;
-    background: #e8e8e8;
-    border-right: 1px solid;
-    border-top: 1px solid;
-    border-color:#d5d1d1
-    
-}
-
-
-.graph-data-table {       
-    width:80%; 
-    border:1px solid;
-    border-color:#808080;
-}
-.graph-data-table thead {
-    background-color:#0043f2;
-    color:#fff;    
-}
-
-
-.graph-data-table th,td {
-    padding-left:0.5em;
-    font-size:0.8em;
-}
-
-.graph-data-table th {
-    
-    text-align: left;
-}
-
-.graph-data-table td {
-    font-size:0.7em;
-}
-
 .nodes-box {
     padding:1em;
+}
+
+.options-container {
+    padding-top:0.5em;
+    padding-bottom:0.5em;
+}
+.options-container label {
+    font-size:0.8em;
 }
 
 #graph-container {
@@ -72,27 +45,3 @@ margin:0;
     border:1px solid;
     background:#f6f6f6;
 }
-
-.settings-control-table i {
-    font-size:0.7em;
-    font-style: normal;    
-    font-weight:bold;
-    border:1px solid;
-    padding-left:0.5em;
-    padding-right:0.5em;
-    border-radius:5px;
-    border-color:#000;
-}
-
-.settings-control-table i:hover {
-    color:#fff;
-    border-color:#0a15cb;
-    background:#0a15cb;
-    cursor:pointer;    
-}
-
-.settings-control-table span {
-    display:block;
-    padding-left:0.1em;
-}
-

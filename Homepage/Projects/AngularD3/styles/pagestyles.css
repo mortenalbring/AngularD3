@@ -5,17 +5,24 @@ margin:0;
 }
 
 h1 {
-    text-shadow:#d0d0d0 2px 2px;     
-    
+    text-shadow:#d0d0d0 2px 2px;         
+}
+h2 {
+    padding:0;
+    margin:0;
+    font-size:1.1em;
 }
 
 
 .control-bar {
-    padding:0.3em;
+    padding:0.5em;
     background: #fffce7;
     border-right: 1px solid;
+    border-bottom: 1px solid;
     border-top: 1px solid;
-    border-color:#d5d1d1
+    border-color: #d5d1d1;
+    height:100%;
+    
     
 }
 
@@ -49,6 +56,9 @@ h1 {
     padding:1em;
 }
 
+.settings-control-table {
+    width:100%;
+}
 
 .settings-control-table i {
     font-size:0.7em;
