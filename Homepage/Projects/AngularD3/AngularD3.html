@@ -18,35 +18,13 @@
             <div class="container">
                 <div class="item-left control-bar">
                     <strong>Preset arrangements</strong>
-                    <ul class="presets-list">
-                        <li>
-                            <a ng-click="randomise()">Randomise!</a>
-                        </li>
-                        <li>
-                            <a ng-click="drawSquareLattice()">Square lattice</a>
-                        </li>
-                        <li>
-                            <a ng-click="drawGraphene()">Hexagonal lattice</a>
-                        </li>
-                        <li>
-                            <a ng-click="drawCube()">Cube</a>
-                        </li>
-                        <li>
-                            <a ng-click="drawSphere()">Sphere</a>
-                        </li>
-                        <li>
-                            <a ng-click="drawMultipleCubes()">Multiple cubes</a>
-                        </li>
-                        <li>
-                            <a ng-click="drawDNA()">DNA</a>
-                        </li>
-                        <li>
-                            <a ng-click="drawWindsors()">British monarchy</a>
-                        </li>
-                        <li>
-                            <a ng-click="drawNorskeKongehuset()">Norwegian monarchy</a>
-                        </li>
-                    </ul>
+                    <br />
+
+                    <select ng-model="preset.select" ng-change="changePreset()" data-ng-attr-size="{{preset.options.length+1}}">                        
+                        <option ng-repeat="option in preset.options" value="{{option.ID}}">{{option.Title}}</option>
+                    </select>
+
+                    
 
 
                     <table class="settings-control-table">

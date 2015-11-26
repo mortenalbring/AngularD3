@@ -79,7 +79,7 @@ myApp.controller("HomeController", function ($scope) {
 
 
     $scope.graph = {
-        width: parseInt(d3.select('#graph-container').style('width'),10),
+        width: parseInt(d3.select('#graph-container').style('width'), 10),
         height: 600,
         margin: 30,
         svg: null,
@@ -93,7 +93,7 @@ myApp.controller("HomeController", function ($scope) {
                 {
                     ID: 2,
                     Name: 'Test Node 2',
-                    TooltipText: ["Test Node 2","Test 1", "Test 2", "Test 3"]
+                    TooltipText: ["Test Node 2", "Test 1", "Test 2", "Test 3"]
                 },
                 {
                     ID: 3,
@@ -128,6 +128,97 @@ myApp.controller("HomeController", function ($scope) {
         EndNode: null
     }
 
+    $scope.preset = {};
+
+    $scope.preset.select = {};
+    $scope.preset.options = [{
+        ID: 1,
+        Title: "Randomise!",
+        RunFunction: function () {
+            $scope.randomise();
+        }
+    },
+        {
+            ID: 2,
+            Title: "Square lattice",
+            RunFunction: function () {
+                $scope.drawSquareLattice();
+            }
+        },
+        {
+            ID: 3,
+            Title: "Hexagonal lattice",
+            RunFunction: function () {
+                $scope.drawGraphene();
+            }
+        },
+        {
+            ID: 4,
+            Title: "Cube",
+            RunFunction: function () {
+                $scope.drawCube();
+            }
+        },
+        {
+            ID: 5,
+            Title: "Sphere",
+            RunFunction: function () {
+                $scope.drawSphere();
+            }
+        },
+        {
+            ID: 6,
+            Title: "Multiple cubes",
+            RunFunction: function () {
+                $scope.drawMultipleCubes();
+            }
+        },
+        {
+            ID: 7,
+            Title: "DNA",
+            RunFunction: function () {
+                $scope.drawDNA();
+            }
+        },
+        {
+            ID: 8,
+            Title: "British monarchy",
+            RunFunction: function () {
+                $scope.drawWindsors();
+            }
+        },
+        {
+            ID: 9,
+            Title: "Norwegian monarchy",
+            RunFunction: function () {
+                $scope.drawNorskeKongehuset();
+            }
+        },
+
+
+
+
+
+
+
+
+    ]
+
+
+
+
+
+    $scope.changePreset = function () {
+        console.log($scope.preset.select);
+
+        var match = $scope.preset.options.filter(function (e) { return e.ID == $scope.preset.select });
+
+        if (match.length == 0) { return; }
+
+        if (match[0].RunFunction) {
+            match[0].RunFunction();
+        }
+    }
 
 
 
@@ -162,7 +253,7 @@ myApp.controller("HomeController", function ($scope) {
         drawGraph();
     }
 
-    $scope.drawNorskeKongehuset = function() {
+    $scope.drawNorskeKongehuset = function () {
         norskekongehus.makeNorskekongehuset();
 
         $scope.graph.data = angular.copy(norskekongehus.data);
@@ -310,7 +401,7 @@ myApp.controller("HomeController", function ($scope) {
     }
 
     $scope.drawGraph();
-    
+
 
     function resize() {
         console.log("moop");
@@ -421,13 +512,13 @@ myApp.controller("HomeController", function ($scope) {
 
         // Generates a tooltip for a SVG circle element based on its ID
         function addTooltip(container) {
-            if (!container.TooltipText) {return;}
-            
+            if (!container.TooltipText) { return; }
+
 
             var x = parseFloat(container.x);
             var y = parseFloat(container.y);
-           
-           
+
+
             //If the node is quite high up, we shift it down a bit
             //Otherwise, we shift it up a bit. This is because we don't want to the tooltip covering the node itself
             if (y < 120) {
@@ -441,32 +532,32 @@ myApp.controller("HomeController", function ($scope) {
                 x = (x / 2);
             }
             var tooltip = d3.select(".svg-container")
-                .append("text")                
+                .append("text")
                 .attr("x", x)
-                .attr("y", y)                
+                .attr("y", y)
                 .attr("id", "tooltip");
 
             //If the tooltip text is an array, we iterate through and put in some tspans for each element for a new 'line'.
             //Otherwise we just put it as the text propery of the tooltip
-            if (!Array.isArray(container.TooltipText)) {                
+            if (!Array.isArray(container.TooltipText)) {
                 tooltip.text(container.TooltipText);
-            } else {                
-                for (var i = 0; i < container.TooltipText.length; i++) {                    
-                    tooltip.append("tspan").text(container.TooltipText[i]).attr("x",x).attr("dy","1.2em");
+            } else {
+                for (var i = 0; i < container.TooltipText.length; i++) {
+                    tooltip.append("tspan").text(container.TooltipText[i]).attr("x", x).attr("dy", "1.2em");
 
                 }
             }
-            
+
             //This draws the rectangle behind the tooltip as a 'border'            
             var bbox = tooltip.node().getBBox();
             var padding = 2;
             d3.select(".svg-container")
-                .insert("rect","#tooltip")
+                .insert("rect", "#tooltip")
                 .attr("x", bbox.x - padding)
                 .attr("y", bbox.y - padding)
                 .attr("width", bbox.width + (padding * 2))
-                .attr("height", bbox.height + (padding * 2))                
-                .attr("id", "tooltip-container");                
+                .attr("height", bbox.height + (padding * 2))
+                .attr("id", "tooltip-container");
 
         }
 

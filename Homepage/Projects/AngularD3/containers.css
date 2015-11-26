@@ -42,8 +42,12 @@ body {
 .presets-list li a:hover {
     transition:0.1s;
     background: #38c101;
-    border-color: #2b8f02;
-    
+    border-color: #2b8f02;    
+    color:#fff;
+}
+.presets-list li a:active {    
+    background: #fad600;
+    border-color: #2b8f02;    
     color:#fff;
 }
 
