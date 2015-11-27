@@ -1,50 +1,120 @@
-var myApp = angular.module("myApp", []);
+var angularD3 = angular.module("angularD3", []);
 
-myApp.controller("HomeController", function ($scope) {
+angularD3.controller("HomeController", function ($scope) {
+
+    $scope.display = {};
+    $scope.display.tabs = 'showSettings';
 
     $scope.settings = {
-        linkDistance: 200,
-        charge: -1000
+        linkDistance: 20,
+        linkStrength: 1,
+        friction: 0.9,
+        charge: -1000,
+        gravity: 0.25,
+        radius: 2,
+        clickToConnect: true,
+        lockToContainer: false,
+        linkClass: function () { return 'link link-default'; },
+        nodeClass: function () { return 'node-container'; },
+        customTickFunction: null,
     }
     function checkCustomSettings(customSettings) {
         //The preset files come with custom settings for various parameters to make the scene look good. 
         //If I've forgotten to set one of the parameters, this should prevent the graph from breaking        
-        if (!customSettings.linkDistance) { customSettings.linkDistance = $scope.settings.linkDistance; }
-        if (!customSettings.charge) { customSettings.charge = $scope.settings.charge; }
+        if (!customSettings.linkDistance) { customSettings.linkDistance = 20; }
+        if (!customSettings.linkStrength) { customSettings.linkStrength = 0.8; }
+        if (!customSettings.friction) { customSettings.friction = 0.9; }
+        if (!customSettings.charge) { customSettings.charge = -1000; }
+        if (!customSettings.gravity) { customSettings.gravity = 0.25; }
+        if (!customSettings.radius) { customSettings.radius = 2; }
+
+        if (customSettings.clickToConnect == undefined) { customSettings.clickToConnect = true; }
+        if (customSettings.lockToContainer == undefined) { customSettings.lockToContainer = false; }
+
+        if (!customSettings.linkClass) { customSettings.linkClass = function () { return 'link link-default'; } }
+        if (!customSettings.nodeClass) { customSettings.nodeClass = function () { return 'node-container'; } }
 
         return customSettings;
     }
 
-    $scope.increaseValue = function (setting, val) {
-        $scope.$apply(setting, function () {
-            setting = setting + val;
-        })
+    $scope.isNumeric = function (n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+    $scope.increaseLinkDistance = function (val) {
+        if ($scope.isNumeric($scope.settings.linkDistance)) {
+            $scope.settings.linkDistance = $scope.settings.linkDistance + val;
+            drawGraph();
+        }
+    }
+    $scope.increaseLinkStrength = function (val) {
+        $scope.settings.linkStrength = $scope.settings.linkStrength + val;
+        if ($scope.settings.linkStrength < 0) {
+            $scope.settings.linkStrength = 0;
+        }
+        if ($scope.settings.linkStrength > 1) {
+            $scope.settings.linkStrength = 1;
+        }
+        drawGraph();
+    }
+    $scope.increaseFriction = function (val) {
+        $scope.settings.friction = $scope.settings.friction + val;
+        if ($scope.settings.friction < 0) {
+            $scope.settings.friction = 0;
+        }
+        if ($scope.settings.friction > 1) {
+            $scope.settings.friction = 1;
+        }
         drawGraph();
     }
     $scope.increaseCharge = function (val) {
         $scope.settings.charge = $scope.settings.charge + val;
         drawGraph();
     }
+    $scope.increaseGravity = function (val) {
+        $scope.settings.gravity = $scope.settings.gravity + val;
 
-    $scope.increaseLinkDistance = function (val) {
-        $scope.settings.linkDistance = $scope.settings.linkDistance + val;
+        drawGraph();
+    }
+    $scope.increaseRadius = function (val) {
+        $scope.settings.radius = $scope.settings.radius + val;
         drawGraph();
     }
 
+
     $scope.graph = {
-        width: 600,
+        width: parseInt(d3.select('#graph-container').style('width'), 10),
         height: 600,
         margin: 30,
-        radius: 3,
         svg: null,
         force: null,
         data: {
-            nodes: [{ ID: 1, Name: "Test Node 1" },
-                { ID: 2, Name: 'Test Node 2' },
-                { ID: 3, Name: 'Test Node 3' },
-                { ID: 4, Name: 'Test Node 4' },
-                { ID: 5, Name: 'Test Node 5' },
-                { ID: 6, Name: 'Test Node 6' },
+            nodes: [
+                {
+                    ID: 1,
+                    Name: "Test Node 1",
+                    TooltipText: "Test Node 1"
+                },
+                {
+                    ID: 2,
+                    Name: 'Test Node 2',
+                    TooltipText: ["Test Node 2", "Test 1", "Test 2", "Test 3"]
+                },
+                {
+                    ID: 3,
+                    Name: 'Test Node 3'
+                },
+                {
+                    ID: 4,
+                    Name: 'Test Node 4'
+                },
+                {
+                    ID: 5,
+                    Name: 'Test Node 5'
+                },
+                {
+                    ID: 6,
+                    Name: 'Test Node 6'
+                },
             ],
 
             edges: [{ StartNode: 1, EndNode: 2 },
@@ -61,12 +131,200 @@ myApp.controller("HomeController", function ($scope) {
         StartNode: null,
         EndNode: null
     }
+
+    $scope.preset = {};
+
+
+    $scope.preset.options = [
+        {
+            ID: 0,
+            Title: "Custom",
+            RunFunction: function () {
+                $scope.makeCustom();
+            }
+        },
+        {
+        ID: 1,
+        Title: "Randomise!",
+        RunFunction: function () {
+            $scope.randomise();
+        }
+    },
+        {
+            ID: 2,
+            Title: "Square lattice",
+            RunFunction: function () {
+                $scope.drawSquareLattice();
+            }
+        },
+        {
+            ID: 3,
+            Title: "Hexagonal lattice",
+            RunFunction: function () {
+                $scope.drawGraphene();
+            }
+        },
+        {
+            ID: 4,
+            Title: "Cube",
+            RunFunction: function () {
+                $scope.drawCube();
+            }
+        },
+        {
+            ID: 5,
+            Title: "Sphere",
+            RunFunction: function () {
+                $scope.drawSphere();
+            }
+        },
+        {
+            ID: 6,
+            Title: "Multiple cubes",
+            RunFunction: function () {
+                $scope.drawMultipleCubes();
+            }
+        },
+        {
+            ID: 7,
+            Title: "DNA",
+            RunFunction: function () {
+                $scope.drawDNA();
+            }
+        },
+        {
+            ID: 8,
+            Title: "British monarchy",
+            RunFunction: function () {
+                $scope.drawWindsors();
+            }
+        },
+        {
+            ID: 9,
+            Title: "Norwegian monarchy",
+            RunFunction: function () {
+                $scope.drawNorskeKongehuset();
+            }
+        },
+    ]
+
+    $scope.preset.select = $scope.preset.options[1];
+
+
+    $scope.redrawGraph = function() {
+        if ($scope.preset.select.ID != 0) {
+            if ($scope.preset.select.RunFunction) {
+                $scope.preset.select.RunFunction();
+            }
+        }
+    }
+
+
+    $scope.changePreset = function () {
+
+        var match = $scope.preset.options.filter(function (e) { return e.ID == $scope.preset.select.ID });
+
+        if (match.length == 0) { return; }
+
+        if (match[0].RunFunction) {
+            match[0].RunFunction();
+        }
+    }
+
+    $scope.makeCustom = function() {
+        var customSettings =
+        {
+            linkDistance: Math.floor(Math.random() * 100),
+            charge: Math.floor(Math.random() * 1000) * -1,
+            clickToConnect: true,
+        }
+        $scope.settings = checkCustomSettings(customSettings);
+        
+
+        $scope.graph.data.nodes = [];
+        $scope.graph.data.edges = [];
+        $scope.display.tabs = 'nodesTable';
+        drawGraph();
+    };
+
+    $scope.randomise = function () {
+        //Generates a random number of nodes and randomly connects them together and then redraws the graph
+
+        var randomSettings =
+         {
+             linkDistance: Math.floor(Math.random() * 100),
+             charge: Math.floor(Math.random() * 1000) * -1
+         }
+        $scope.settings = checkCustomSettings(randomSettings);
+
+        var min = 10;
+        var randmax = Math.floor((Math.random() * 20) + min);
+
+        $scope.graph.data.nodes = [];
+        for (var i = 0; i < randmax; i++) {
+            var newNode = { ID: i, Name: "Node " + i };
+            $scope.graph.data.nodes.push(newNode);
+        }
+
+        $scope.graph.data.edges = [];
+        for (var i = 0; i < randmax; i++) {
+            var r = Math.floor((Math.random() * randmax));
+            if (r != i) {
+                //Ensures we don't connect a node to itself
+                var newEdge = { StartNode: i, EndNode: r };
+                $scope.graph.data.edges.push(newEdge);
+            }
+        }
+        drawGraph();
+    }
+
+    $scope.drawNorskeKongehuset = function () {
+        norskekongehus.makeNorskekongehuset();
+
+        $scope.graph.data = angular.copy(norskekongehus.data);
+
+        $scope.settings = angular.copy(checkCustomSettings(norskekongehus.settings));
+        drawGraph();
+
+
+    }
+
+    $scope.drawWindsors = function () {
+        windsors.makeWindsors();
+        $scope.graph.data = angular.copy(windsors.data);
+
+        $scope.settings = angular.copy(checkCustomSettings(windsors.settings));
+        drawGraph();
+
+    }
+
+    $scope.drawDNA = function () {
+
+        DNA.makeDNA(30);
+        $scope.graph.data = angular.copy(DNA.data);
+
+        $scope.settings = angular.copy(checkCustomSettings(DNA.settings));
+        drawGraph();
+    }
+
     $scope.drawMultipleCubes = function () {
         $scope.graph.data = angular.copy(multiplecubes.data);
         $scope.settings = angular.copy(checkCustomSettings(multiplecubes.settings));
         drawGraph();
     }
+
+    $scope.drawSquareLattice = function () {
+        squarelattice.drawLattice();
+
+        $scope.graph.data = angular.copy(squarelattice.data);
+        $scope.settings = angular.copy(checkCustomSettings(squarelattice.settings));
+        drawGraph();
+    }
     $scope.drawGraphene = function () {
+
+        grapheneauto.drawGraphene();
+
+
         $scope.graph.data = angular.copy(graphene.data);
         $scope.settings = angular.copy(checkCustomSettings(graphene.settings));
         drawGraph();
@@ -74,6 +332,11 @@ myApp.controller("HomeController", function ($scope) {
     $scope.drawCube = function () {
         $scope.graph.data = angular.copy(cube.data);
         $scope.settings = angular.copy(checkCustomSettings(cube.settings));
+        drawGraph();
+    }
+    $scope.drawSphere = function () {
+        $scope.graph.data = angular.copy(sphere.data);
+        $scope.settings = angular.copy(checkCustomSettings(sphere.settings));
         drawGraph();
     }
 
@@ -128,7 +391,7 @@ myApp.controller("HomeController", function ($scope) {
 
     }
 
-    $scope.setHighlight = function (ID) {        
+    $scope.setHighlight = function (ID) {
         //Sets the highlight property on nodes connected to given ID
         var connectedNodes = $scope.graph.data.nodes.filter(function (e) {
             return e.ID == ID;
@@ -153,43 +416,21 @@ myApp.controller("HomeController", function ($scope) {
     $scope.addEdge = function (StartNodeID, EndNodeID) {
         makeEdges(StartNodeID, EndNodeID);
         drawGraph();
+        $scope.newStartNode = null;
+        $scope.newEndNode = null;
     }
 
-
-
-    $scope.randomise = function () {
-        //Generates a random number of nodes and randomly connects them together and then redraws the graph
-        $scope.settings = {
-            linkDistance: 100,
-            charge: -1000
-        }
-
-        var min = 10;
-        var randmax = Math.floor((Math.random() * 20) + min);
-
-        $scope.graph.data.nodes = [];
-        for (var i = 0; i < randmax; i++) {
-            var newNode = { ID: i, Name: "Node " + i };
-            $scope.graph.data.nodes.push(newNode);
-        }
-
-        $scope.graph.data.edges = [];
-        for (var i = 0; i < randmax; i++) {
-            var r = Math.floor((Math.random() * randmax));
-            if (r != i) {
-                //Ensures we don't connect a node to itself
-                var newEdge = { StartNode: i, EndNode: r };
-                $scope.graph.data.edges.push(newEdge);
-            }
-        }
-        drawGraph();
-    }
 
     $scope.drawGraph = function () {
         drawGraph();
     }
 
     $scope.drawGraph();
+
+
+    function resize() {
+        console.log("moop");
+    }
 
     function makeEdges(StartNodeID, EndNodeID) {
         var newEdge = {
@@ -206,8 +447,13 @@ myApp.controller("HomeController", function ($scope) {
     }
 
     function drawGraph() {
-
         d3.select("svg").remove();
+        if ($scope.graph.force) {
+            $scope.graph.force.stop();
+        }
+
+        $scope.graph.width = parseInt(d3.select('#graph-container').style('width'), 10),
+
 
         $scope.graph.data.linkData = linksIndexes($scope.graph.data.edges, $scope.graph.data.nodes);
 
@@ -222,12 +468,13 @@ myApp.controller("HomeController", function ($scope) {
             .nodes($scope.graph.data.nodes)
             .links($scope.graph.data.linkData)
             .linkDistance($scope.settings.linkDistance)
+            .linkStrength($scope.settings.linkStrength)
             //Distance between nodes
             .charge($scope.settings.charge)
             //How much nodes repel eachother (positive is attractive)
-            .friction(0.5)
+            .friction($scope.settings.friction)
             //Slows down the nodes movement
-            .gravity(0.25)
+            .gravity($scope.settings.gravity)
             //An attractive force towards the centre of the graph
             .on("tick", tick);
 
@@ -243,9 +490,7 @@ myApp.controller("HomeController", function ($scope) {
 
         $scope.graph.linklines.enter()
             .insert("line", ".node")
-            .attr("class", function (e) {
-                return "link link-default";
-            });
+            .attr("class", function (e) { return $scope.settings.linkClass(e); });
         $scope.graph.linklines.exit().remove();
 
         //Container for both the node and the label describing the node
@@ -254,50 +499,111 @@ myApp.controller("HomeController", function ($scope) {
             .enter()
             .append('g')
             .attr("class", function (d) {
-                return "node-container";
+                return $scope.settings.nodeClass(d);
             })
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)
             .classed('gnode', true)
-            .on("click", makeBigger)
+            .on("click", connectNodes)
             .call($scope.graph.force.drag);
 
 
         var cnode = gnodes.append("circle")
             .attr("class", "cnode")
-            .attr("r", 2);
+            .attr("r", $scope.settings.radius);
 
         var labels = gnodes.append("text")
             .attr("class", "label-text")
             .text(function (d) { return d.Name });
 
 
-        function makeBigger(d) {
+        function connectNodes(d) {
+            if (!$scope.settings.clickToConnect) {
+                return;
+            }
+
             var r = parseInt(d3.select(this).select("circle").attr("r"));
-            console.log(r);
             d3.select(this).select("circle").attr("r", r + 1);
 
-            var node = $scope.graph.data.nodes.filter(function(e) {
+            var node = $scope.graph.data.nodes.filter(function (e) {
                 return e.ID == d.ID;
             });
-            console.log(node);
             if (node.length > 0) {
-                $scope.$apply(function() {
+                $scope.$apply(function () {
                     $scope.setClickedNode(node[0]);
                 })
             }
         }
+
+        // Generates a tooltip for a SVG circle element based on its ID
+        function addTooltip(container) {
+            if (!container.TooltipText) { return; }
+
+
+            var x = parseFloat(container.x);
+            var y = parseFloat(container.y);
+
+
+            //If the node is quite high up, we shift it down a bit
+            //Otherwise, we shift it up a bit. This is because we don't want to the tooltip covering the node itself
+            if (y < 120) {
+                y = y + 100;
+            } else {
+                y = y - 100;
+            }
+            //If the node is more than halfway across the graph, we shift the tooltip across a bit
+            //to make sure it doesn't overflow outside the container. Probably a more elegant way of doing this
+            if (x > ($scope.graph.width / 2)) {
+                x = (x / 2);
+            }
+            var tooltip = d3.select(".svg-container")
+                .append("text")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("id", "tooltip");
+
+            //If the tooltip text is an array, we iterate through and put in some tspans for each element for a new 'line'.
+            //Otherwise we just put it as the text propery of the tooltip
+            if (!Array.isArray(container.TooltipText)) {
+                tooltip.text(container.TooltipText);
+            } else {
+                for (var i = 0; i < container.TooltipText.length; i++) {
+                    tooltip.append("tspan").text(container.TooltipText[i]).attr("x", x).attr("dy", "1.2em");
+
+                }
+            }
+
+            //This draws the rectangle behind the tooltip as a 'border'            
+            var bbox = tooltip.node().getBBox();
+            var padding = 2;
+            d3.select(".svg-container")
+                .insert("rect", "#tooltip")
+                .attr("x", bbox.x - padding)
+                .attr("y", bbox.y - padding)
+                .attr("width", bbox.width + (padding * 2))
+                .attr("height", bbox.height + (padding * 2))
+                .attr("id", "tooltip-container");
+
+        }
+
         function mouseover(d) {
-            $scope.$apply(function() {
+
+            addTooltip(d);
+
+            $scope.$apply(function () {
                 $scope.highlightConnectedNodes(d.ID);
-            })           
-         //   d3.select(this).select("circle").transition().duration(750).attr("r", 4);           
+            })
+            d3.select(this).select("circle").transition().duration(750).attr("r", $scope.settings.radius * 2);
         }
         function mouseout() {
-            $scope.$apply(function() {
+
+            d3.select("#tooltip").remove();
+            d3.select("#tooltip-container").remove();
+
+            $scope.$apply(function () {
                 $scope.clearHighlights();
             })
-          //  d3.select(this).select("circle").transition().duration(750).attr("r", 2);
+            d3.select(this).select("circle").transition().duration(750).attr("r", $scope.settings.radius);
         }
 
         function linksIndexes(edges, nodes) {
@@ -311,21 +617,42 @@ myApp.controller("HomeController", function ($scope) {
                 var targetNode = nodes.filter(function (n) { return n.ID == endId; });
 
                 if ((sourceNode.length == 1) && (targetNode.length == 1)) {
-                    output.push({
+                    var out = {
                         source: sourceNode[0],
                         target: targetNode[0]
-                    });
+                    }
+
+                    if (edges[i].EdgeType) { out.EdgeType = edges[i].EdgeType; }
+
+                    output.push(out);
                 }
             }
             return output;
         }
 
-        function tick() {
+        function tick(e) {
+
+
+
             gnodes.attr("transform", function (d) {
                 if (d.x && d.y) {
-                    return 'translate(' + [d.x, d.y] + ')';
+
+                    var newx = d.x;
+                    var newy = d.y;
+
+
+                    if ($scope.settings.lockToContainer) {
+                        newx = Math.max($scope.settings.radius, Math.min($scope.graph.width - $scope.settings.radius, d.x));
+                        newy = Math.max($scope.settings.radius, Math.min($scope.graph.height - $scope.settings.radius, d.y));
+                    }
+
+                    return 'translate(' + [newx, newy] + ')';
                 }
             });
+
+            if ($scope.settings.customTickFunction) {
+                $scope.settings.customTickFunction(e, $scope.graph.data.linkData);
+            }
 
             $scope.graph.linklines.attr("x1", function (d) { return d.source.x; })
                 .attr("y1", function (d) { return d.source.y; })

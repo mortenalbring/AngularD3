@@ -1,0 +1,99 @@
+.link-couple {
+    stroke: #ff6a00;
+    stroke-width: 1px;
+}
+.link-children {
+    stroke:#7566ff;
+    stroke-width:1px;
+}
+
+.node-container-kongehus-default {
+    fill:#000000;
+}
+
+.node-container-kongehus {    
+    font-size:0.6em;
+}
+.node-container-kongehus:hover {    
+    cursor:pointer;
+    font-weight:800;
+    opacity:1;
+}
+
+.node-container-norway {
+    fill:#cc0000;
+}
+.node-container-sweden {
+    fill:#a49202;
+}
+.node-container-norway-and-sweden {
+    fill:#008ecc;
+}
+.node-container-denmark {
+    fill:#187e00;
+}
+.node-container-germany {
+    fill:#8b4204;
+}
+.node-container-united-kingdom {
+    fill:#37048b;
+}
+
+.dead {    
+    opacity:0.7;
+}
+.alive {    
+    font-weight:500;
+}
+
+
+.node-container-bernadotte {
+    fill:#7566ff;
+}
+.node-container-schleswig-holstein-sonderburg-glucksburg {
+    fill:#418e06;
+}
+.node-container-windsor {
+    fill:#091f9f;
+}
+.node-container-saxe-coburg-and-gotha {
+    fill:#003932;
+}
+.node-container-glucksburg {
+    fill:#900404;
+}
+
+.node-container-norway-and-sweden-king {
+    font-size:0.6em;
+    fill: #8b4204;
+}
+.node-container-norway-and-sweden-queen {
+    font-size:0.6em;
+    fill: #ac5811;
+}
+.node-container-denmark-queen {
+    font-size:0.6em;
+    fill: #54ac11;
+}
+.node-container-denmark-king {
+    font-size:0.6em;
+    fill: #418e06;
+}
+
+.node-container-sweden-queen {
+    font-size:0.6em;
+    fill: #3d4fb8;
+}
+.node-container-sweden-king {
+    font-size:0.6em;
+    fill: #091f9f;
+}
+
+.node-container-norway-queen {
+    font-size:0.6em;
+    fill: #be2525;
+}
+.node-container-norway-king {
+    font-size:0.6em;
+    fill: #b10f0f;
+}

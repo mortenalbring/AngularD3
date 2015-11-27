@@ -1,7 +1,8 @@
 var multiplecubes = {
     settings: {
         charge: -300,
-        linkDistance: 20
+        linkDistance: 20,
+        radius: 2
     },
     data: {
         nodes: [
