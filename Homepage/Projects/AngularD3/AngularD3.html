@@ -27,14 +27,22 @@
 
                 </div>
                 <button ng-click="drawGraph()">Redraw graph</button>
-                <button ng-show="!display.showSettings" 
-                        ng-click="display.showSettings=true;display.showNodesTable=false">Show settings</button>
-                <button ng-show="!display.showNodesTable"
-                        ng-click="display.showSettings=false;display.showNodesTable=true">Show nodes table</button>
 
-                <div ng-show="display.showSettings">
+                <br />
+
+                <div class="tab-title">
+                    <a ng-disabled="display.showSettings"
+                            ng-click="display.showSettings=true;display.showNodesTable=false">
+                        Settings
+                    </a>
+                    <a ng-disabled="display.showNodesTable"
+                            ng-click="display.showSettings=false;display.showNodesTable=true">
+                        Nodes table
+                    </a>
+                </div>
 
 
+                <div class="tab-content" ng-show="display.showSettings">
                     <div class="options-container">
                         <h2>Graph settings</h2>
                         <table class="settings-control-table">
@@ -193,7 +201,7 @@
 
 
 
-                <div ng-show="display.showNodesTable">
+                <div class="tab-content" ng-show="display.showNodesTable">
                     <div class="container">
                         <div class="item">
                             <h2>Nodes</h2>
