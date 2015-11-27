@@ -1,6 +1,9 @@
 var squarelattice = {
     info : {
         Title: "Square Lattice",
+        Message: "This just draws a simple set of chains of nodes each connected to their neighbour to form a square lattice. " +
+            "The lattice is not constrained to two dimensions, so you may have to 'jiggle' the graph a bit to get it to fold out " +
+            "or drag it around a bit if it comes out twisted."
     },
     settings : {
         linkDistance: 3,

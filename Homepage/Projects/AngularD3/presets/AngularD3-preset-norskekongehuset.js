@@ -1,6 +1,13 @@
 //Data courtesy of http://www.royalcourt.no/slektstre.html?tid=28695 with additional information from Wikipedia
 
 var norskekongehus = {
+    info : {
+        Title: "Family tree of the Norwegian Royal Family",
+        Message: "Originally this was supposed to be just a simple family tree with the connections between the Scandinavian royal houses. " +
+            " Its purpose was to show how different nodes can be styled according to different node properties and how custom tooltip text can be set. " +
+            " However, using resources from royalcourt.no and Wikipedia, I soon discovered that the relationship between the royal houses of Europe is actually very interesting in its own right! " +
+            " This isn't a comprehensive map including all the children, just a selection of those that form interesting links through birth or marriage."
+    },
     settings: {
         linkDistance: 5,
         linkStrength: 1,

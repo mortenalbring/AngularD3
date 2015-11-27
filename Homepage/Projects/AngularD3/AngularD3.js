@@ -297,6 +297,7 @@ angularD3.controller("HomeController", function ($scope) {
         preset.initialise();
         $scope.graph.data = angular.copy(preset.data);
         $scope.settings = angular.copy(checkCustomSettings(preset.settings));
+        $scope.info = angular.copy(preset.info);
         drawGraph();
     }
 
