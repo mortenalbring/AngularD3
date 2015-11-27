@@ -2,10 +2,8 @@ var myApp = angular.module("myApp", []);
 
 myApp.controller("HomeController", function ($scope) {
 
-    $scope.display = {
-        showSettings: true,
-        showNodesTable:false
-    }
+    $scope.display = {};
+    $scope.display.tabs = 'showSettings';
 
     $scope.settings = {
         linkDistance: 20,
