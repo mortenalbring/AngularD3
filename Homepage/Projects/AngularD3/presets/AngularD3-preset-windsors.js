@@ -1,4 +1,10 @@
 var windsors = {
+    info: {
+        Title: "Windsor Family Tree",
+        Message:"This shows how to create a fairly rudimentary family tree structure using a force-directed graph. " +
+            "This also shows how to style different links according to a custom property, as marriages and children are styled with " +
+            "different link colours. There is also a weak geometric force that forces end nodes downwards, dynamically creating the tree-like structure."
+    },
     settings: {
         linkDistance: 5,
         linkStrength: 1,

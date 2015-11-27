@@ -31,6 +31,18 @@
 
                 <br />
 
+                <div class="options-container click-node-info-box">
+                    <span ng-if="clicked.StartNode">
+                        Click on a node to connect to {{clicked.StartNode.Name}} [{{clicked.StartNode.ID}}]
+                    </span>
+                    <span ng-if="!clicked.StartNode && settings.clickToConnect">
+                        Click on a node to connect it to another node
+                    </span>
+                    <span ng-if="!clicked.StartNode && !settings.clickToConnect">
+                        Click and drag nodes to move them around
+                    </span>
+                </div>
+
                 <div class="tab-title">
                     <a ng-click="display.tabs='showSettings'"
                        ng-class="{'active': display.tabs == 'showSettings'}">
@@ -202,11 +214,11 @@
 
                     </div>
                 </div>
-               
 
 
 
-                <div class="tab-content" ng-show="display.tabs == 'nodesTable'">                    
+
+                <div class="tab-content" ng-show="display.tabs == 'nodesTable'">
                     <div class="options-container">
                         <h2>Nodes</h2>
                         <small>
@@ -250,10 +262,10 @@
                         </table>
 
                     </div>
-                   
+
                 </div>
-            
-            
+
+
                 <div class="tab-content" ng-show="display.tabs == 'edgesTable'">
                     <div class="options-container">
                         <h2>Edges</h2>
@@ -314,17 +326,9 @@
                 <div>
                     {{info.Message}}
                 </div>
-                
 
-                <span ng-if="clicked.StartNode">
-                    Click on a node to connect to {{clicked.StartNode.Name}} [{{clicked.StartNode.ID}}]
-                </span>
-                <span ng-if="!clicked.StartNode && settings.clickToConnect">
-                    Click on a node to connect it to another node
-                </span>
-                <span ng-if="!clicked.StartNode && !settings.clickToConnect">
-                    Click and drag nodes to move them around
-                </span>
+
+
             </div>
         </div>
     </div>

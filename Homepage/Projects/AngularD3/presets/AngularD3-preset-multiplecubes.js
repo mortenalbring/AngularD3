@@ -1,4 +1,8 @@
 var multiplecubes = {
+    info: {
+        Title: "Multiple cubes",
+        Message: "Draws several little cubes"
+    },
     settings: {
         charge: -300,
         linkDistance: 20,

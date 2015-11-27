@@ -25,6 +25,9 @@ margin:0;
     width:100%;        
 }
 
+.click-node-info-box {
+    font-size:0.8em;    
+}
 
 .nodes-box {
     padding:1em;
