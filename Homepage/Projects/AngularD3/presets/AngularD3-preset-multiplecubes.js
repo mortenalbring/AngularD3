@@ -144,3 +144,7 @@ var multiplecubes = {
        
     }
 }
+
+multiplecubes.initialise = function() {
+
+};

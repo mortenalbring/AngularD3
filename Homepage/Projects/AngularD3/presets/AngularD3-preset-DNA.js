@@ -165,4 +165,8 @@ DNA.makeDNA = function(maxLength) {
 
 }
 
+DNA.initialise = function() {
+    DNA.makeDNA(30);
+}
+
 

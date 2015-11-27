@@ -173,7 +173,7 @@ norskekongehus.makeTooltipText = function () {
 }
 
 
-norskekongehus.makeNorskekongehuset = function () {
+norskekongehus.initialise = function () {
 
     norskekongehus.constructData();
 

@@ -77,7 +77,7 @@ windsors.addChildren = function (parent1Name, parent2Name, childrenNames, fixPar
 
 
 }
-windsors.makeWindsors = function () {
+windsors.initialise = function () {
 
     windsors.data.nodes = [];
     windsors.data.edges = [];

@@ -96,3 +96,7 @@ var graphene = {
         ]
     }
 }
+
+graphene.initialise = function() {
+
+};

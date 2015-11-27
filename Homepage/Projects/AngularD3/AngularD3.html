@@ -307,7 +307,14 @@
             </div>
 
             <div class="item-right">
+                <h1> {{info.Title}}</h1>
+
                 <div id="graph-container"></div>
+
+                <div>
+                    {{info.Message}}
+                </div>
+                
 
                 <span ng-if="clicked.StartNode">
                     Click on a node to connect to {{clicked.StartNode.Name}} [{{clicked.StartNode.ID}}]

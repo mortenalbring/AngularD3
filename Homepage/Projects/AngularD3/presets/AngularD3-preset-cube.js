@@ -33,3 +33,7 @@ var cube = {
        
     }
 }
+
+cube.initialise = function() {
+
+};
