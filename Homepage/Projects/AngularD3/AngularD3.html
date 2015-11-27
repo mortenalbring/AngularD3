@@ -37,11 +37,11 @@
                     </a>
                     <a ng-click="display.tabs='nodesTable'"
                        ng-class="{'active': display.tabs == 'nodesTable'}">
-                        Nodes table
+                        Nodes
                     </a>
                     <a ng-click="display.tabs='edgesTable'"
                        ng-class="{'active': display.tabs == 'edgesTable'}">
-                        Edges table
+                        Edges
                     </a>
 
 
@@ -208,11 +208,8 @@
 
 
 
-                <div class="tab-content" ng-show="display.tabs == 'nodesTable'">
-                    
+                <div class="tab-content" ng-show="display.tabs == 'nodesTable'">                    
                     <div class="options-container">
-
-
                         <h2>Nodes</h2>
                         <small>
                             Highlight nodes in the table to see connected nodes and click on nodes to connect them together.
@@ -221,8 +218,14 @@
                         <br />
 
                         <input ng-model="newID" placeholder="ID (blank to autogenerate)">
+                        <br />
+
                         <input ng-model="newName" placeholder="Name (blank to autogenerate)">
+                        <br />
+
                         <button ng-click="addNode(newID,newName)">Add node</button>
+                        <br />
+
                         <table class="graph-data-table">
                             <thead>
                                 <tr>
@@ -255,20 +258,34 @@
             
                 <div class="tab-content" ng-show="display.tabs == 'edgesTable'">
                     <div class="options-container">
-
-
                         <h2>Edges</h2>
                         <small>This shows which nodes are currently connected together. You can manually connect nodes by creating a new edge using the input boxes </small>
 
                         <br />
 
                         <input ng-model="newStartNode" placeholder="Start Node ID">
+                        <br />
+
                         <input ng-model="newEndNode" placeholder="End Node ID">
+                        <br />
+
                         <button ng-disabled="!newStartNode || !newEndNode"
                                 ng-click="addEdge(newStartNode,newEndNode)">
                             Add edge
                         </button>
+                        <div class="options-container">
+                            <small>Click nodes to connect together</small>
+                            <br />
 
+                            <label>
+                                <input type="radio" ng-model="settings.clickToConnect" data-ng-value="true" />
+                                On
+                            </label>
+                            <label>
+                                <input type="radio" ng-model="settings.clickToConnect" data-ng-value="false" />
+                                Off
+                            </label>
+                        </div>
                         <table class="graph-data-table">
                             <thead>
                                 <tr>
