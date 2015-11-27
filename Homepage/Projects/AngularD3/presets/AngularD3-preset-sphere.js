@@ -77,7 +77,7 @@ sphere.makeNodes = function () {
         newEdges.push(newEdge2);
 
         
-        for (var k = 0; k < (chains[j].nodes.length - 1); k++) {
+        for (var k = 0; k <= (chains[j].nodes.length - 1); k++) {
             if (j < (chains.length - 1)) {
                 var newEdge = { StartNode: chains[j].nodes[k].ID, EndNode: chains[j + 1].nodes[k].ID }
                 newEdges.push(newEdge);
