@@ -1,6 +1,6 @@
-var myApp = angular.module("myApp", []);
+var angularD3 = angular.module("angularD3", []);
 
-myApp.controller("HomeController", function ($scope) {
+angularD3.controller("HomeController", function ($scope) {
 
     $scope.display = {};
     $scope.display.tabs = 'showSettings';
