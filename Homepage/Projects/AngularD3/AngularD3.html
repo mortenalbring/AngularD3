@@ -26,7 +26,8 @@
                             ng-options="option.Title for option in preset.options track by option.ID"></select>
 
                 </div>
-                <button ng-click="drawGraph()">Redraw graph</button>
+                <button ng-click="redrawGraph()">Redraw graph</button>
+                <button ng-click="drawGraph()" title="Sometimes the simulation stops. This sort of jiggles the graph a bit to get it back into motion">Jiggle graph</button>
 
                 <br />
 
@@ -43,9 +44,6 @@
                        ng-class="{'active': display.tabs == 'edgesTable'}">
                         Edges
                     </a>
-
-
-
                 </div>
 
 

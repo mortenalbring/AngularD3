@@ -88,11 +88,12 @@ myApp.controller("HomeController", function ($scope) {
         svg: null,
         force: null,
         data: {
-            nodes: [{
-                ID: 1,
-                Name: "Test Node 1",
-                TooltipText: "Test Node 1"
-            },
+            nodes: [
+                {
+                    ID: 1,
+                    Name: "Test Node 1",
+                    TooltipText: "Test Node 1"
+                },
                 {
                     ID: 2,
                     Name: 'Test Node 2',
@@ -133,8 +134,16 @@ myApp.controller("HomeController", function ($scope) {
 
     $scope.preset = {};
 
-    
-    $scope.preset.options = [{
+
+    $scope.preset.options = [
+        {
+            ID: 0,
+            Title: "Custom",
+            RunFunction: function () {
+                $scope.makeCustom();
+            }
+        },
+        {
         ID: 1,
         Title: "Randomise!",
         RunFunction: function () {
@@ -199,10 +208,16 @@ myApp.controller("HomeController", function ($scope) {
         },
     ]
 
-    $scope.preset.select = $scope.preset.options[0];
+    $scope.preset.select = $scope.preset.options[1];
 
 
-
+    $scope.redrawGraph = function() {
+        if ($scope.preset.select.ID != 0) {
+            if ($scope.preset.select.RunFunction) {
+                $scope.preset.select.RunFunction();
+            }
+        }
+    }
 
 
     $scope.changePreset = function () {
@@ -216,7 +231,21 @@ myApp.controller("HomeController", function ($scope) {
         }
     }
 
+    $scope.makeCustom = function() {
+        var customSettings =
+        {
+            linkDistance: Math.floor(Math.random() * 100),
+            charge: Math.floor(Math.random() * 1000) * -1,
+            clickToConnect: true,
+        }
+        $scope.settings = checkCustomSettings(customSettings);
+        
 
+        $scope.graph.data.nodes = [];
+        $scope.graph.data.edges = [];
+        $scope.display.tabs = 'nodesTable';
+        drawGraph();
+    };
 
     $scope.randomise = function () {
         //Generates a random number of nodes and randomly connects them together and then redraws the graph
