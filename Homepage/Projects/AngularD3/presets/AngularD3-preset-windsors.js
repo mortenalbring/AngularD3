@@ -57,20 +57,24 @@ windsors.addChildren = function (parent1Name, parent2Name, childrenNames, fixPar
     var parent1Node = windsors.addIfNew(parent1Name, fixParent1);
     var parent2Node = windsors.addIfNew(parent2Name, fixParent2);
 
-    var existingEdge = windsors.data.edges.filter(function (e) {
-        return e.StartNode == parent1Node.ID && e.EndNode == parent2Node.ID
-    });
-    if (existingEdge.length == 0) {
-        var newEdge = { StartNode: parent1Node.ID, EndNode: parent2Node.ID, EdgeType: "Couple" };
-        windsors.data.edges.push(newEdge);
-    }
-
     var startId = windsors.data.nodes.length + 1;
+    var connector = { ID: startId, Name: "", NodeType: "Connector" };
+    windsors.data.nodes.push(connector);
+    var newEdge1 = {
+        StartNode: parent1Node.ID, EndNode: connector.ID, EdgeType: "Couple"
+    }
+    var newEdge2 = {
+        StartNode: connector.ID, EndNode: parent2Node.ID, EdgeType: "Couple"
+    }
+    windsors.data.edges.push(newEdge1);
+    windsors.data.edges.push(newEdge2);
+   
+    startId = windsors.data.nodes.length + 1;
 
     for (var i = 0; i < childrenNames.length; i++) {
         var newNode = { ID: startId + i, Name: childrenNames[i] };
         windsors.data.nodes.push(newNode);
-        var newEdge1 = { StartNode: parent1Node.ID, EndNode: newNode.ID }
+        var newEdge1 = { StartNode: connector.ID, EndNode: newNode.ID }
         windsors.data.edges.push(newEdge1);
 
         //Originally I was connecting both parents to all the children, but this ended up producing quite a confusing diagram so now I only 
@@ -126,9 +130,9 @@ windsors.settings.linkStrength = function (edge) {
 }
 windsors.settings.linkDistance = function (edge) {
     if (edge.EdgeType == "Couple") {
-        return 2;
+        return 1;
     }
-    return 10;
+    return 4;
 }
 
 windsors.settings.linkClass = function (edge) {
@@ -138,14 +142,29 @@ windsors.settings.linkClass = function (edge) {
     return "link-children";
 }
 
+windsors.settings.charge = function (node) {
+    
+    if (node.NodeType == "Connector") {        
+        return -100;
+        
+    }
+    return -1500;
+}
+
 windsors.settings.nodeClass = function (d) { return 'node-container-windsor'; },
 
 windsors.settings.customTickFunction = function (e, linkData) {
     //A gentle force that pushes sources up and targets down to force a weak tree
     var k = 9 * e.alpha;
     linkData.forEach(function (d, i) {
-        d.source.y -= k;
-        d.target.y += k;
+        if (d.EdgeType != "Couple") {
+          //  d.source.y -= k;
+          //  d.target.y += k;
+        }
+        else {
+            d.source.y = d.target.y;
+
+        }
     });
 }
 
