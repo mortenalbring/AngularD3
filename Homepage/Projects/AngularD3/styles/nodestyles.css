@@ -25,11 +25,7 @@
     background: #ded6ee;
 }
 
-.node {
-    fill: #ccc;
-    stroke: #fff;
-    stroke-width: 2px;
-}
+
 
 .link {
     stroke: #777;
@@ -45,4 +41,23 @@
 
 #tooltip-container {
     fill:#2529fb;        
+}
+
+.node-red {
+    fill:#ff0000;
+}
+.node-blue {
+    fill:#09119a;
+}
+.node-purple {
+    fill:#680ad1;
+}
+.node-green {
+    fill:#009619;
+}
+.node-orange {
+    fill:#ff6a00;
+}
+.node-yellow {
+    fill:#a99204;
 }
