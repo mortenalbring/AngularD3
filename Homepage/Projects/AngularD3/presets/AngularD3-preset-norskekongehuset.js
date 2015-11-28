@@ -815,6 +815,47 @@ norskekongehus.constructData = function () {
 
     norskekongehus.addChildren(HaraldV, Sonja, [Haakon, MarthaLouise]);
 
+    var MetteMarit = {
+        Name: "Mette-Marit",
+        Country: "Norway",
+        Titles: ["Crown Princess of Norway"],        
+        Born: 1973
+    }
+
+    var Marius = {
+        Name: "Marius Borg",
+        Country: "Norway",
+        Titles: ["Commoner"],        
+        Born: 1997
+    }
+
+    var Morten = {
+        Name: "Morten Borg",
+        Country: "Norway",
+        Titles: ["Commoner"],        
+        Born: 1968
+    }
+
+    norskekongehus.addChildren(MetteMarit, Morten, [Marius]);
+
+    var Ingrid2 = {
+        Name: "Ingrid Alexandra",
+        Country: "Norway",
+        Titles: ["Princess of Norway"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 2004
+    }
+
+    var Sverre = {
+        Name: "Sverre Magnus",
+        Country: "Norway",
+        Titles: ["Prince of Norway"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 2005
+    }
+
+    norskekongehus.addChildren(Haakon, MetteMarit, [Ingrid2, Sverre]);
+
     var Victoria = {
         Name: "Victoria",
         Country: "United Kingdom",
