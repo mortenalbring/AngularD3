@@ -1,14 +1,14 @@
 //Logic for producing DNA courtesy of Dr. Naomi Pollock
 
 var DNA = {
+    info: {
+        Title: "DNA",
+        Message: "This draws two strands of DNA with phosphates, and links them together with the appropriate base pairs." +
+            " Logic for producing this graph courtesy of Dr. Naomi Pollock"
+    },
     data: {
-        nodes: [
-
-
-        ],
-        edges: [
-            
-        ]
+        nodes: [],
+        edges: []
     },
     settings: {
         linkDistance: -30,
@@ -163,6 +163,10 @@ DNA.makeDNA = function(maxLength) {
     DNA.data.nodes = DNA.data.nodes.concat(secondStrand.nodes);
     DNA.data.edges = DNA.data.edges.concat(secondStrand.edges);
 
+}
+
+DNA.initialise = function() {
+    DNA.makeDNA(30);
 }
 
 

@@ -1,4 +1,8 @@
 var sphere = {
+    info: {
+        Title:"Sphere",
+        Message:"Draws several chains of nodes and connects them up to form a sphere."
+    },
     settings: {        
         linkDistance: 10,
         linkStrength: 0.8,
@@ -90,4 +94,7 @@ sphere.makeNodes = function () {
     sphere.data.edges = sphere.data.edges.concat(newEdges);
 }
 
-sphere.makeNodes();
+
+sphere.initialise = function() {
+    sphere.makeNodes();
+}

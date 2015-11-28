@@ -5,6 +5,13 @@ angularD3.controller("HomeController", function ($scope) {
     $scope.display = {};
     $scope.display.tabs = 'showSettings';
 
+    $scope.info = {
+        Title: "Interactive force-directed graph simulations",
+        Message: "This uses the beautiful data-visualisation library d3.js by Mike Bostock " +
+            "to display force-directed graphs from an array of nodes and edges, and adds dynamic interactive elements by combining" +
+            "it with AngularJS. You can create your own force-directed graph simulations or see one of the presets for examples"
+    }
+
     $scope.settings = {
         linkDistance: 20,
         linkStrength: 1,
@@ -154,56 +161,56 @@ angularD3.controller("HomeController", function ($scope) {
             ID: 2,
             Title: "Square lattice",
             RunFunction: function () {
-                $scope.drawSquareLattice();
+                $scope.drawPreset(squarelattice);
             }
         },
         {
             ID: 3,
             Title: "Hexagonal lattice",
             RunFunction: function () {
-                $scope.drawGraphene();
+                $scope.drawPreset(graphene);
             }
         },
         {
             ID: 4,
             Title: "Cube",
             RunFunction: function () {
-                $scope.drawCube();
+                $scope.drawPreset(cube);
             }
         },
         {
             ID: 5,
             Title: "Sphere",
             RunFunction: function () {
-                $scope.drawSphere();
+                $scope.drawPreset(sphere);
             }
         },
         {
             ID: 6,
             Title: "Multiple cubes",
             RunFunction: function () {
-                $scope.drawMultipleCubes();
+                $scope.drawPreset(multiplecubes);
             }
         },
         {
             ID: 7,
             Title: "DNA",
             RunFunction: function () {
-                $scope.drawDNA();
+                $scope.drawPreset(DNA);
             }
         },
         {
             ID: 8,
             Title: "British monarchy",
             RunFunction: function () {
-                $scope.drawWindsors();
+                $scope.drawPreset(windsors);
             }
         },
         {
             ID: 9,
             Title: "Norwegian monarchy",
             RunFunction: function () {
-                $scope.drawNorskeKongehuset();
+                $scope.drawPreset(norskekongehus);
             }
         },
     ]
@@ -240,7 +247,8 @@ angularD3.controller("HomeController", function ($scope) {
         }
         $scope.settings = checkCustomSettings(customSettings);
         
-
+        $scope.info.Title = "Custom graph";
+        $scope.info.Message = "Draw your own custom force-directed graph. Use the control to add new nodes and link them together.";
         $scope.graph.data.nodes = [];
         $scope.graph.data.edges = [];
         $scope.display.tabs = 'nodesTable';
@@ -249,6 +257,10 @@ angularD3.controller("HomeController", function ($scope) {
 
     $scope.randomise = function () {
         //Generates a random number of nodes and randomly connects them together and then redraws the graph
+
+        $scope.info.Title = "Random graph";
+        $scope.info.Message = "A random set of nodes and a random set of connections.";
+
 
         var randomSettings =
          {
@@ -278,67 +290,22 @@ angularD3.controller("HomeController", function ($scope) {
         drawGraph();
     }
 
-    $scope.drawNorskeKongehuset = function () {
-        norskekongehus.makeNorskekongehuset();
-
-        $scope.graph.data = angular.copy(norskekongehus.data);
-
-        $scope.settings = angular.copy(checkCustomSettings(norskekongehus.settings));
-        drawGraph();
-
-
-    }
-
-    $scope.drawWindsors = function () {
-        windsors.makeWindsors();
-        $scope.graph.data = angular.copy(windsors.data);
-
-        $scope.settings = angular.copy(checkCustomSettings(windsors.settings));
-        drawGraph();
-
-    }
-
-    $scope.drawDNA = function () {
-
-        DNA.makeDNA(30);
-        $scope.graph.data = angular.copy(DNA.data);
-
-        $scope.settings = angular.copy(checkCustomSettings(DNA.settings));
+    $scope.drawPreset = function(preset) {
+        if (!preset) {
+            alert("Preset not loaded");
+            return;
+        }
+        if (!preset.initialise) {
+            alert("Preset has no initialise function");
+            return;
+        }
+        preset.initialise();
+        $scope.graph.data = angular.copy(preset.data);
+        $scope.settings = angular.copy(checkCustomSettings(preset.settings));
+        $scope.info = angular.copy(preset.info);
         drawGraph();
     }
 
-    $scope.drawMultipleCubes = function () {
-        $scope.graph.data = angular.copy(multiplecubes.data);
-        $scope.settings = angular.copy(checkCustomSettings(multiplecubes.settings));
-        drawGraph();
-    }
-
-    $scope.drawSquareLattice = function () {
-        squarelattice.drawLattice();
-
-        $scope.graph.data = angular.copy(squarelattice.data);
-        $scope.settings = angular.copy(checkCustomSettings(squarelattice.settings));
-        drawGraph();
-    }
-    $scope.drawGraphene = function () {
-
-        grapheneauto.drawGraphene();
-
-
-        $scope.graph.data = angular.copy(graphene.data);
-        $scope.settings = angular.copy(checkCustomSettings(graphene.settings));
-        drawGraph();
-    }
-    $scope.drawCube = function () {
-        $scope.graph.data = angular.copy(cube.data);
-        $scope.settings = angular.copy(checkCustomSettings(cube.settings));
-        drawGraph();
-    }
-    $scope.drawSphere = function () {
-        $scope.graph.data = angular.copy(sphere.data);
-        $scope.settings = angular.copy(checkCustomSettings(sphere.settings));
-        drawGraph();
-    }
 
     $scope.setClickedNode = function (node) {
         //Sets a node as 'clicked'. If it's the first time a node is clicked, we just set the property.
