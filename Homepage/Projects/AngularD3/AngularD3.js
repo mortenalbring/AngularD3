@@ -95,42 +95,9 @@ angularD3.controller("HomeController", function ($scope) {
         svg: null,
         force: null,
         data: {
-            nodes: [
-                {
-                    ID: 1,
-                    Name: "Test Node 1",
-                    TooltipText: "Test Node 1"
-                },
-                {
-                    ID: 2,
-                    Name: 'Test Node 2',
-                    TooltipText: ["Test Node 2", "Test 1", "Test 2", "Test 3"]
-                },
-                {
-                    ID: 3,
-                    Name: 'Test Node 3'
-                },
-                {
-                    ID: 4,
-                    Name: 'Test Node 4'
-                },
-                {
-                    ID: 5,
-                    Name: 'Test Node 5'
-                },
-                {
-                    ID: 6,
-                    Name: 'Test Node 6'
-                },
-            ],
+            nodes: [],
 
-            edges: [{ StartNode: 1, EndNode: 2 },
-                { StartNode: 2, EndNode: 3 },
-                { StartNode: 3, EndNode: 4 },
-                { StartNode: 4, EndNode: 5 },
-                { StartNode: 5, EndNode: 6 },
-                { StartNode: 6, EndNode: 3 }
-            ]
+            edges: []
         }
     };
 
@@ -215,7 +182,7 @@ angularD3.controller("HomeController", function ($scope) {
         },
     ]
 
-    $scope.preset.select = $scope.preset.options[1];
+    $scope.preset.select = $scope.preset.options[0];
 
 
     $scope.redrawGraph = function() {
@@ -392,7 +359,7 @@ angularD3.controller("HomeController", function ($scope) {
         drawGraph();
     }
 
-    $scope.drawGraph();
+    $scope.drawPreset(home);
 
 
     function resize() {
