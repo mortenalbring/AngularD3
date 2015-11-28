@@ -418,7 +418,54 @@ norskekongehus.constructData = function () {
         Born: 1878,
         Died: 1958
     };
-    norskekongehus.addChildren(FrederikVIII, Louise2, [HaakonVII, ChristianX, Ingeborg]);
+
+    var Louise4 = {
+        Name: "Louise",
+        Country: "Denmark",
+        Titles: ["Princess Friedrich of Schaumburg-Lippe"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1875,
+        Died: 1906
+    }
+
+    var Harald = {
+        Name: "Harald",
+        Country: "Denmark",
+        Titles: ["Prince of Denmark"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1876,
+        Died: 1949
+    }
+
+    var Thyra2 = {
+        Name: "Thyra",
+        Country: "Denmark",
+        Titles: ["Princess of Denmark"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1880,
+        Died: 1945
+    }
+
+    var Gustav = {
+        Name: "Gustav",
+        Country: "Denmark",
+        Titles: ["Prince of Denmark"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1887,
+        Died: 1944
+    }
+
+    var Dagmar2 = {
+        Name: "Dagmar",
+        Country: "Denmark",
+        Titles: ["Princess of Denmark", "Princess of Iceland"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1890,
+        Died: 1961
+    }
+
+    
+    norskekongehus.addChildren(FrederikVIII, Louise2, [ChristianX, HaakonVII, Louise4,Harald, Ingeborg, Thyra2,Gustav,Dagmar2]);
 
     var Astrid = {
         Name: "Astrid",
@@ -836,7 +883,7 @@ norskekongehus.constructData = function () {
         Born: 1885,
         Died: 1970
     }
-    norskekongehus.addChildren(Charles, VictoriaAdelaide, [Sibylla, ]);
+    norskekongehus.addChildren(Charles, VictoriaAdelaide, [Sibylla]);
 
     var LouiseMargareth = {
         Name: "Louise Margareth",
@@ -875,7 +922,10 @@ norskekongehus.constructData = function () {
         Born: 1940
     };
     norskekongehus.addChildren(FrederikIX, Ingrid, [MargretheII]);
-    norskekongehus.addChildren(ChristianIX, Louise3, [Alexandra, FrederikVIII, GeorgeI,Dagmar,Thyra,Valdemar]);
+    norskekongehus.addChildren(ChristianIX, Louise3, [Alexandra, FrederikVIII, GeorgeI, Dagmar, Thyra, Valdemar]);
+
+
+
     
 }
 
