@@ -1,14 +1,14 @@
 //Logic for producing DNA courtesy of Dr. Naomi Pollock
 
 var DNA = {
+    info: {
+        Title: "DNA",
+        Message: "This draws two strands of DNA with phosphates, and links them together with the appropriate base pairs." +
+            " Logic for producing this graph courtesy of Dr. Naomi Pollock"
+    },
     data: {
-        nodes: [
-
-
-        ],
-        edges: [
-            
-        ]
+        nodes: [],
+        edges: []
     },
     settings: {
         linkDistance: -30,

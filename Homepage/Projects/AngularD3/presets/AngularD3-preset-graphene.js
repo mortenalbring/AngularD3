@@ -1,4 +1,9 @@
 var graphene = {
+    info: {
+        Title: "Hexagonal grid",
+        Message: "Draws a simple hexagonal grid"
+    },
+
     settings: {
         charge: -500,
         linkDistance: 10

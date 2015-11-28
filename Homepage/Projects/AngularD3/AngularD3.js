@@ -247,7 +247,8 @@ angularD3.controller("HomeController", function ($scope) {
         }
         $scope.settings = checkCustomSettings(customSettings);
         
-
+        $scope.info.Title = "Custom graph";
+        $scope.info.Message = "Draw your own custom force-directed graph. Use the control to add new nodes and link them together.";
         $scope.graph.data.nodes = [];
         $scope.graph.data.edges = [];
         $scope.display.tabs = 'nodesTable';
@@ -256,6 +257,10 @@ angularD3.controller("HomeController", function ($scope) {
 
     $scope.randomise = function () {
         //Generates a random number of nodes and randomly connects them together and then redraws the graph
+
+        $scope.info.Title = "Random graph";
+        $scope.info.Message = "A random set of nodes and a random set of connections.";
+
 
         var randomSettings =
          {

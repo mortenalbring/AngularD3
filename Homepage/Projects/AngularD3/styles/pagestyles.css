@@ -1,11 +1,13 @@
 body {
     background:#fffdf8;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 margin:0;
 }
 
 h1 {
-    text-shadow:#d0d0d0 2px 2px;         
+    font-family:"Arial Black", Gadget, sans-serif;
+    font-weight:bolder;
+    text-shadow:#d0d0d0 4px 4px;         
 }
 h2 {
     padding:0;
@@ -13,6 +15,10 @@ h2 {
     font-size:1.1em;
 }
 
+.graph-message {
+    font-size:0.7em;
+    font-weight:lighter;
+}
 
 .control-bar {
     padding:0.5em;
