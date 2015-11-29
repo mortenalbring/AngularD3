@@ -104,8 +104,8 @@ norskekongehus.addChildren = function (parent1, parent2, children, fixParent1, f
         //Originally I was connecting both parents to all the children, but this ended up producing quite a confusing diagram so now I only 
         //connect the first parent. Uncomment these lines to connect both parents again. 
 
-          var newEdge2 = { StartNode: parent2Node.ID, EndNode: newNode.ID }        
-         norskekongehus.data.edges.push(newEdge2);
+        //  var newEdge2 = { StartNode: parent2Node.ID, EndNode: newNode.ID }        
+        // norskekongehus.data.edges.push(newEdge2);
     }
 }
 
@@ -156,7 +156,7 @@ norskekongehus.makeTooltipText = function () {
             if (spouseNodes.length > 0) {
                 t.push("Married to " + spouseNodes[0].Name + " - " + spouseNodes[0].Country);
             }
-        }
+        }        
 
         //Then we find the edges without the EdgeType 'couple' and insert a line indicating the names of their children
         var childrenNames = [];
