@@ -104,8 +104,8 @@ norskekongehus.addChildren = function (parent1, parent2, children, fixParent1, f
         //Originally I was connecting both parents to all the children, but this ended up producing quite a confusing diagram so now I only 
         //connect the first parent. Uncomment these lines to connect both parents again. 
 
-        //  var newEdge2 = { StartNode: parent2Node.ID, EndNode: newNode.ID }        
-        // norskekongehus.data.edges.push(newEdge2);
+          var newEdge2 = { StartNode: parent2Node.ID, EndNode: newNode.ID }        
+         norskekongehus.data.edges.push(newEdge2);
     }
 }
 
@@ -174,6 +174,26 @@ norskekongehus.makeTooltipText = function () {
         if (childrenNames.length > 0) {
             t.push("Children : " + childrenNames.join(", "));
         }
+
+        var parentNames = [];
+        var parentEdges = edges.filter(function (e) {
+            return (e.EdgeType != "Couple" && (e.EndNode == nodes[i].ID));
+        })
+        for (var k = 0; k < parentEdges.length; k++) {
+            var parentNode = nodes.filter(function (e) {
+                return e.ID == parentEdges[k].StartNode;
+            });
+            if (parentNode.length > 0) {
+                parentNames.push(parentNode[0].Name)
+            }
+        }
+        if (parentNames.length > 0) {
+            t.push("Parents : " + parentNames.join(", "));
+        }
+
+
+
+
         //And then attach that array to be displayed as a tooltip on hover over the node
         nodes[i].TooltipText = t;
     }
@@ -255,8 +275,12 @@ norskekongehus.settings.nodeClass = function (d) {
 
 norskekongehus.settings.customTickFunction = function (e, linkData) {
     //A gentle force that pushes sources up and targets down to force a weak tree
-    var k = 6 * e.alpha;
-    linkData.forEach(function (d, i) {       
+    var k = 15 * e.alpha;
+    linkData.forEach(function (d, i) {
+        d.source.y -= k;
+        d.target.y += k;
+        /*
+
             if (d.source.Born > d.target.Born) {
                 d.source.y -= k;
                 d.target.y += k;
@@ -264,6 +288,7 @@ norskekongehus.settings.customTickFunction = function (e, linkData) {
                 d.source.y += k;
                 d.target.y -= k;
             }             
+            */
     });
 
 }
