@@ -418,7 +418,54 @@ norskekongehus.constructData = function () {
         Born: 1878,
         Died: 1958
     };
-    norskekongehus.addChildren(FrederikVIII, Louise2, [HaakonVII, ChristianX, Ingeborg]);
+
+    var Louise4 = {
+        Name: "Louise",
+        Country: "Denmark",
+        Titles: ["Princess Friedrich of Schaumburg-Lippe"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1875,
+        Died: 1906
+    }
+
+    var Harald = {
+        Name: "Harald",
+        Country: "Denmark",
+        Titles: ["Prince of Denmark"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1876,
+        Died: 1949
+    }
+
+    var Thyra2 = {
+        Name: "Thyra",
+        Country: "Denmark",
+        Titles: ["Princess of Denmark"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1880,
+        Died: 1945
+    }
+
+    var Gustav = {
+        Name: "Gustav",
+        Country: "Denmark",
+        Titles: ["Prince of Denmark"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1887,
+        Died: 1944
+    }
+
+    var Dagmar2 = {
+        Name: "Dagmar",
+        Country: "Denmark",
+        Titles: ["Princess of Denmark", "Princess of Iceland"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 1890,
+        Died: 1961
+    }
+
+    
+    norskekongehus.addChildren(FrederikVIII, Louise2, [ChristianX, HaakonVII, Louise4,Harald, Ingeborg, Thyra2,Gustav,Dagmar2]);
 
     var Astrid = {
         Name: "Astrid",
@@ -529,7 +576,83 @@ norskekongehus.constructData = function () {
         Born: 1865,
         Died: 1936
     };
-    norskekongehus.addChildren(EdvardVII, Alexandra, [Maud, GeorgeV]);
+    var AlbertVictor = {
+        Name: "Albert Victor",
+        Country: "United Kingdom",
+        Titles: ["Duke of Clarence and Avondale"],
+        House: "Saxe-Coburg and Gotha",
+        Born: 1864,
+        Died: 1892
+
+    }
+    
+    var Louise5 = {
+        Name: "Louise",
+        Country: "United Kingdom",
+        Titles: ["Princess Royal, Duchess of Fife"],
+        House: "Saxe-Coburg and Gotha",
+        Born: 1867,
+        Died: 1931
+    }
+
+    var Victoria2 = {
+        Name: "Victoria",
+        Country: "United Kingdom",
+        Titles: ["Princess of Wales"],
+        House: "Saxe-Coburg and Gotha",
+        Born: 1868,
+        Died: 1935
+    }
+    
+    norskekongehus.addChildren(EdvardVII, Alexandra, [AlbertVictor, GeorgeV, Louise5, Maud]);
+
+    var AlexanderDuff = {
+        Name: "Alexander Duff",
+        Country: "United Kingdom",
+        Titles: ["1st Duke of Fife"],
+        Born: 1849,
+        Died: 1912
+    }
+
+    norskekongehus.addChildren(Louise5, AlexanderDuff, []);
+
+    var ElizabethHay = {
+        Name: "Elizabeth Hay",
+        Country: "United Kingdom",
+        Titles: ["Countess of Erroll"],
+        Born: 1801,
+        Died: 1856
+    }
+    var JamesDuff = {
+        Name: "James Duff",
+        Country: "United Kingdom",
+        Titles: ["5th Earl of Fife"],
+        Born: 1814,
+        Died: 1879
+    }
+
+    norskekongehus.addChildren(JamesDuff, ElizabethHay, [AlexanderDuff]);
+
+    
+    var WilliamIV = {
+        Name: "William IV",
+        Country: "United Kingdom",
+        Titles: ["King of the United Kingdom"],
+        Born: 1765,
+        Died: 1837
+    }
+    var Dorothea = {
+        Name: "Dorothea Jordan",
+        Country: "United Kingdom",
+        Titles: ["Mistress"],
+        Born: 1761,
+        Died: 1816
+    }
+    
+    norskekongehus.addChildren(WilliamIV, Dorothea, [ElizabethHay]);
+    
+
+
 
     var MaryOfTeck = {
         Name: "Mary of Teck",
@@ -768,6 +891,47 @@ norskekongehus.constructData = function () {
 
     norskekongehus.addChildren(HaraldV, Sonja, [Haakon, MarthaLouise]);
 
+    var MetteMarit = {
+        Name: "Mette-Marit",
+        Country: "Norway",
+        Titles: ["Crown Princess of Norway"],        
+        Born: 1973
+    }
+
+    var Marius = {
+        Name: "Marius Borg",
+        Country: "Norway",
+        Titles: ["Commoner"],        
+        Born: 1997
+    }
+
+    var Morten = {
+        Name: "Morten Borg",
+        Country: "Norway",
+        Titles: ["Commoner"],        
+        Born: 1968
+    }
+
+    norskekongehus.addChildren(MetteMarit, Morten, [Marius]);
+
+    var Ingrid2 = {
+        Name: "Ingrid Alexandra",
+        Country: "Norway",
+        Titles: ["Princess of Norway"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 2004
+    }
+
+    var Sverre = {
+        Name: "Sverre Magnus",
+        Country: "Norway",
+        Titles: ["Prince of Norway"],
+        House: "Schleswig-Holstein-Sonderburg-Glucksburg",
+        Born: 2005
+    }
+
+    norskekongehus.addChildren(Haakon, MetteMarit, [Ingrid2, Sverre]);
+
     var Victoria = {
         Name: "Victoria",
         Country: "United Kingdom",
@@ -801,6 +965,47 @@ norskekongehus.constructData = function () {
         Died: 1884
     }
     norskekongehus.addChildren(Victoria, Albert, [EdvardVII, Arthur, Leopold]);
+
+
+
+    var Edward = {
+        Name: "Edward",
+        Country: "United Kingdom",
+        Titles: ["Duke of Kent and Strathearn"],
+        House: "Hanover",
+        Born: 1767,
+        Died: 1820
+    };
+    var Victoria3 = {
+        Name: "Victoria",
+        Country: "United Kingdom",
+        Titles: ["Princess of Leiningen", "Duchess of Kent and Strathearn"],
+        House: "Wettin",
+        Born: 1786,
+        Died: 1861
+    };
+    norskekongehus.addChildren(Edward, Victoria3, [Victoria]);    
+
+    var GeorgeIII = {
+        Name: "George III",
+        Country: "United Kingdom",
+        Titles: ["King of Great Britain and Ireland"],
+        Born: 1728,
+        Died: 1820,
+        House: "Hanover"
+    }
+
+    var Charlotte = {
+        Name: "Charlotte",
+        Country: "United Kingdom",
+        Titles: ["Queen of Great Britain and Ireland"],
+        Born: 1944,
+        Died: 1818,
+        House: "Mecklenburg-Strelitz"
+    }
+
+    norskekongehus.addChildren(GeorgeIII, Charlotte, [Edward, WilliamIV]);
+
 
     var Helene = {
         Name: "Helene Friederike",
@@ -836,7 +1041,7 @@ norskekongehus.constructData = function () {
         Born: 1885,
         Died: 1970
     }
-    norskekongehus.addChildren(Charles, VictoriaAdelaide, [Sibylla, ]);
+    norskekongehus.addChildren(Charles, VictoriaAdelaide, [Sibylla]);
 
     var LouiseMargareth = {
         Name: "Louise Margareth",
@@ -875,7 +1080,10 @@ norskekongehus.constructData = function () {
         Born: 1940
     };
     norskekongehus.addChildren(FrederikIX, Ingrid, [MargretheII]);
-    norskekongehus.addChildren(ChristianIX, Louise3, [Alexandra, FrederikVIII, GeorgeI,Dagmar,Thyra,Valdemar]);
+    norskekongehus.addChildren(ChristianIX, Louise3, [Alexandra, FrederikVIII, GeorgeI, Dagmar, Thyra, Valdemar]);
+
+
+
     
 }
 

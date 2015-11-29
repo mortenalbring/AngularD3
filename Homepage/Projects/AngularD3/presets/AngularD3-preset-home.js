@@ -1,4 +1,10 @@
 var home = {
+    info: {
+        Title: "Interactive force-directed graph simulations",
+        Message: "This uses the beautiful data-visualisation library d3.js by Mike Bostock " +
+            "to display force-directed graphs from an array of nodes and edges, and adds dynamic interactive elements by combining" +
+            "it with AngularJS. You can create your own force-directed graph simulations or see one of the presets for examples"
+    },
 
     settings: {
         charge: -800,
@@ -81,7 +87,7 @@ var home = {
             { StartNode: 9, EndNode: 15 },
 
         ]
-}
+    }
 
 }
 
