@@ -153,6 +153,13 @@ angularD3.controller("HomeController", function ($scope) {
             }
         },
         {
+            ID: 10,
+            Title: "Multiple spheres",
+            RunFunction: function () {
+                $scope.drawPreset(multiplespheres);
+            }
+        },
+        {
             ID: 6,
             Title: "Multiple cubes",
             RunFunction: function () {
