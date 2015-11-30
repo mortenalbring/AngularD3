@@ -4,9 +4,9 @@ var multiplespheres = {
         Message:"Draws several spheres"
     },
     settings: {        
-        linkDistance: 0.5,
-        linkStrength: 10,
-        gravity: 0.5,
+        linkDistance: 0.001,
+        linkStrength: 4,
+        gravity: 0.7,
         friction: 0.5,
         lockToContainer: true,
         clickToConnect: false,
@@ -43,7 +43,7 @@ multiplespheres.makeChain = function (startId,maxElements) {
 
 multiplespheres.makeNodes = function () {
 
-    var chainCount = 8;
+    var chainCount = 9;
     var chainLength = 3;
 
     var startID = multiplespheres.data.nodes.length+1;
@@ -68,7 +68,7 @@ multiplespheres.makeNodes = function () {
     var pole2 = {
         ID: multiplespheres.data.nodes[multiplespheres.data.nodes.length - 1].ID + 2,
         Name: "",
-        Type: 2
+        Type: 3
     }
 
     multiplespheres.data.nodes.push(pole1);
