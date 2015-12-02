@@ -15,6 +15,7 @@ var norskekongehus = {
         friction: 0.6,
         lockToContainer: true,
         clickToConnect: false,
+        showArrows: true,
         charge: -800,
         radius: 1,
 
@@ -26,6 +27,92 @@ var norskekongehus = {
 
         ],
     }
+}
+
+
+norskekongehus.settings.linkStrength = function (edge) {
+    if (edge.EdgeType == "Couple") {
+        return 4;
+    }
+    return 2;
+}
+norskekongehus.settings.linkDistance = function (edge) {
+    if (edge.EdgeType == "Couple") {
+        return 0.1;
+    }
+    return 0.2;
+}
+
+norskekongehus.settings.linkClass = function (edge) {
+    /// <summary>
+    /// Sets the appropriate CSS class based on certain properties of the edge
+    /// </summary>
+    /// <param name="edge" type="type">Edge</param>
+    /// <returns type="">CSS class name</returns>
+    if (edge.EdgeType == "Couple") {
+        return "link-couple";
+    }
+    return "link-children";
+}
+
+norskekongehus.settings.nodeClass = function (d) {
+    /// <summary>
+    /// Sets the appropriate CSS class based on certain properties of the node
+    /// </summary>
+    /// <param name="d" type="type">Node</param>
+    /// <returns type="">CSS class name</returns>
+    var base = 'node-container-kongehus';
+    var output = base;
+
+    if (d.Country == "Norway") {
+        output = base + ' node-container-norway';
+    }
+    if (d.Country == "Sweden") {
+        output = base + ' node-container-sweden';
+    }
+    if (d.Country == "Norway and Sweden") {
+        output = base + ' node-container-norway-and-sweden';
+    }
+    if (d.Country == "Denmark") {
+        output = base + ' node-container-denmark';
+    }
+    if (d.Country == "Germany") {
+        output = base + ' node-container-germany';
+    }
+    if (d.Country == "United Kingdom") {
+        output = base + ' node-container-united-kingdom';
+    }
+
+    if (output == base) {
+        output = base + ' node-container-kongehus-default'
+    }
+
+    if (d.Died) {
+        output = output + ' dead';
+    } else {
+        output = output + ' alive';
+    }
+    return output;
+},
+
+norskekongehus.settings.customTickFunction = function (e, linkData) {
+    //A gentle force that pushes sources up and targets down to force a weak tree
+    var k = 15 * e.alpha;
+    linkData.forEach(function (d, i) {
+        d.source.y -= k;
+        d.target.y += k;
+        /*
+
+            if (d.source.Born > d.target.Born) {
+                d.source.y -= k;
+                d.target.y += k;
+            } else {
+                d.source.y += k;
+                d.target.y -= k;
+            }             
+            */
+    });
+
 }
 
 
@@ -104,8 +191,10 @@ norskekongehus.addChildren = function (parent1, parent2, children, fixParent1, f
         //Originally I was connecting both parents to all the children, but this ended up producing quite a confusing diagram so now I only 
         //connect the first parent. Uncomment these lines to connect both parents again. 
 
-        //  var newEdge2 = { StartNode: parent2Node.ID, EndNode: newNode.ID }        
-        // norskekongehus.data.edges.push(newEdge2);
+        /*
+          var newEdge2 = { StartNode: parent2Node.ID, EndNode: newNode.ID }        
+         norskekongehus.data.edges.push(newEdge2);
+         */
     }
 }
 
@@ -207,90 +296,6 @@ norskekongehus.initialise = function () {
     norskekongehus.makeTooltipText(norskekongehus.data.nodes);
 
   
-}
-norskekongehus.settings.linkStrength = function (edge) {
-    if (edge.EdgeType == "Couple") {
-        return 4;
-    }
-    return 2;
-}
-norskekongehus.settings.linkDistance = function (edge) {
-    if (edge.EdgeType == "Couple") {
-        return 0.1;
-    }
-    return 0.2;
-}
-
-norskekongehus.settings.linkClass = function (edge) {
-    /// <summary>
-    /// Sets the appropriate CSS class based on certain properties of the edge
-    /// </summary>
-    /// <param name="edge" type="type">Edge</param>
-    /// <returns type="">CSS class name</returns>
-    if (edge.EdgeType == "Couple") {
-        return "link-couple";
-    }
-    return "link-children";
-}
-
-norskekongehus.settings.nodeClass = function (d) {
-    /// <summary>
-    /// Sets the appropriate CSS class based on certain properties of the node
-    /// </summary>
-    /// <param name="d" type="type">Node</param>
-    /// <returns type="">CSS class name</returns>
-    var base = 'node-container-kongehus';
-    var output = base;
-
-    if (d.Country == "Norway") {
-        output = base + ' node-container-norway';
-    }
-    if (d.Country == "Sweden") {
-        output = base + ' node-container-sweden';
-    }
-    if (d.Country == "Norway and Sweden") {
-        output = base + ' node-container-norway-and-sweden';
-    }
-    if (d.Country == "Denmark") {
-        output = base + ' node-container-denmark';
-    }
-    if (d.Country == "Germany") {
-        output = base + ' node-container-germany';
-    }
-    if (d.Country == "United Kingdom") {
-        output = base + ' node-container-united-kingdom';
-    }
-
-    if (output == base) {
-        output = base + ' node-container-kongehus-default'
-    }
-
-    if (d.Died) {
-        output = output + ' dead';
-    } else {
-        output = output + ' alive';
-    }
-    return output;
-},
-
-norskekongehus.settings.customTickFunction = function (e, linkData) {
-    //A gentle force that pushes sources up and targets down to force a weak tree
-    var k = 15 * e.alpha;
-    linkData.forEach(function (d, i) {
-        d.source.y -= k;
-        d.target.y += k;
-        /*
-
-            if (d.source.Born > d.target.Born) {
-                d.source.y -= k;
-                d.target.y += k;
-            } else {
-                d.source.y += k;
-                d.target.y -= k;
-            }             
-            */
-    });
-
 }
 
 
