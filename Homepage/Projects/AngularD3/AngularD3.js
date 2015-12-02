@@ -24,6 +24,7 @@ angularD3.controller("HomeController", function ($scope) {
         linkClass: function () { return 'link link-default'; },
         nodeClass: function () { return 'node-container'; },
         customTickFunction: null,
+        showArrows: true
     }
     function checkCustomSettings(customSettings) {
         //The preset files come with custom settings for various parameters to make the scene look good. 
@@ -37,6 +38,7 @@ angularD3.controller("HomeController", function ($scope) {
 
         if (customSettings.clickToConnect == undefined) { customSettings.clickToConnect = true; }
         if (customSettings.lockToContainer == undefined) { customSettings.lockToContainer = false; }
+        if (customSettings.showArrows == undefined) { customSettings.showArrows = false; }
 
         if (!customSettings.linkClass) { customSettings.linkClass = function () { return 'link link-default'; } }
         if (!customSettings.nodeClass) { customSettings.nodeClass = function () { return 'node-container'; } }
@@ -118,12 +120,12 @@ angularD3.controller("HomeController", function ($scope) {
             }
         },
         {
-        ID: 1,
-        Title: "Randomise!",
-        RunFunction: function () {
-            $scope.randomise();
-        }
-    },
+            ID: 1,
+            Title: "Randomise!",
+            RunFunction: function () {
+                $scope.randomise();
+            }
+        },
         {
             ID: 2,
             Title: "Square lattice",
@@ -192,7 +194,7 @@ angularD3.controller("HomeController", function ($scope) {
     $scope.preset.select = $scope.preset.options[0];
 
 
-    $scope.redrawGraph = function() {
+    $scope.redrawGraph = function () {
         if ($scope.preset.select.ID != 0) {
             if ($scope.preset.select.RunFunction) {
                 $scope.preset.select.RunFunction();
@@ -212,7 +214,7 @@ angularD3.controller("HomeController", function ($scope) {
         }
     }
 
-    $scope.makeCustom = function() {
+    $scope.makeCustom = function () {
         var customSettings =
         {
             linkDistance: Math.floor(Math.random() * 100),
@@ -220,7 +222,7 @@ angularD3.controller("HomeController", function ($scope) {
             clickToConnect: true,
         }
         $scope.settings = checkCustomSettings(customSettings);
-        
+
         $scope.info.Title = "Custom graph";
         $scope.info.Message = "Draw your own custom force-directed graph. Use the control to add new nodes and link them together.";
         $scope.graph.data.nodes = [];
@@ -264,7 +266,7 @@ angularD3.controller("HomeController", function ($scope) {
         drawGraph();
     }
 
-    $scope.drawPreset = function(preset) {
+    $scope.drawPreset = function (preset) {
         if (!preset) {
             alert("Preset not loaded");
             return;
@@ -421,19 +423,21 @@ angularD3.controller("HomeController", function ($scope) {
 
         $scope.graph.force.start();
 
-        //Draws little arrows on graph
-        $scope.graph.svg.append("svg:defs").selectAll("marker")
-            .data(["end"])
-            .enter().append("svg:marker")
-            .attr("id", String)
-            .attr("viewBox", "0 -5 10 10")
-            .attr("refX", 0)
-            .attr("refY", 0)
-            .attr("markerWidth", 6)
-            .attr("markerHeight", 6)
-            .attr("orient", "auto")
-            .append("svg:path")
-            .attr("d", "M0,-5L10,0L0,5");
+        if ($scope.settings.showArrows) {
+            //Draws little arrows on graph
+            $scope.graph.svg.append("svg:defs").selectAll("marker")
+                .data(["end"])
+                .enter().append("svg:marker")
+                .attr("id", String)
+                .attr("viewBox", "0 -5 10 10")
+                .attr("refX", 0)
+                .attr("refY", 0)
+                .attr("markerWidth", 6)
+                .attr("markerHeight", 6)
+                .attr("orient", "auto")
+                .append("svg:path")
+                .attr("d", "M0,-5L10,0L0,5");
+        }
 
         $scope.graph.linklines = $scope.graph.svg.selectAll(".link");
         //   $scope.graph.data.linkData = linksIndexes($scope.graph.data.edges, $scope.graph.data.nodes);
@@ -444,7 +448,7 @@ angularD3.controller("HomeController", function ($scope) {
 
         $scope.graph.linklines.enter()
             .insert("polyline", ".node")
-            .attr("class", function(e) { return $scope.settings.linkClass(e); })
+            .attr("class", function (e) { return $scope.settings.linkClass(e); })
             .attr("marker-mid", "url(#end)");
 
         $scope.graph.linklines.exit().remove();
