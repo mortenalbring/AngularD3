@@ -421,14 +421,14 @@ angularD3.controller("HomeController", function ($scope) {
 
         $scope.graph.force.start();
 
-
+        //Draws little arrows on graph
         $scope.graph.svg.append("svg:defs").selectAll("marker")
             .data(["end"])
             .enter().append("svg:marker")
             .attr("id", String)
             .attr("viewBox", "0 -5 10 10")
-            .attr("refX", 15)
-            .attr("refY", -1.5)
+            .attr("refX", 0)
+            .attr("refY", 0)
             .attr("markerWidth", 6)
             .attr("markerHeight", 6)
             .attr("orient", "auto")
@@ -443,9 +443,9 @@ angularD3.controller("HomeController", function ($scope) {
         });
 
         $scope.graph.linklines.enter()
-            .insert("line", ".node")
+            .insert("polyline", ".node")
             .attr("class", function(e) { return $scope.settings.linkClass(e); })
-            .attr("marker-end", "url(#end)");
+            .attr("marker-mid", "url(#end)");
 
         $scope.graph.linklines.exit().remove();
 
@@ -610,10 +610,11 @@ angularD3.controller("HomeController", function ($scope) {
                 $scope.settings.customTickFunction(e, $scope.graph.data.linkData);
             }
 
-            $scope.graph.linklines.attr("x1", function (d) { return d.source.x; })
-                .attr("y1", function (d) { return d.source.y; })
-                .attr("x2", function (d) { return d.target.x; })
-                .attr("y2", function (d) { return d.target.y; });
+            $scope.graph.linklines.attr("points", function (d) {
+                return d.source.x + "," + d.source.y + " " +
+                       (d.source.x + d.target.x) / 2 + "," + (d.source.y + d.target.y) / 2 + " " +
+                       d.target.x + "," + d.target.y;
+            });
         }
     }
 });
