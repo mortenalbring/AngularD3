@@ -8,7 +8,8 @@ var home = {
 
     settings: {
         charge: -800,
-        linkDistance: 30
+        linkDistance: 30,
+        showArrows: true
     },
 
     data: {

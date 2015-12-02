@@ -202,16 +202,27 @@
                     </div>
                     <div class="options-container">
                         <small>Prevent nodes from going outside the containing box</small>
-                        <br />
+                        <br/>
                         <label>
-                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="true" ng-change="drawGraph()" />
+                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="true" ng-change="drawGraph()"/>
                             On
                         </label>
                         <label>
-                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="false" ng-change="drawGraph()" />
+                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="false" ng-change="drawGraph()"/>
                             Off
                         </label>
-
+                    </div>
+                    <div class="options-container">
+                        <small>Show arrows</small>
+                        <br />
+                        <label>
+                            <input type="radio" ng-model="settings.showArrows" data-ng-value="true" ng-change="drawGraph()" />
+                            On
+                        </label>
+                        <label>
+                            <input type="radio" ng-model="settings.showArrows" data-ng-value="false" ng-change="drawGraph()" />
+                            Off
+                        </label>
                     </div>
                 </div>
 
