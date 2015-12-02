@@ -422,6 +422,19 @@ angularD3.controller("HomeController", function ($scope) {
         $scope.graph.force.start();
 
 
+        $scope.graph.svg.append("svg:defs").selectAll("marker")
+            .data(["end"])
+            .enter().append("svg:marker")
+            .attr("id", String)
+            .attr("viewBox", "0 -5 10 10")
+            .attr("refX", 15)
+            .attr("refY", -1.5)
+            .attr("markerWidth", 6)
+            .attr("markerHeight", 6)
+            .attr("orient", "auto")
+            .append("svg:path")
+            .attr("d", "M0,-5L10,0L0,5");
+
         $scope.graph.linklines = $scope.graph.svg.selectAll(".link");
         //   $scope.graph.data.linkData = linksIndexes($scope.graph.data.edges, $scope.graph.data.nodes);
 
@@ -431,7 +444,9 @@ angularD3.controller("HomeController", function ($scope) {
 
         $scope.graph.linklines.enter()
             .insert("line", ".node")
-            .attr("class", function (e) { return $scope.settings.linkClass(e); });
+            .attr("class", function(e) { return $scope.settings.linkClass(e); })
+            .attr("marker-end", "url(#end)");
+
         $scope.graph.linklines.exit().remove();
 
         //Container for both the node and the label describing the node
