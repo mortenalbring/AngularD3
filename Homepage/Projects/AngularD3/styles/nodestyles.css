@@ -25,7 +25,10 @@
     background: #ded6ee;
 }
 
-
+.link-arrow {
+    fill:#000;
+    opacity:0.5;
+}
 
 .link {
     stroke: #777;

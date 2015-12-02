@@ -429,6 +429,7 @@ angularD3.controller("HomeController", function ($scope) {
                 .data(["end"])
                 .enter().append("svg:marker")
                 .attr("id", String)
+                .attr("class","link-arrow")
                 .attr("viewBox", "0 -5 10 10")
                 .attr("refX", 0)
                 .attr("refY", 0)
