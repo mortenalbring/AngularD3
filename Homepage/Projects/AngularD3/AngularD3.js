@@ -472,10 +472,16 @@ angularD3.controller("HomeController", function ($scope) {
         var cnode = gnodes.append("circle")
             .attr("class", "cnode")
             .attr("r", $scope.settings.radius);
+        /*
+        var labels = gnodes.append("text")
+.attr("class", "label-text-shadow")
+.text(function (d) { return d.Name });
+*/
 
         var labels = gnodes.append("text")
             .attr("class", "label-text")
             .text(function (d) { return d.Name });
+
 
 
         function connectNodes(d) {
