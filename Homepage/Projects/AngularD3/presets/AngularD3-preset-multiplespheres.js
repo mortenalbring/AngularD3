@@ -1,7 +1,7 @@
 var multiplespheres = {
     info: {
         Title:"Multiple spheres",
-        Message:"Draws several spheres"
+        Message:"Draws several spheres. Yeah, they sort of look more like barrels than spheres. "
     },
     settings: {        
         linkDistance: 0.001,
@@ -50,8 +50,7 @@ multiplespheres.makeNodes = function () {
 
     chains = [];
     for (var i = startID; i < startID + chainCount; i++) {        
-        var chain = multiplespheres.makeChain(i*chainCount, chainLength);
-        console.log((i));
+        var chain = multiplespheres.makeChain(i*chainCount, chainLength);        
         chains.push(chain);
     }
 
