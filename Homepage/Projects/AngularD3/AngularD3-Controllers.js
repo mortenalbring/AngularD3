@@ -14,20 +14,7 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
     }
     
 
-    $scope.settings = {
-        linkDistance: 20,
-        linkStrength: 1,
-        friction: 0.9,
-        charge: -1000,
-        gravity: 0.25,
-        radius: 2,
-        clickToConnect: true,
-        lockToContainer: false,
-        linkClass: function () { return 'link link-default'; },
-        nodeClass: function () { return 'node-container'; },
-        customTickFunction: null,
-        showArrows: true
-    }
+    $scope.settings = SettingsService.defaultSettings;    
 
 
     $scope.isNumeric = function (n) {
