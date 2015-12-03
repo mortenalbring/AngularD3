@@ -1,4 +1,5 @@
-var angularD3 = angular.module("angularD3", []);
+var angularD3 = angular.module("angularD3", ['ngRoute']);
+
 
 angularD3.controller("HomeController", function ($scope) {
 
@@ -629,3 +630,21 @@ angularD3.controller("HomeController", function ($scope) {
         }
     }
 });
+
+angularD3.controller("TestController", function($scope) {
+    $scope.message = "HELLO";
+})
+
+angularD3.config([
+    '$routeProvider', function ($routeProvider) {
+        $routeProvider
+            .when('/test', {
+                templateUrl: 'test',
+                controller: 'HomeController'
+            })
+            .when('/', {
+                templateUrl: 'test',
+                controller: 'HomeController'
+            })
+    }
+]);
