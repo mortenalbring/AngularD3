@@ -202,13 +202,13 @@
                     </div>
                     <div class="options-container">
                         <small>Prevent nodes from going outside the containing box</small>
-                        <br/>
+                        <br />
                         <label>
-                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="true" ng-change="drawGraph()"/>
+                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="true" ng-change="drawGraph()" />
                             On
                         </label>
                         <label>
-                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="false" ng-change="drawGraph()"/>
+                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="false" ng-change="drawGraph()" />
                             Off
                         </label>
                     </div>
@@ -345,6 +345,7 @@
     </div>
 
     <script src="packages/angular.min.js"></script>
+    <script src="packages/angular-route.js"></script>
     <script src='packages/d3.min.js'></script>
     <script src="presets/AngularD3-preset-home.js"></script>
     <script src="presets/AngularD3-preset-graphene.js"></script>
