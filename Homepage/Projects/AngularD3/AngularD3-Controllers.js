@@ -1,7 +1,7 @@
 var angularD3Controllers = angular.module('angularD3Controllers', []);
 
 
-angularD3Controllers.controller("HomeController", function ($scope) {
+angularD3Controllers.controller("HomeController", function ($scope, SettingsService) {
 
     $scope.display = {};
     $scope.display.tabs = 'showSettings';
@@ -12,6 +12,7 @@ angularD3Controllers.controller("HomeController", function ($scope) {
             "to display force-directed graphs from an array of nodes and edges, and adds dynamic interactive elements by combining" +
             "it with AngularJS. You can create your own force-directed graph simulations or see one of the presets for examples"
     }
+    
 
     $scope.settings = {
         linkDistance: 20,
@@ -27,25 +28,7 @@ angularD3Controllers.controller("HomeController", function ($scope) {
         customTickFunction: null,
         showArrows: true
     }
-    function checkCustomSettings(customSettings) {
-        //The preset files come with custom settings for various parameters to make the scene look good. 
-        //If I've forgotten to set one of the parameters, this should prevent the graph from breaking        
-        if (!customSettings.linkDistance) { customSettings.linkDistance = 20; }
-        if (!customSettings.linkStrength) { customSettings.linkStrength = 0.8; }
-        if (!customSettings.friction) { customSettings.friction = 0.9; }
-        if (!customSettings.charge) { customSettings.charge = -1000; }
-        if (!customSettings.gravity) { customSettings.gravity = 0.25; }
-        if (!customSettings.radius) { customSettings.radius = 2; }
 
-        if (customSettings.clickToConnect == undefined) { customSettings.clickToConnect = true; }
-        if (customSettings.lockToContainer == undefined) { customSettings.lockToContainer = false; }
-        if (customSettings.showArrows == undefined) { customSettings.showArrows = false; }
-
-        if (!customSettings.linkClass) { customSettings.linkClass = function () { return 'link link-default'; } }
-        if (!customSettings.nodeClass) { customSettings.nodeClass = function () { return 'node-container'; } }
-
-        return customSettings;
-    }
 
     $scope.isNumeric = function (n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
@@ -222,7 +205,7 @@ angularD3Controllers.controller("HomeController", function ($scope) {
             charge: Math.floor(Math.random() * 1000) * -1,
             clickToConnect: true,
         }
-        $scope.settings = checkCustomSettings(customSettings);
+        $scope.settings = SettingsService.checkSettings(customSettings);
 
         $scope.info.Title = "Custom graph";
         $scope.info.Message = "Draw your own custom force-directed graph. Use the control to add new nodes and link them together.";
@@ -244,7 +227,7 @@ angularD3Controllers.controller("HomeController", function ($scope) {
              linkDistance: Math.floor(Math.random() * 100),
              charge: Math.floor(Math.random() * 1000) * -1
          }
-        $scope.settings = checkCustomSettings(randomSettings);
+        $scope.settings = SettingsService.checkSettings(randomSettings);
 
         var min = 10;
         var randmax = Math.floor((Math.random() * 20) + min);
@@ -278,7 +261,7 @@ angularD3Controllers.controller("HomeController", function ($scope) {
         }
         preset.initialise();
         $scope.graph.data = angular.copy(preset.data);
-        $scope.settings = angular.copy(checkCustomSettings(preset.settings));
+        $scope.settings = angular.copy(SettingsService.checkSettings(preset.settings));
         $scope.info = angular.copy(preset.info);
         drawGraph();
     }
