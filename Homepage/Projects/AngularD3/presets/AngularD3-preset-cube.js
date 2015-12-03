@@ -4,10 +4,10 @@ var cube = {
         Message: "Draws a single cube. Due to the oddities of the simulation, sometimes this comes out a bit folded. Jiggle the simulation a bit to fix it."
     },
     settings: {
-        charge: -1000,
-        linkDistance: 160,
+        charge: -900,
+        linkDistance: 100,
         friction: 0.5,
-        radius: 4
+        radius: 4,        
     },
     data: {
         nodes: [

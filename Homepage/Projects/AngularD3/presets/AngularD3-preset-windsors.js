@@ -12,6 +12,7 @@ var windsors = {
         friction: 0.9,
         lockToContainer: true,
         clickToConnect: false,
+        showArrows: true,
         charge: -1500,
         radius: 1,
 
