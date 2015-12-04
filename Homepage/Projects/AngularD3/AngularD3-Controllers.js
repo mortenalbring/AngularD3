@@ -12,9 +12,9 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
             "to display force-directed graphs from an array of nodes and edges, and adds dynamic interactive elements by combining" +
             "it with AngularJS. You can create your own force-directed graph simulations or see one of the presets for examples"
     }
-    
 
-    $scope.settings = SettingsService.defaultSettings;    
+
+    $scope.settings = SettingsService.defaultSettings;
 
 
     $scope.isNumeric = function (n) {
@@ -160,6 +160,14 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
                 $scope.drawPreset(norskekongehus);
             }
         },
+        {
+            ID: 11,
+            Title: "Orbit",
+            RunFunction: function () {
+                $scope.drawPreset(orbit);
+            }
+        },
+
     ]
 
     $scope.preset.select = $scope.preset.options[0];
@@ -570,6 +578,14 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
 
         function tick(e) {
 
+            if ($scope.settings.keepSimulationAlive) {
+
+
+                if (e.alpha <= 0.0051) {
+                    console.log("done!");
+                    $scope.graph.force.resume();
+                }
+            }
 
 
             gnodes.attr("transform", function (d) {

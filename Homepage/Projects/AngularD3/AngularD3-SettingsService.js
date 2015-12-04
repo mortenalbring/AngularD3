@@ -12,6 +12,7 @@ var AngularD3SettingsService = function() {
         if (customSettings.clickToConnect == undefined) { customSettings.clickToConnect = true; }
         if (customSettings.lockToContainer == undefined) { customSettings.lockToContainer = false; }
         if (customSettings.showArrows == undefined) { customSettings.showArrows = false; }
+        if (customSettings.keepSimulationAlive == undefined) { customSettings.keepSimulationAlive = false; }
 
         if (!customSettings.linkClass) { customSettings.linkClass = function () { return 'link link-default'; } }
         if (!customSettings.nodeClass) { customSettings.nodeClass = function () { return 'node-container'; } }
