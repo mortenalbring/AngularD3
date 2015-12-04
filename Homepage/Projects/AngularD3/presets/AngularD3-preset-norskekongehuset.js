@@ -32,13 +32,13 @@ var norskekongehus = {
 
 norskekongehus.settings.linkStrength = function (edge) {
     if (edge.EdgeType == "Couple") {
-        return 4;
+        return 1;
     }
     return 2;
 }
 norskekongehus.settings.linkDistance = function (edge) {
     if (edge.EdgeType == "Couple") {
-        return 0.1;
+        return 0.4;
     }
     return 0.2;
 }
@@ -178,6 +178,8 @@ norskekongehus.addChildren = function (parent1, parent2, children, fixParent1, f
     if (existingEdge.length == 0) {
         var newEdge = { StartNode: parent1Node.ID, EndNode: parent2Node.ID, EdgeType: "Couple" };
         norskekongehus.data.edges.push(newEdge);
+        var newEdge = { StartNode: parent2Node.ID, EndNode: parent1Node.ID, EdgeType: "Couple" };
+        norskekongehus.data.edges.push(newEdge);
     }
 
     var startId = norskekongehus.data.nodes.length + 1;
@@ -230,7 +232,7 @@ norskekongehus.makeTooltipText = function () {
 
         //Then we find the edges with EdgeType 'couple' and insert a line indicating the names of their spouse(s)
         var spouseEdges = edges.filter(function (e) {
-            return (e.EdgeType == "Couple" && (e.StartNode == nodes[i].ID || e.EndNode == nodes[i].ID));
+            return (e.EdgeType == "Couple" && (e.StartNode == nodes[i].ID));
         });
         var spouseID = 0;
         for (var j = 0; j < spouseEdges.length; j++) {
