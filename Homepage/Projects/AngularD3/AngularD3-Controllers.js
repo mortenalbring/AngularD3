@@ -579,12 +579,11 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
         function tick(e) {
 
             if ($scope.settings.keepSimulationAlive) {
+                $scope.graph.force.resume();
 
-
-                if (e.alpha <= 0.0051) {
-                    console.log("done!");
-                    $scope.graph.force.resume();
-                }
+            }
+            if ($scope.settings.customTickFunction) {
+                $scope.settings.customTickFunction(e, $scope.graph.data.linkData);
             }
 
 
@@ -604,10 +603,7 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
                 }
             });
 
-            if ($scope.settings.customTickFunction) {
-                $scope.settings.customTickFunction(e, $scope.graph.data.linkData);
-            }
-
+          
             $scope.graph.linklines.attr("points", function (d) {
                 return d.source.x + "," + d.source.y + " " +
                        (d.source.x + d.target.x) / 2 + "," + (d.source.y + d.target.y) / 2 + " " +
