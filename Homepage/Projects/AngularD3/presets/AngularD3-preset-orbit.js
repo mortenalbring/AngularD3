@@ -24,36 +24,47 @@ var orbit = {
                 fixed: true,
                 x: 300,
                 y: 300,
+                Mass: 3000,
                 orbitPoint: true,
                 nodeClass: "node-container node-red"
             },
             {
                 ID: 2, Name: "P1",
                 orbitPoint: true,
+                Mass: 500,
                 nodeClass: "node-container node-yellow"
             },
             {
                 ID: 3,
                 Name: "M1",
+                Mass: 10,
                 orbitPoint: true,
                 nodeClass: "node-container node-orange"
             },
             {
-                ID: 4, Name: "P2",
+                ID: 4,
+                Name: "P2",
+                Mass: 400,
                 nodeClass: "node-container node-orange",
 
             },
             {
-                ID: 5, Name: "P3",
+                ID: 5,
+                Name: "P3",
+                Mass: 300,
                 nodeClass: "node-container node-orange"
             },
             {
-                ID: 8, Name: "P4",
+                ID: 8,
+                Name: "P4",
+                Mass: 600,
                 orbitPoint: true,
                 nodeClass: "node-container node-orange"
             },
             {
-                ID: 9, Name: "M2",
+                ID: 9,
+                Name: "M2",
+                Mass: 20,
                 nodeClass: "node-container node-orange"
             },
             {
@@ -139,10 +150,14 @@ orbit.settings.customTickFunction = function (e, links) {
             if ((links[i].Properties) && (links[i].Properties.Distance)) {
                 distanceVal = links[i].Properties.Distance;
             }
+
+            var bigG = 0.00001;
             var precessVal = 0.1;
-            if ((links[i].Properties) && (links[i].Properties.Speed)) {
-                precessVal = links[i].Properties.Speed;
+            if (d.source.Mass && d.target.Mass) {
+                var precessVal = Math.sqrt((bigG * (d.source.Mass + d.target.Mass)) / distanceVal);                
             }
+
+          
 
 
             d.target.x = d.source.x + (d.target.x * distanceVal * Math.cos(precessVal * orbit.time));
@@ -183,6 +198,7 @@ orbit.makeSystem = function () {
         x: 500,
         y: 300,
         orbitPoint: true,
+        Mass: 1000,
         nodeClass: "node-container node-red"
     };
     orbit.data.nodes.push(sun);
@@ -193,7 +209,7 @@ orbit.makeSystem = function () {
         orbit.data.nodes.push(planets[i]);        
 
 
-        var randomVal = Math.random(); 
+        var randomVal = getRandomInt(30,100) / 100; 
         
         var planetEdge = {
             StartNode: sun.ID,
@@ -217,7 +233,7 @@ orbit.makeSystem = function () {
                 StartNode: planets[i].ID,
                 EndNode: moons[j].ID,
                 Properties: {
-                    Distance: subrandomVal * 0.2,
+                    Distance: (planetEdge.Properties.Distance + (subrandomVal * 0.2)) / 10,
                     Speed: 1 - ( subrandomVal * 0.1)
                 }
             }
@@ -228,6 +244,10 @@ orbit.makeSystem = function () {
     }
 }
 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 orbit.makeMoons = function(number) {
     var startId = orbit.data.nodes.length + 100;
     var moons = [];
@@ -235,7 +255,9 @@ orbit.makeMoons = function(number) {
     for (var i = 0; i < number; i++) {
         var moon =
         {
-            ID: startId + i, Name: "M" + i,
+            ID: startId + i,
+            Name: "M" + i,
+            Mass: 10,
             nodeClass: "node-container node-red"
         }
         moons.push(moon);
@@ -251,7 +273,9 @@ orbit.makePlanets = function(number) {
     for (var i = 0; i < number; i++) {
         var planet = 
         {
-            ID: startId + i, Name: "P" + i,            
+            ID: startId + i,
+            Name: "P" + i,
+            Mass: 100,
             nodeClass: "node-container node-yellow"
         }
         planets.push(planet);
