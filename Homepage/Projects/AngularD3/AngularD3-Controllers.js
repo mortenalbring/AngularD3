@@ -569,6 +569,7 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
                     }
 
                     if (edges[i].EdgeType) { out.EdgeType = edges[i].EdgeType; }
+                    if (edges[i].Properties) { out.Properties = edges[i].Properties}
 
                     output.push(out);
                 }
