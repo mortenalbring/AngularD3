@@ -7,7 +7,7 @@ var orbit = {
     },
 
     settings: {
-        charge: -800,
+        charge: -1500,
         linkDistance: 20,
         linkStrength: 2,
         gravity: 0.01,
@@ -35,6 +35,7 @@ var orbit = {
             {
                 ID: 3,
                 Name: "M1",
+                orbitPoint: true,
                 nodeClass: "node-container node-orange"
             },
             {
@@ -55,9 +56,6 @@ var orbit = {
                 ID: 9, Name: "M2",
                 nodeClass: "node-container node-orange"
             },
-
-
-
             {
                 ID: 6, Name: "A",
                 nodeClass: "node-container node-blue",
@@ -106,10 +104,19 @@ var orbit = {
             {
                 StartNode: 1, EndNode: 8,
                 Properties: {
-                    Distance: 0.45,
+                    Distance: 0.35,
                     Speed: 0.7
                 }
             },
+            {
+                StartNode: 3, EndNode: 9,
+                Properties: {
+                    Distance: 0.05,
+                    Speed: 1.5
+                }
+            },
+
+
 
 
         { StartNode: 6, EndNode: 7 },
