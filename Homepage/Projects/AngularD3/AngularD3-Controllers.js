@@ -450,7 +450,14 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
 
         var cnode = gnodes.append("circle")
             .attr("class", "cnode")
-            .attr("r", $scope.settings.radius);
+            .attr("r",
+
+            function (d) {
+                if ($scope.isNumeric($scope.settings.radius)) {
+                    return $scope.settings.radius;
+                }                
+                return $scope.settings.radius(d);
+            } );
         /*
         var labels = gnodes.append("text")
 .attr("class", "label-text-shadow")
@@ -569,7 +576,8 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
                     }
 
                     if (edges[i].EdgeType) { out.EdgeType = edges[i].EdgeType; }
-                    if (edges[i].Properties) { out.Properties = edges[i].Properties}
+                    if (edges[i].Properties) {
+                        out.Properties = edges[i].Properties;}
 
                     output.push(out);
                 }
