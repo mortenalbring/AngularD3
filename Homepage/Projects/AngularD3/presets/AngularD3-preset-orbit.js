@@ -7,9 +7,9 @@ var orbit = {
     },
 
     settings: {
-        charge: -1500,
+        charge: -500,
         linkDistance: 20,
-        linkStrength: 2,
+        linkStrength: 4,
         gravity: 0.01,
         friction: 0.1,
         showArrows: false,
@@ -190,19 +190,59 @@ orbit.makeSystem = function () {
     var planets = orbit.makePlanets(5);
 
     for (var i = 0; i < planets.length; i++) {
-        orbit.data.nodes.push(planets[i]);
-        var newEdge = {
+        orbit.data.nodes.push(planets[i]);        
+
+
+        var randomVal = Math.random(); 
+        
+        var planetEdge = {
             StartNode: sun.ID,
             EndNode: planets[i].ID,
             Properties: {
-                Distance: 0.6 - (0.1 * i),                
-                Speed: 0.1 + (0.1 * i)
+                Distance: randomVal * 0.5,                
+                Speed: 1 - (randomVal * 0.8)
             }
         }
-        orbit.data.edges.push(newEdge);
-       
+        orbit.data.edges.push(planetEdge);
+
+        
+        planets[i].orbitPoint = true;
+        var moons = orbit.makeMoons(1);
+        for (var j = 0; j < moons.length; j++) {
+            console.log(moons[j]);
+            orbit.data.nodes.push(moons[j]);
+
+            var subrandomVal = Math.random();
+            var moonEdge = {
+                StartNode: planets[i].ID,
+                EndNode: moons[j].ID,
+                Properties: {
+                    Distance: subrandomVal * 0.2,
+                    Speed: 1 - ( subrandomVal * 0.1)
+                }
+            }
+            orbit.data.edges.push(moonEdge);
+        }
+        
+
+    }
+}
+
+orbit.makeMoons = function(number) {
+    var startId = orbit.data.nodes.length + 100;
+    var moons = [];
+
+    for (var i = 0; i < number; i++) {
+        var moon =
+        {
+            ID: startId + i, Name: "M" + i,
+            nodeClass: "node-container node-red"
+        }
+        moons.push(moon);
     }
 
+
+    return moons;
 }
 orbit.makePlanets = function(number) {
     var startId = orbit.data.nodes.length + 1;
