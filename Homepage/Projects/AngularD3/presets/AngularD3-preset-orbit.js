@@ -117,8 +117,6 @@ var orbit = {
             },
 
 
-
-
         { StartNode: 6, EndNode: 7 },
         ]
     }
@@ -176,6 +174,53 @@ orbit.settings.customTickFunction = function (e, links) {
 
 }
 
+orbit.makeSystem = function () {
+    var startId = orbit.data.nodes.length + 1;
+    var sun = {
+        ID: startId,
+        Name: "S",
+        fixed: true,
+        x: 500,
+        y: 300,
+        orbitPoint: true,
+        nodeClass: "node-container node-red"
+    };
+    orbit.data.nodes.push(sun);
 
+    var planets = orbit.makePlanets(5);
 
-orbit.initialise = function () { };
+    for (var i = 0; i < planets.length; i++) {
+        orbit.data.nodes.push(planets[i]);
+        var newEdge = {
+            StartNode: sun.ID,
+            EndNode: planets[i].ID,
+            Properties: {
+                Distance: 0.6 - (0.1 * i),                
+                Speed: 0.1 + (0.1 * i)
+            }
+        }
+        orbit.data.edges.push(newEdge);
+       
+    }
+
+}
+orbit.makePlanets = function(number) {
+    var startId = orbit.data.nodes.length + 1;
+    var planets = [];
+
+    for (var i = 0; i < number; i++) {
+        var planet = 
+        {
+            ID: startId + i, Name: "P" + i,            
+            nodeClass: "node-container node-yellow"
+        }
+        planets.push(planet);
+    }
+
+    return planets;
+}
+
+orbit.initialise = function() {
+    orbit.makeSystem();
+
+};
