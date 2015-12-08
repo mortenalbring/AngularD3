@@ -7,11 +7,11 @@ var orbit = {
     },
 
     settings: {
-        charge: -500,
+        charge: -0.001,
         linkDistance: 20,
-        linkStrength: 4,
-        gravity: 0.01,
-        friction: 0.1,
+        linkStrength: 1,
+        gravity: 0.001,
+        friction: 0.001,
         showArrows: false,
         clickToConnect: false,
         keepSimulationAlive: true
@@ -136,7 +136,7 @@ orbit.makeSystem = function () {
             StartNode: sun.ID,
             EndNode: planets[i].ID,
             Properties: {
-                Distance: 0.2 + ((i/maxPlanetNumber)*0.3),
+                Distance: 0.1 + ((i/maxPlanetNumber)*0.5),
             }
         }
         orbit.data.edges.push(planetEdge);
@@ -194,7 +194,7 @@ orbit.makePlanets = function(number) {
         {
             ID: startId + i,
             Name: "P" + i,
-            Mass: 100,
+            Mass: 1000,
             nodeClass: "node-container node-yellow"
         }
         planets.push(planet);

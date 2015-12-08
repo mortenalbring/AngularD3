@@ -546,7 +546,9 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
             $scope.$apply(function () {
                 $scope.highlightConnectedNodes(d.ID);
             })
-            d3.select(this).select("circle").transition().duration(750).attr("r", $scope.settings.radius * 2);
+            var thisRadius = d3.select(this).select("circle").attr("r");
+            
+            d3.select(this).select("circle").transition().duration(750).attr("r", thisRadius * 2);
         }
         function mouseout() {
 
@@ -556,7 +558,10 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
             $scope.$apply(function () {
                 $scope.clearHighlights();
             })
-            d3.select(this).select("circle").transition().duration(750).attr("r", $scope.settings.radius);
+
+            var thisRadius = d3.select(this).select("circle").attr("r");
+
+            d3.select(this).select("circle").transition().duration(750).attr("r", thisRadius / 2);
         }
 
         function linksIndexes(edges, nodes) {
