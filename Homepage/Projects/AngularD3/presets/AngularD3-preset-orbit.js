@@ -124,7 +124,7 @@ orbit.makeSystem = function () {
     };
     orbit.data.nodes.push(sun);
 
-    var maxPlanetNumber = 5;
+    var maxPlanetNumber = 1;
 
     var planets = orbit.makePlanets(maxPlanetNumber);
 
