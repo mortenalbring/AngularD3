@@ -78,9 +78,7 @@ orbit.settings.customTickFunction = function (e, links) {
                 var precessVal = Math.sqrt((bigG * (d.source.Mass + d.target.Mass)) / distanceVal);                
             }
 
-          
-
-
+         
             d.target.x = d.source.x + (d.target.x * distanceVal * Math.cos(precessVal * orbit.time));
             d.target.y = d.source.y + (d.target.y * distanceVal * Math.sin(precessVal * orbit.time));
         }
@@ -119,12 +117,12 @@ orbit.makeSystem = function () {
         x: 400,
         y: 300,
         orbitPoint: true,
-        Mass: 100000,
+        Mass: 332847,
         nodeClass: "node-container node-red"
     };
     orbit.data.nodes.push(sun);
 
-    var maxPlanetNumber = 5;
+    var maxPlanetNumber = 6;
 
     var planets = orbit.makePlanets(maxPlanetNumber);
 
@@ -136,24 +134,25 @@ orbit.makeSystem = function () {
             StartNode: sun.ID,
             EndNode: planets[i].ID,
             Properties: {
-                Distance: 0.1 + ((i/maxPlanetNumber)*0.5),
+                Distance: 0.1 + ((i/maxPlanetNumber)*0.4),
             }
         }
         orbit.data.edges.push(planetEdge);
 
         
         planets[i].orbitPoint = true;
-        var moons = orbit.makeMoons(1);
+        var numberOfMoons = getRandomInt(0, 0);
+        var moons = orbit.makeMoons(numberOfMoons);
         for (var j = 0; j < moons.length; j++) {
             console.log(moons[j]);
             orbit.data.nodes.push(moons[j]);
 
-            var subrandomVal = Math.random();
+            var subrandomVal = 0;
             var moonEdge = {
                 StartNode: planets[i].ID,
                 EndNode: moons[j].ID,
                 Properties: {
-                    Distance: (planetEdge.Properties.Distance + (subrandomVal * 0.2)) / 10,                    
+                    Distance: 0.001 + ((j/numberOfMoons)*0.1) ,                    
                 }
             }
             orbit.data.edges.push(moonEdge);
@@ -175,9 +174,9 @@ orbit.makeMoons = function(number) {
         var moon =
         {
             ID: startId + i,
-            Name: "M" + i,
+            Name: "",
             Mass: 10,
-            nodeClass: "node-container node-red"
+            nodeClass: "node-container node-blue"
         }
         moons.push(moon);
     }
@@ -195,6 +194,12 @@ orbit.makePlanets = function(number) {
             ID: startId + i,
             Name: "P" + i,
             Mass: 1000,
+            Acceleration: {
+                x: 0, y: 0
+            },
+            Velocity: {
+                x: 1, y: 0
+            },
             nodeClass: "node-container node-yellow"
         }
         planets.push(planet);
