@@ -13,7 +13,10 @@ margin:0;
     width:25%;
 }
 .item-right {
-    width:65%;
+    width:70%;
+}
+.item-full {
+    width:100%;
 }
 
 .item {    
@@ -48,7 +51,8 @@ margin:0;
 #graph-container {
     margin-top:2em;
     width:95%;
-    height:600px;
+    
+    height:80vh;
     border:1px solid;
     background:#f6f6f6;
 }

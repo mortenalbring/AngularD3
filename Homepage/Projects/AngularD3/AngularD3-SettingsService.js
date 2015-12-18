@@ -35,4 +35,8 @@ var AngularD3SettingsService = function() {
         customTickFunction: null,
         showArrows: true
     }
+
+    function isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
 }

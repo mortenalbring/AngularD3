@@ -14,7 +14,7 @@
 <body ng-app="angularD3">
     <div ng-controller="HomeController">
         <div class="container">
-            <div class="item-left control-bar">
+            <div class="item-left control-bar" ng-hide="hiddenSettings">
                 <h1>Angular with D3</h1>
 
                 <div class="options-container">
@@ -329,18 +329,23 @@
                 </div>
             </div>
 
-            <div class="item-right graph-content">
-                <h1> {{info.Title}}</h1>
+        <div
+             ng-class="{'item-right graph-content': !hiddenSettings,'item-full graph-content':hiddenSettings}"
+             >
+            
+            <h1> {{info.Title}}</h1>
 
-                <div id="graph-container"></div>
+            <div id="graph-container"></div>
 
-                <div class="graph-message">
-                    {{info.Message}}
-                </div>
-
-
-
+            <div class="graph-message">
+                {{info.Message}}
             </div>
+
+            <button ng-click="hideSettings();"><span ng-if="hiddenSettings">Show</span><span ng-if="!hiddenSettings">Hide</span>  Settings</button>
+
+
+
+        </div>
         </div>
     </div>
 

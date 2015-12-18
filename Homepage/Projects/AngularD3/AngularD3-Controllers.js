@@ -1,7 +1,7 @@
 var angularD3Controllers = angular.module('angularD3Controllers', []);
 
 
-angularD3Controllers.controller("HomeController", function ($scope, SettingsService) {
+angularD3Controllers.controller("HomeController", function ($scope,$timeout, SettingsService) {
 
     $scope.display = {};
     $scope.display.tabs = 'showSettings';
@@ -16,6 +16,20 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
 
     $scope.settings = SettingsService.defaultSettings;
 
+
+    $scope.hiddenSettings = false;
+    $scope.hideSettings = function () {
+        console.log($scope.graph.width);
+        $scope.hiddenSettings = !$scope.hiddenSettings;
+        console.log($scope.graph.width);
+        $timeout(function() {
+            $scope.graph.width = parseInt(d3.select('#graph-container').style('width'), 10),
+                console.log($scope.graph.width);
+            drawGraph();
+
+        }, 100);
+
+    }
 
     $scope.isNumeric = function (n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
@@ -347,7 +361,15 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
         drawGraph();
     }
 
-    $scope.drawPreset(home);
+    $timeout(function () {
+        $scope.graph.width = parseInt(d3.select('#graph-container').style('width'), 10),
+         $scope.graph.height = parseInt(d3.select('#graph-container').style('height'), 10),
+            
+
+        $scope.drawPreset(home);
+
+    }, 100);
+    
 
 
     function resize() {
@@ -374,8 +396,7 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
             $scope.graph.force.stop();
         }
 
-        $scope.graph.width = parseInt(d3.select('#graph-container').style('width'), 10),
-
+       
 
         $scope.graph.data.linkData = linksIndexes($scope.graph.data.edges, $scope.graph.data.nodes);
 
@@ -455,9 +476,9 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
             function (d) {
                 if ($scope.isNumeric($scope.settings.radius)) {
                     return $scope.settings.radius;
-                }                
+                }
                 return $scope.settings.radius(d);
-            } );
+            });
         /*
         var labels = gnodes.append("text")
 .attr("class", "label-text-shadow")
@@ -547,7 +568,7 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
                 $scope.highlightConnectedNodes(d.ID);
             })
             var thisRadius = d3.select(this).select("circle").attr("r");
-            
+
             d3.select(this).select("circle").transition().duration(750).attr("r", thisRadius * 2);
         }
         function mouseout() {
@@ -582,7 +603,8 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
 
                     if (edges[i].EdgeType) { out.EdgeType = edges[i].EdgeType; }
                     if (edges[i].Properties) {
-                        out.Properties = edges[i].Properties;}
+                        out.Properties = edges[i].Properties;
+                    }
 
                     output.push(out);
                 }
@@ -617,7 +639,7 @@ angularD3Controllers.controller("HomeController", function ($scope, SettingsServ
                 }
             });
 
-          
+
             $scope.graph.linklines.attr("points", function (d) {
                 return d.source.x + "," + d.source.y + " " +
                        (d.source.x + d.target.x) / 2 + "," + (d.source.y + d.target.y) / 2 + " " +
