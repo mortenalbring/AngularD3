@@ -11,12 +11,12 @@ var norskekongehus = {
     settings: {
         linkDistance: 5,
         linkStrength: 1,
-        gravity: 0.5,
+        gravity: 0.3,
         friction: 0.6,
         lockToContainer: true,
         clickToConnect: false,
         showArrows: true,
-        charge: -800,
+        charge: -1000,
         radius: 1,
 
     },
@@ -38,9 +38,9 @@ norskekongehus.settings.linkStrength = function (edge) {
 }
 norskekongehus.settings.linkDistance = function (edge) {
     if (edge.EdgeType == "Couple") {
-        return 0.4;
+        return 0.2;
     }
-    return 0.2;
+    return 1;
 }
 
 norskekongehus.settings.linkClass = function (edge) {
