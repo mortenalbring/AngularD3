@@ -1,4 +1,6 @@
-var AngularD3SettingsService = function() {
+var AngularD3SettingsService = function () {
+    //This service is responsible for storing and manipulating the graph settings 
+
     this.checkSettings = function(customSettings) {
         //The preset files come with custom settings for various parameters to make the scene look good. 
         //If I've forgotten to set one of the parameters, this should prevent the graph from breaking        
@@ -22,6 +24,7 @@ var AngularD3SettingsService = function() {
 
 
     this.defaultSettings = {
+        //The default values given in the d3 documentation
         linkDistance: 20,
         linkStrength: 1,
         friction: 0.9,
@@ -68,17 +71,12 @@ var AngularD3SettingsService = function() {
             self.currentSettings.gravity = self.currentSettings.gravity + val;
         }
     }
-
-
     this.increaseRadius = function (val) {
         var self = this;
         if (self.isNumeric(val)) {
             self.currentSettings.radius = self.currentSettings.radius + val;
         }
     }
-
-
-
     this.isNumeric = function(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }

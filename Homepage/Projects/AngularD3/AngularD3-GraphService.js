@@ -1,4 +1,5 @@
-var AngularD3GraphService = function ($rootScope, SettingsService) {   
+var AngularD3GraphService = function ($rootScope, SettingsService) {
+    //This service is responsible for drawing the graph and manipulating the data
 
     this.graph = {
         width: parseInt(d3.select('#graph-container').style('width'), 10),
