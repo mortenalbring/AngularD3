@@ -255,19 +255,11 @@ angularD3Controllers.controller("HomeController", function ($scope, $timeout, Se
 
 
     $scope.addNode = function (ID, Name) {
-        //Adds a node to the graph
-        if (!ID) {
-            ID = $scope.graph.data.nodes.length + 1;
-        }
-        if (!Name) {
-            Name = "Test Node " + ID;
-        }
-        var newNode = { ID: ID, Name: Name };
-        $scope.graph.data.nodes.push(newNode);
+        GraphService.addNode(ID, Name);
         GraphService.drawGraph();
     }
     $scope.addEdge = function (StartNodeID, EndNodeID) {
-        makeEdges(StartNodeID, EndNodeID);
+        GraphService.makeEdges(StartNodeID, EndNodeID);
         GraphService.drawGraph();
         $scope.newStartNode = null;
         $scope.newEndNode = null;
@@ -279,10 +271,8 @@ angularD3Controllers.controller("HomeController", function ($scope, $timeout, Se
     }
 
     $timeout(function () {
-        $scope.graph.width = parseInt(d3.select('#graph-container').style('width'), 10),
-         $scope.graph.height = parseInt(d3.select('#graph-container').style('height'), 10),
-
-
+        $scope.graph.width = parseInt(d3.select('#graph-container').style('width'), 10);
+        $scope.graph.height = parseInt(d3.select('#graph-container').style('height'), 10);
         $scope.drawPreset(home);
 
     }, 100);

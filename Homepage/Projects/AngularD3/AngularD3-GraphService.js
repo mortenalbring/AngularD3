@@ -1,4 +1,4 @@
-var AngularD3GraphService = function ($rootScope,SettingsService) {
+var AngularD3GraphService = function ($rootScope, SettingsService) {   
 
     this.graph = {
         width: parseInt(d3.select('#graph-container').style('width'), 10),
@@ -16,6 +16,45 @@ var AngularD3GraphService = function ($rootScope,SettingsService) {
     this.clicked = {
         StartNode: null,
         EndNode: null
+    }
+    this.addNode = function (ID, Name) {
+        //Adds a node to the graph
+        var self = this;    
+        if (!ID) {
+            ID = self.graph.data.nodes.length + 1;
+        }
+        if (!Name) {
+            Name = "Test Node " + ID;
+        }
+        var newNode = { ID: ID, Name: Name };
+        self.graph.data.nodes.push(newNode);        
+    }
+    
+    this.makeEdges = function (StartNodeID, EndNodeID) {
+        var self = this;
+
+        var newEdge = {
+            StartNode: StartNodeID,
+            EndNode: EndNodeID
+        }
+        var existingEdge = self.graph.data.edges.filter(function (e) {
+            return e.StartNode == StartNodeID && e.EndNode == EndNodeID
+        });
+        if (existingEdge.length == 0) {            
+            self.graph.data.edges.push(newEdge);
+        }
+    }
+
+    this.clearHighlights = function () {
+        var self = this;
+        //Clears all highlight properties
+        var highlighted = self.graph.data.nodes.filter(function (e) {
+            return e.highlight == true;
+        });
+
+        for (var i = 0; i < highlighted.length; i++) {
+            highlighted[i].highlight = false;
+        }
     }
 
     this.setClickedNode = function (node) {
@@ -42,33 +81,6 @@ var AngularD3GraphService = function ($rootScope,SettingsService) {
         }
     }
 
-    this.makeEdges = function (StartNodeID, EndNodeID) {
-        var self = this;
-
-        var newEdge = {
-            StartNode: StartNodeID,
-            EndNode: EndNodeID
-        }
-        var existingEdge = self.graph.data.edges.filter(function (e) {
-            return e.StartNode == StartNodeID && e.EndNode == EndNodeID
-        });
-        if (existingEdge.length == 0) {            
-            self.graph.data.edges.push(newEdge);
-        }
-    }
-
-    this.clearHighlights = function () {
-        var self = this;
-        //Clears all highlight properties
-        var highlighted = self.graph.data.nodes.filter(function (e) {
-            return e.highlight == true;
-        });
-
-        for (var i = 0; i < highlighted.length; i++) {
-            highlighted[i].highlight = false;
-        }
-
-    }
 
     this.drawGraph = function () {
         var self = this;
@@ -77,8 +89,6 @@ var AngularD3GraphService = function ($rootScope,SettingsService) {
         if (self.graph.force) {
             self.graph.force.stop();
         }
-
-
 
         self.graph.data.linkData = linksIndexes(self.graph.data.edges, self.graph.data.nodes);
 
@@ -161,16 +171,10 @@ var AngularD3GraphService = function ($rootScope,SettingsService) {
                 }
                 return SettingsService.currentSettings.radius(d);
             });
-        /*
-        var labels = gnodes.append("text")
-.attr("class", "label-text-shadow")
-.text(function (d) { return d.Name });
-*/
 
         var labels = gnodes.append("text")
             .attr("class", "label-text")
             .text(function (d) { return d.Name });
-
 
 
         function connectNodes(d) {            
@@ -286,15 +290,11 @@ var AngularD3GraphService = function ($rootScope,SettingsService) {
 
             d3.select("#tooltip").remove();
             d3.select("#tooltip-container").remove();
-
             
             $rootScope.$apply(function () {
                 self.clearHighlights();
-            })
-            
-
+            })            
             var thisRadius = d3.select(this).select("circle").attr("r");
-
             d3.select(this).select("circle").transition().duration(750).attr("r", thisRadius / 2);
         }
 
@@ -326,7 +326,6 @@ var AngularD3GraphService = function ($rootScope,SettingsService) {
         }
 
         function tick(e) {
-
             if (SettingsService.currentSettings.keepSimulationAlive) {
                 self.graph.force.resume();
 
