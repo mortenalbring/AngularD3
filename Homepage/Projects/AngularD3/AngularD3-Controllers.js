@@ -14,7 +14,7 @@ angularD3Controllers.controller("HomeController", function ($scope,$timeout,Sett
     }
 
 
-    $scope.settings = SettingsService.defaultSettings;
+    $scope.settings = SettingsService.currentSettings;
 
 
     $scope.hiddenSettings = false;
@@ -31,47 +31,37 @@ angularD3Controllers.controller("HomeController", function ($scope,$timeout,Sett
 
     }
 
+    $scope.updateGraph = function () {
+        $scope.settings = SettingsService.currentSettings;
+        GraphService.drawGraph();
+    }
+
     $scope.isNumeric = function (n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
     $scope.increaseLinkDistance = function (val) {
-        if ($scope.isNumeric($scope.settings.linkDistance)) {
-            $scope.settings.linkDistance = $scope.settings.linkDistance + val;
-            GraphService.drawGraph();
-        }
+        SettingsService.increaseLinkDistance(val);
+        $scope.updateGraph();
     }
     $scope.increaseLinkStrength = function (val) {
-        $scope.settings.linkStrength = $scope.settings.linkStrength + val;
-        if ($scope.settings.linkStrength < 0) {
-            $scope.settings.linkStrength = 0;
-        }
-        if ($scope.settings.linkStrength > 1) {
-            $scope.settings.linkStrength = 1;
-        }
-        GraphService.drawGraph();
+        SettingsService.increaseLinkStrength(val);
+        $scope.updateGraph();
     }
     $scope.increaseFriction = function (val) {
-        $scope.settings.friction = $scope.settings.friction + val;
-        if ($scope.settings.friction < 0) {
-            $scope.settings.friction = 0;
-        }
-        if ($scope.settings.friction > 1) {
-            $scope.settings.friction = 1;
-        }
-        GraphService.drawGraph();
+        SettingsService.increaseFriction(val);
+        $scope.updateGraph();
     }
     $scope.increaseCharge = function (val) {
-        $scope.settings.charge = $scope.settings.charge + val;
-        GraphService.drawGraph();
+        SettingsService.increaseCharge(val);
+        $scope.updateGraph();
     }
     $scope.increaseGravity = function (val) {
-        $scope.settings.gravity = $scope.settings.gravity + val;
-
-        GraphService.drawGraph();
+        SettingsService.increaseGravity(val);
+        $scope.updateGraph();
     }
     $scope.increaseRadius = function (val) {
-        $scope.settings.radius = $scope.settings.radius + val;
-        GraphService.drawGraph();
+        SettingsService.increaseRadius(val);
+        $scope.updateGraph();
     }
 
 

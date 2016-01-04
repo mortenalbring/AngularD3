@@ -36,6 +36,49 @@ var AngularD3SettingsService = function() {
         showArrows: true
     }
 
+    this.currentSettings = angular.copy(this.defaultSettings);
+
+    this.increaseLinkDistance = function (val) {
+        var self = this;
+        if (self.isNumeric(val)) {
+            self.currentSettings.linkDistance = self.currentSettings.linkDistance + val;
+        }
+    }
+    this.increaseLinkStrength = function (val) {
+        var self = this;
+        if (self.isNumeric(val)) {
+            self.currentSettings.increaseLinkStrength = self.currentSettings.increaseLinkStrength + val;
+        }
+    }
+    this.increaseFriction = function (val) {
+        var self = this;
+        if (self.isNumeric(val)) {
+            self.currentSettings.friction = self.currentSettings.friction + val;
+        }
+    }
+    this.increaseCharge = function (val) {
+        var self = this;
+        if (self.isNumeric(val)) {
+            self.currentSettings.charge = self.currentSettings.charge + val;
+        }
+    }
+    this.increaseGravity = function (val) {
+        var self = this;
+        if (self.isNumeric(val)) {
+            self.currentSettings.gravity = self.currentSettings.gravity + val;
+        }
+    }
+
+
+    this.increaseRadius = function (val) {
+        var self = this;
+        if (self.isNumeric(val)) {
+            self.currentSettings.radius = self.currentSettings.radius + val;
+        }
+    }
+
+
+
     this.isNumeric = function(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }

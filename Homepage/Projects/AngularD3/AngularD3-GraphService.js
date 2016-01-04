@@ -36,20 +36,20 @@ var AngularD3GraphService = function (SettingsService) {
             .size([self.graph.width - self.graph.margin, self.graph.height - self.graph.margin])
             .nodes(self.graph.data.nodes)
             .links(self.graph.data.linkData)
-            .linkDistance(SettingsService.defaultSettings.linkDistance)
-            .linkStrength(SettingsService.defaultSettings.linkStrength)
+            .linkDistance(SettingsService.currentSettings.linkDistance)
+            .linkStrength(SettingsService.currentSettings.linkStrength)
             //Distance between nodes
-            .charge(SettingsService.defaultSettings.charge)
+            .charge(SettingsService.currentSettings.charge)
             //How much nodes repel eachother (positive is attractive)
-            .friction(SettingsService.defaultSettings.friction)
+            .friction(SettingsService.currentSettings.friction)
             //Slows down the nodes movement
-            .gravity(SettingsService.defaultSettings.gravity)
+            .gravity(SettingsService.currentSettings.gravity)
             //An attractive force towards the centre of the graph
             .on("tick", tick);
 
         self.graph.force.start();
 
-        if (SettingsService.defaultSettings.showArrows) {
+        if (SettingsService.currentSettings.showArrows) {
             //Draws little arrows on graph
             self.graph.svg.append("svg:defs").selectAll("marker")
                 .data(["end"])
@@ -75,7 +75,7 @@ var AngularD3GraphService = function (SettingsService) {
 
         self.graph.linklines.enter()
             .insert("polyline", ".node")
-            .attr("class", function (e) { return SettingsService.defaultSettings.linkClass(e); })
+            .attr("class", function (e) { return SettingsService.currentSettings.linkClass(e); })
             .attr("marker-mid", "url(#end)");
 
         self.graph.linklines.exit().remove();
@@ -86,7 +86,7 @@ var AngularD3GraphService = function (SettingsService) {
             .enter()
             .append('g')
             .attr("class", function (d) {
-                return SettingsService.defaultSettings.nodeClass(d);
+                return SettingsService.currentSettings.nodeClass(d);
             })
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)
@@ -100,10 +100,10 @@ var AngularD3GraphService = function (SettingsService) {
             .attr("r",
 
             function (d) {
-                if (SettingsService.isNumeric(SettingsService.defaultSettings.radius)) {
-                    return SettingsService.defaultSettings.radius;
+                if (SettingsService.isNumeric(SettingsService.currentSettings.radius)) {
+                    return SettingsService.currentSettings.radius;
                 }
-                return SettingsService.defaultSettings.radius(d);
+                return SettingsService.currentSettings.radius(d);
             });
         /*
         var labels = gnodes.append("text")
@@ -118,7 +118,7 @@ var AngularD3GraphService = function (SettingsService) {
 
 
         function connectNodes(d) {
-            if (!SettingsService.defaultSettings.clickToConnect) {
+            if (!SettingsService.currentSettings.clickToConnect) {
                 return;
             }
 
@@ -246,12 +246,12 @@ var AngularD3GraphService = function (SettingsService) {
 
         function tick(e) {
 
-            if (SettingsService.defaultSettings.keepSimulationAlive) {
+            if (SettingsService.currentSettings.keepSimulationAlive) {
                 self.graph.force.resume();
 
             }
-            if (SettingsService.defaultSettings.customTickFunction) {
-                SettingsService.defaultSettings.customTickFunction(e, self.graph.data.linkData);
+            if (SettingsService.currentSettings.customTickFunction) {
+                SettingsService.currentSettings.customTickFunction(e, self.graph.data.linkData);
             }
 
 
@@ -262,9 +262,9 @@ var AngularD3GraphService = function (SettingsService) {
                     var newy = d.y;
 
 
-                    if (SettingsService.defaultSettings.lockToContainer) {
-                        newx = Math.max(SettingsService.defaultSettings.radius, Math.min(self.graph.width - SettingsService.defaultSettings.radius, d.x));
-                        newy = Math.max(SettingsService.defaultSettings.radius, Math.min(self.graph.height - SettingsService.defaultSettings.radius, d.y));
+                    if (SettingsService.currentSettings.lockToContainer) {
+                        newx = Math.max(SettingsService.currentSettings.radius, Math.min(self.graph.width - SettingsService.currentSettings.radius, d.x));
+                        newy = Math.max(SettingsService.currentSettings.radius, Math.min(self.graph.height - SettingsService.currentSettings.radius, d.y));
                     }
 
                     return 'translate(' + [newx, newy] + ')';
