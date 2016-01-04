@@ -1,4 +1,4 @@
-var AngularD3GraphService = function (SettingsService) {
+var AngularD3GraphService = function ($rootScope,SettingsService) {
 
     this.graph = {
         width: parseInt(d3.select('#graph-container').style('width'), 10),
@@ -13,6 +13,62 @@ var AngularD3GraphService = function (SettingsService) {
         }
     };
 
+    this.clicked = {
+        StartNode: null,
+        EndNode: null
+    }
+
+    this.setClickedNode = function (node) {
+        //Sets a node as 'clicked'. If it's the first time a node is clicked, we just set the property.
+        //If it's the second time, we make an edge and connect the two
+        var self = this;
+
+        if (!self.clicked.StartNode) {
+            self.clicked.StartNode = node;
+            node.clicked = true;
+        } else {
+            self.clicked.EndNode = node;
+
+            console.log(self.clicked.StartNode.ID);
+            console.log(self.clicked.EndNode.ID);
+
+            self.makeEdges(self.clicked.StartNode.ID, self.clicked.EndNode.ID);
+            self.clicked.StartNode.clicked = false;
+            self.clicked.EndNode.clicked = false;
+            self.clicked.StartNode = null;
+            self.clicked.EndNode = null;
+            self.drawGraph();
+            self.clearHighlights();
+        }
+    }
+
+    this.makeEdges = function (StartNodeID, EndNodeID) {
+        var self = this;
+
+        var newEdge = {
+            StartNode: StartNodeID,
+            EndNode: EndNodeID
+        }
+        var existingEdge = self.graph.data.edges.filter(function (e) {
+            return e.StartNode == StartNodeID && e.EndNode == EndNodeID
+        });
+        if (existingEdge.length == 0) {            
+            self.graph.data.edges.push(newEdge);
+        }
+    }
+
+    this.clearHighlights = function () {
+        var self = this;
+        //Clears all highlight properties
+        var highlighted = self.graph.data.nodes.filter(function (e) {
+            return e.highlight == true;
+        });
+
+        for (var i = 0; i < highlighted.length; i++) {
+            highlighted[i].highlight = false;
+        }
+
+    }
 
     this.drawGraph = function () {
         var self = this;
@@ -117,7 +173,7 @@ var AngularD3GraphService = function (SettingsService) {
 
 
 
-        function connectNodes(d) {
+        function connectNodes(d) {            
             if (!SettingsService.currentSettings.clickToConnect) {
                 return;
             }
@@ -128,13 +184,13 @@ var AngularD3GraphService = function (SettingsService) {
             var node = self.graph.data.nodes.filter(function (e) {
                 return e.ID == d.ID;
             });
-            /*
+            
             if (node.length > 0) {
-                $scope.$apply(function () {
-                    $scope.setClickedNode(node[0]);
+                $rootScope.$apply(function () {
+                    self.setClickedNode(node[0]);
                 })
             }
-            */
+            
         }
 
         // Generates a tooltip for a SVG circle element based on its ID
@@ -188,15 +244,40 @@ var AngularD3GraphService = function (SettingsService) {
 
         }
 
+        function highlightConnectedNodes(ID) {
+            //Finds all nodes connected to specified node
+            var connectedEdges = self.graph.data.edges.filter(function (e) {
+                return ((e.StartNode == ID) || (e.EndNode == ID));
+            });
+
+            for (var i = 0; i < connectedEdges.length; i++) {
+                if (connectedEdges[i].StartNode != ID) {
+                    setHighlight(connectedEdges[i].StartNode);
+                }
+                if (connectedEdges[i].EndNode != ID) {
+                    setHighlight(connectedEdges[i].EndNode);
+                }
+
+            }
+        }
+
+        function setHighlight(ID) {            
+            //Sets the highlight property on nodes connected to given ID
+            var connectedNodes = self.graph.data.nodes.filter(function (e) {
+                return e.ID == ID;
+            });
+            for (var j = 0; j < connectedNodes.length; j++) {
+                connectedNodes[j].highlight = true;
+            }
+        }
+
         function mouseover(d) {
-
             addTooltip(d);
-
-            /*
-            $scope.$apply(function () {
-                $scope.highlightConnectedNodes(d.ID);
-            })
-            */
+            
+            $rootScope.$apply(function () {
+                highlightConnectedNodes(d.ID);
+            });
+            
             var thisRadius = d3.select(this).select("circle").attr("r");
 
             d3.select(this).select("circle").transition().duration(750).attr("r", thisRadius * 2);
@@ -206,11 +287,11 @@ var AngularD3GraphService = function (SettingsService) {
             d3.select("#tooltip").remove();
             d3.select("#tooltip-container").remove();
 
-            /*
-            $scope.$apply(function () {
-                $scope.clearHighlights();
+            
+            $rootScope.$apply(function () {
+                self.clearHighlights();
             })
-            */
+            
 
             var thisRadius = d3.select(this).select("circle").attr("r");
 

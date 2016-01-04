@@ -1,7 +1,7 @@
 var angularD3Controllers = angular.module('angularD3Controllers', []);
 
 
-angularD3Controllers.controller("HomeController", function ($scope,$timeout,SettingsService,GraphService) {
+angularD3Controllers.controller("HomeController", function ($scope, $timeout, SettingsService, GraphService) {
 
     $scope.display = {};
     $scope.display.tabs = 'showSettings';
@@ -19,10 +19,8 @@ angularD3Controllers.controller("HomeController", function ($scope,$timeout,Sett
 
     $scope.hiddenSettings = false;
     $scope.hideSettings = function () {
-        console.log($scope.graph.width);
         $scope.hiddenSettings = !$scope.hiddenSettings;
-        console.log($scope.graph.width);
-        $timeout(function() {
+        $timeout(function () {
             $scope.graph.width = parseInt(d3.select('#graph-container').style('width'), 10),
                 console.log($scope.graph.width);
             GraphService.drawGraph();
@@ -249,72 +247,12 @@ angularD3Controllers.controller("HomeController", function ($scope,$timeout,Sett
         }
         preset.initialise();
         $scope.graph.data = angular.copy(preset.data);
-        $scope.settings = angular.copy(SettingsService.checkSettings(preset.settings));
+        SettingsService.currentSettings = SettingsService.checkSettings(preset.settings);
+        $scope.settings = SettingsService.currentSettings;
         $scope.info = angular.copy(preset.info);
         GraphService.drawGraph();
     }
 
-
-    $scope.setClickedNode = function (node) {
-        //Sets a node as 'clicked'. If it's the first time a node is clicked, we just set the property.
-        //If it's the second time, we make an edge and connect the two
-
-        if (!$scope.clicked.StartNode) {
-            $scope.clicked.StartNode = node;
-            node.clicked = true;
-        } else {
-            $scope.clicked.EndNode = node;
-
-            makeEdges($scope.clicked.StartNode.ID, $scope.clicked.EndNode.ID);
-            $scope.clicked.StartNode.clicked = false;
-            $scope.clicked.EndNode.clicked = false;
-            $scope.clicked.StartNode = null;
-            $scope.clicked.EndNode = null;
-            GraphService.drawGraph();
-            $scope.clearHighlights();
-        }
-    }
-
-    $scope.highlightConnectedNodes = function (ID) {
-        //Finds all nodes connected to specified node
-        var connectedEdges = $scope.graph.data.edges.filter(function (e) {
-            return ((e.StartNode == ID) || (e.EndNode == ID));
-        })
-
-
-        for (var i = 0; i < connectedEdges.length; i++) {
-            if (connectedEdges[i].StartNode != ID) {
-                $scope.setHighlight(connectedEdges[i].StartNode);
-            }
-            if (connectedEdges[i].EndNode != ID) {
-                $scope.setHighlight(connectedEdges[i].EndNode);
-            }
-
-        }
-    }
-
-
-    $scope.clearHighlights = function () {
-        //Clears all highlight properties
-        var highlighted = $scope.graph.data.nodes.filter(function (e) {
-            return e.highlight == true;
-        });
-
-        for (var i = 0; i < highlighted.length; i++) {
-            highlighted[i].highlight = false;
-        }
-
-    }
-
-    $scope.setHighlight = function (ID) {
-        //Sets the highlight property on nodes connected to given ID
-        var connectedNodes = $scope.graph.data.nodes.filter(function (e) {
-            return e.ID == ID;
-        });
-        for (var j = 0; j < connectedNodes.length; j++) {
-            connectedNodes[j].highlight = true;
-        }
-    }
 
     $scope.addNode = function (ID, Name) {
         //Adds a node to the graph
@@ -343,29 +281,17 @@ angularD3Controllers.controller("HomeController", function ($scope,$timeout,Sett
     $timeout(function () {
         $scope.graph.width = parseInt(d3.select('#graph-container').style('width'), 10),
          $scope.graph.height = parseInt(d3.select('#graph-container').style('height'), 10),
-            
+
 
         $scope.drawPreset(home);
 
     }, 100);
-    
+
 
 
     function resize() {
         console.log("moop");
     }
 
-    function makeEdges(StartNodeID, EndNodeID) {
-        var newEdge = {
-            StartNode: StartNodeID,
-            EndNode: EndNodeID
-        }
-        var existingEdge = $scope.graph.data.edges.filter(function (e) {
-            return e.StartNode == StartNodeID && e.EndNode == EndNodeID
-        });
-        if (existingEdge.length == 0) {
-            $scope.graph.data.edges.push(newEdge);
-        }
 
-    }
 });
