@@ -26,7 +26,7 @@
                             ng-options="option.Title for option in preset.options track by option.ID"></select>
 
                 </div>
-              
+
                 <br />
 
                 <div class="options-container click-node-info-box">
@@ -200,13 +200,13 @@
                     </div>
                     <div class="options-container">
                         <small>Prevent nodes from going outside the containing box</small>
-                        <br/>
+                        <br />
                         <label>
-                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="true" ng-change="drawGraph()"/>
+                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="true" ng-change="drawGraph()" />
                             On
                         </label>
                         <label>
-                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="false" ng-change="drawGraph()"/>
+                            <input type="radio" ng-model="settings.lockToContainer" data-ng-value="false" ng-change="drawGraph()" />
                             Off
                         </label>
                     </div>
@@ -327,25 +327,23 @@
                 </div>
             </div>
 
-        <div
-             ng-class="{'item-right graph-content': !hiddenSettings,'item-full graph-content':hiddenSettings}"
-             >
-            
-            <h1> {{info.Title}}</h1>
+            <div ng-class="{'item-right graph-content': !hiddenSettings,'item-full graph-content':hiddenSettings}">
 
-            <div id="graph-container"></div>
+                <h1> {{info.Title}}</h1>
 
-            <div class="graph-message">
-                {{info.Message}}
+                <div id="graph-container"></div>
+
+                <div class="graph-message">
+                    {{info.Message}}
+                </div>
+
+                <button ng-click="hideSettings();"><span ng-if="hiddenSettings">Show</span><span ng-if="!hiddenSettings">Hide</span>  Settings</button>
+                <button ng-click="redrawGraph()">Redraw graph</button>
+                <button ng-click="drawGraph()" title="Sometimes the simulation stops. This sort of jiggles the graph a bit to get it back into motion">Jiggle graph</button>
+
+
+
             </div>
-
-            <button ng-click="hideSettings();"><span ng-if="hiddenSettings">Show</span><span ng-if="!hiddenSettings">Hide</span>  Settings</button>
-            <button ng-click="redrawGraph()">Redraw graph</button>
-            <button ng-click="drawGraph()" title="Sometimes the simulation stops. This sort of jiggles the graph a bit to get it back into motion">Jiggle graph</button>
-
-
-
-        </div>
         </div>
     </div>
 
@@ -361,12 +359,13 @@
     <script src="presets/AngularD3-preset-multiplespheres.js"></script>
     <script src="presets/AngularD3-preset-square-lattice.js"></script>
     <script src="presets/AngularD3-preset-windsors.js"></script>
-<script src="presets/AngularD3-preset-norskekongehuset.js"></script>
+    <script src="presets/AngularD3-preset-norskekongehuset.js"></script>
     <script src="presets/AngularD3-preset-orbit.js"></script>
 
-<script src="AngularD3-Controllers.js"></script>
+    <script src="AngularD3-Controllers.js"></script>
     <script src="AngularD3-SettingsService.js"></script>
-<script src="AngularD3.js"></script>
+    <script src="AngularD3-GraphService.js"></script>
+    <script src="AngularD3.js"></script>
 </body>
 </html>
 

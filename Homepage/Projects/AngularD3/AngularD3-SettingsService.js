@@ -36,7 +36,7 @@ var AngularD3SettingsService = function() {
         showArrows: true
     }
 
-    function isNumeric(n) {
+    this.isNumeric = function(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
 }
