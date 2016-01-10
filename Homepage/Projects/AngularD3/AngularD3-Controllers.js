@@ -1,7 +1,7 @@
 var angularD3Controllers = angular.module('angularD3Controllers', []);
 
 
-angularD3Controllers.controller("HomeController", function ($scope,$timeout, SettingsService) {
+angularD3Controllers.controller("HomeController", function ($scope, $timeout, SettingsService, GraphService) {
 
     $scope.display = {};
     $scope.display.tabs = 'showSettings';
@@ -14,79 +14,56 @@ angularD3Controllers.controller("HomeController", function ($scope,$timeout, Set
     }
 
 
-    $scope.settings = SettingsService.defaultSettings;
+    $scope.settings = SettingsService.currentSettings;
 
 
     $scope.hiddenSettings = false;
     $scope.hideSettings = function () {
-        console.log($scope.graph.width);
         $scope.hiddenSettings = !$scope.hiddenSettings;
-        console.log($scope.graph.width);
-        $timeout(function() {
+        $timeout(function () {
             $scope.graph.width = parseInt(d3.select('#graph-container').style('width'), 10),
                 console.log($scope.graph.width);
-            drawGraph();
+            GraphService.drawGraph();
 
         }, 100);
 
+    }
+
+    $scope.updateGraph = function () {
+        $scope.settings = SettingsService.currentSettings;
+        GraphService.drawGraph();
     }
 
     $scope.isNumeric = function (n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
     $scope.increaseLinkDistance = function (val) {
-        if ($scope.isNumeric($scope.settings.linkDistance)) {
-            $scope.settings.linkDistance = $scope.settings.linkDistance + val;
-            drawGraph();
-        }
+        SettingsService.increaseLinkDistance(val);
+        $scope.updateGraph();
     }
     $scope.increaseLinkStrength = function (val) {
-        $scope.settings.linkStrength = $scope.settings.linkStrength + val;
-        if ($scope.settings.linkStrength < 0) {
-            $scope.settings.linkStrength = 0;
-        }
-        if ($scope.settings.linkStrength > 1) {
-            $scope.settings.linkStrength = 1;
-        }
-        drawGraph();
+        SettingsService.increaseLinkStrength(val);
+        $scope.updateGraph();
     }
     $scope.increaseFriction = function (val) {
-        $scope.settings.friction = $scope.settings.friction + val;
-        if ($scope.settings.friction < 0) {
-            $scope.settings.friction = 0;
-        }
-        if ($scope.settings.friction > 1) {
-            $scope.settings.friction = 1;
-        }
-        drawGraph();
+        SettingsService.increaseFriction(val);
+        $scope.updateGraph();
     }
     $scope.increaseCharge = function (val) {
-        $scope.settings.charge = $scope.settings.charge + val;
-        drawGraph();
+        SettingsService.increaseCharge(val);
+        $scope.updateGraph();
     }
     $scope.increaseGravity = function (val) {
-        $scope.settings.gravity = $scope.settings.gravity + val;
-
-        drawGraph();
+        SettingsService.increaseGravity(val);
+        $scope.updateGraph();
     }
     $scope.increaseRadius = function (val) {
-        $scope.settings.radius = $scope.settings.radius + val;
-        drawGraph();
+        SettingsService.increaseRadius(val);
+        $scope.updateGraph();
     }
 
 
-    $scope.graph = {
-        width: parseInt(d3.select('#graph-container').style('width'), 10),
-        height: 600,
-        margin: 30,
-        svg: null,
-        force: null,
-        data: {
-            nodes: [],
-
-            edges: []
-        }
-    };
+    $scope.graph = GraphService.graph;
 
     $scope.clicked = {
         StartNode: null,
@@ -221,7 +198,7 @@ angularD3Controllers.controller("HomeController", function ($scope,$timeout, Set
         $scope.graph.data.nodes = [];
         $scope.graph.data.edges = [];
         $scope.display.tabs = 'nodesTable';
-        drawGraph();
+        GraphService.drawGraph();
     };
 
     $scope.randomise = function () {
@@ -256,7 +233,7 @@ angularD3Controllers.controller("HomeController", function ($scope,$timeout, Set
                 $scope.graph.data.edges.push(newEdge);
             }
         }
-        drawGraph();
+        GraphService.drawGraph();
     }
 
     $scope.drawPreset = function (preset) {
@@ -270,381 +247,41 @@ angularD3Controllers.controller("HomeController", function ($scope,$timeout, Set
         }
         preset.initialise();
         $scope.graph.data = angular.copy(preset.data);
-        $scope.settings = angular.copy(SettingsService.checkSettings(preset.settings));
+        SettingsService.currentSettings = SettingsService.checkSettings(preset.settings);
+        $scope.settings = SettingsService.currentSettings;
         $scope.info = angular.copy(preset.info);
-        drawGraph();
+        GraphService.drawGraph();
     }
 
-
-    $scope.setClickedNode = function (node) {
-        //Sets a node as 'clicked'. If it's the first time a node is clicked, we just set the property.
-        //If it's the second time, we make an edge and connect the two
-
-        if (!$scope.clicked.StartNode) {
-            $scope.clicked.StartNode = node;
-            node.clicked = true;
-        } else {
-            $scope.clicked.EndNode = node;
-
-            makeEdges($scope.clicked.StartNode.ID, $scope.clicked.EndNode.ID);
-            $scope.clicked.StartNode.clicked = false;
-            $scope.clicked.EndNode.clicked = false;
-            $scope.clicked.StartNode = null;
-            $scope.clicked.EndNode = null;
-            drawGraph();
-            $scope.clearHighlights();
-        }
-    }
-
-    $scope.highlightConnectedNodes = function (ID) {
-        //Finds all nodes connected to specified node
-        var connectedEdges = $scope.graph.data.edges.filter(function (e) {
-            return ((e.StartNode == ID) || (e.EndNode == ID));
-        })
-
-
-        for (var i = 0; i < connectedEdges.length; i++) {
-            if (connectedEdges[i].StartNode != ID) {
-                $scope.setHighlight(connectedEdges[i].StartNode);
-            }
-            if (connectedEdges[i].EndNode != ID) {
-                $scope.setHighlight(connectedEdges[i].EndNode);
-            }
-
-        }
-    }
-
-
-    $scope.clearHighlights = function () {
-        //Clears all highlight properties
-        var highlighted = $scope.graph.data.nodes.filter(function (e) {
-            return e.highlight == true;
-        });
-
-        for (var i = 0; i < highlighted.length; i++) {
-            highlighted[i].highlight = false;
-        }
-
-    }
-
-    $scope.setHighlight = function (ID) {
-        //Sets the highlight property on nodes connected to given ID
-        var connectedNodes = $scope.graph.data.nodes.filter(function (e) {
-            return e.ID == ID;
-        });
-        for (var j = 0; j < connectedNodes.length; j++) {
-            connectedNodes[j].highlight = true;
-        }
-    }
 
     $scope.addNode = function (ID, Name) {
-        //Adds a node to the graph
-        if (!ID) {
-            ID = $scope.graph.data.nodes.length + 1;
-        }
-        if (!Name) {
-            Name = "Test Node " + ID;
-        }
-        var newNode = { ID: ID, Name: Name };
-        $scope.graph.data.nodes.push(newNode);
-        drawGraph();
+        GraphService.addNode(ID, Name);
+        GraphService.drawGraph();
     }
     $scope.addEdge = function (StartNodeID, EndNodeID) {
-        makeEdges(StartNodeID, EndNodeID);
-        drawGraph();
+        GraphService.makeEdges(StartNodeID, EndNodeID);
+        GraphService.drawGraph();
         $scope.newStartNode = null;
         $scope.newEndNode = null;
     }
 
 
     $scope.drawGraph = function () {
-        drawGraph();
+        GraphService.drawGraph();
     }
 
     $timeout(function () {
-        $scope.graph.width = parseInt(d3.select('#graph-container').style('width'), 10),
-         $scope.graph.height = parseInt(d3.select('#graph-container').style('height'), 10),
-            
-
+        $scope.graph.width = parseInt(d3.select('#graph-container').style('width'), 10);
+        $scope.graph.height = parseInt(d3.select('#graph-container').style('height'), 10);
         $scope.drawPreset(home);
 
     }, 100);
-    
+
 
 
     function resize() {
         console.log("moop");
     }
 
-    function makeEdges(StartNodeID, EndNodeID) {
-        var newEdge = {
-            StartNode: StartNodeID,
-            EndNode: EndNodeID
-        }
-        var existingEdge = $scope.graph.data.edges.filter(function (e) {
-            return e.StartNode == StartNodeID && e.EndNode == EndNodeID
-        });
-        if (existingEdge.length == 0) {
-            $scope.graph.data.edges.push(newEdge);
-        }
 
-    }
-
-    function drawGraph() {
-        d3.select("svg").remove();
-        if ($scope.graph.force) {
-            $scope.graph.force.stop();
-        }
-
-       
-
-        $scope.graph.data.linkData = linksIndexes($scope.graph.data.edges, $scope.graph.data.nodes);
-
-        $scope.graph.svg = d3.select('#graph-container').append('svg')
-            .attr('width', $scope.graph.width)
-            .attr('height', $scope.graph.height)
-            .attr('class', 'svg-container');
-
-        //This sets up the parameters for the force directed graph simulation
-        $scope.graph.force = d3.layout.force()
-            .size([$scope.graph.width - $scope.graph.margin, $scope.graph.height - $scope.graph.margin])
-            .nodes($scope.graph.data.nodes)
-            .links($scope.graph.data.linkData)
-            .linkDistance($scope.settings.linkDistance)
-            .linkStrength($scope.settings.linkStrength)
-            //Distance between nodes
-            .charge($scope.settings.charge)
-            //How much nodes repel eachother (positive is attractive)
-            .friction($scope.settings.friction)
-            //Slows down the nodes movement
-            .gravity($scope.settings.gravity)
-            //An attractive force towards the centre of the graph
-            .on("tick", tick);
-
-        $scope.graph.force.start();
-
-        if ($scope.settings.showArrows) {
-            //Draws little arrows on graph
-            $scope.graph.svg.append("svg:defs").selectAll("marker")
-                .data(["end"])
-                .enter().append("svg:marker")
-                .attr("id", String)
-                .attr("class", "link-arrow")
-                .attr("viewBox", "0 -5 10 10")
-                .attr("refX", 0)
-                .attr("refY", 0)
-                .attr("markerWidth", 6)
-                .attr("markerHeight", 6)
-                .attr("orient", "auto")
-                .append("svg:path")
-                .attr("d", "M0,-5L10,0L0,5");
-        }
-
-        $scope.graph.linklines = $scope.graph.svg.selectAll(".link");
-        //   $scope.graph.data.linkData = linksIndexes($scope.graph.data.edges, $scope.graph.data.nodes);
-
-        $scope.graph.linklines = $scope.graph.linklines.data($scope.graph.data.linkData, function (d) {
-            return d.source.ID + "-" + d.target.ID;
-        });
-
-        $scope.graph.linklines.enter()
-            .insert("polyline", ".node")
-            .attr("class", function (e) { return $scope.settings.linkClass(e); })
-            .attr("marker-mid", "url(#end)");
-
-        $scope.graph.linklines.exit().remove();
-
-        //Container for both the node and the label describing the node
-        var gnodes = $scope.graph.svg.selectAll('g.gnode')
-            .data($scope.graph.data.nodes)
-            .enter()
-            .append('g')
-            .attr("class", function (d) {
-                return $scope.settings.nodeClass(d);
-            })
-            .on("mouseover", mouseover)
-            .on("mouseout", mouseout)
-            .classed('gnode', true)
-            .on("click", connectNodes)
-            .call($scope.graph.force.drag);
-
-
-        var cnode = gnodes.append("circle")
-            .attr("class", "cnode")
-            .attr("r",
-
-            function (d) {
-                if ($scope.isNumeric($scope.settings.radius)) {
-                    return $scope.settings.radius;
-                }
-                return $scope.settings.radius(d);
-            });
-        /*
-        var labels = gnodes.append("text")
-.attr("class", "label-text-shadow")
-.text(function (d) { return d.Name });
-*/
-
-        var labels = gnodes.append("text")
-            .attr("class", "label-text")
-            .text(function (d) { return d.Name });
-
-
-
-        function connectNodes(d) {
-            if (!$scope.settings.clickToConnect) {
-                return;
-            }
-
-            var r = parseInt(d3.select(this).select("circle").attr("r"));
-            d3.select(this).select("circle").attr("r", r + 1);
-
-            var node = $scope.graph.data.nodes.filter(function (e) {
-                return e.ID == d.ID;
-            });
-            if (node.length > 0) {
-                $scope.$apply(function () {
-                    $scope.setClickedNode(node[0]);
-                })
-            }
-        }
-
-        // Generates a tooltip for a SVG circle element based on its ID
-        function addTooltip(container) {
-            if (!container.TooltipText) { return; }
-
-
-            var x = parseFloat(container.x);
-            var y = parseFloat(container.y);
-
-
-            //If the node is quite high up, we shift it down a bit
-            //Otherwise, we shift it up a bit. This is because we don't want to the tooltip covering the node itself
-            if (y < 120) {
-                y = y + 100;
-            } else {
-                y = y - 100;
-            }
-            //If the node is more than halfway across the graph, we shift the tooltip across a bit
-            //to make sure it doesn't overflow outside the container. Probably a more elegant way of doing this
-            if (x > ($scope.graph.width / 2)) {
-                x = (x / 2);
-            }
-            var tooltip = d3.select(".svg-container")
-                .append("text")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("id", "tooltip");
-
-            //If the tooltip text is an array, we iterate through and put in some tspans for each element for a new 'line'.
-            //Otherwise we just put it as the text propery of the tooltip
-            if (!Array.isArray(container.TooltipText)) {
-                tooltip.text(container.TooltipText);
-            } else {
-                for (var i = 0; i < container.TooltipText.length; i++) {
-                    tooltip.append("tspan").text(container.TooltipText[i]).attr("x", x).attr("dy", "1.2em");
-
-                }
-            }
-
-            //This draws the rectangle behind the tooltip as a 'border'            
-            var bbox = tooltip.node().getBBox();
-            var padding = 2;
-            d3.select(".svg-container")
-                .insert("rect", "#tooltip")
-                .attr("x", bbox.x - padding)
-                .attr("y", bbox.y - padding)
-                .attr("width", bbox.width + (padding * 2))
-                .attr("height", bbox.height + (padding * 2))
-                .attr("id", "tooltip-container");
-
-        }
-
-        function mouseover(d) {
-
-            addTooltip(d);
-
-            $scope.$apply(function () {
-                $scope.highlightConnectedNodes(d.ID);
-            })
-            var thisRadius = d3.select(this).select("circle").attr("r");
-
-            d3.select(this).select("circle").transition().duration(750).attr("r", thisRadius * 2);
-        }
-        function mouseout() {
-
-            d3.select("#tooltip").remove();
-            d3.select("#tooltip-container").remove();
-
-            $scope.$apply(function () {
-                $scope.clearHighlights();
-            })
-
-            var thisRadius = d3.select(this).select("circle").attr("r");
-
-            d3.select(this).select("circle").transition().duration(750).attr("r", thisRadius / 2);
-        }
-
-        function linksIndexes(edges, nodes) {
-            //The array of nodes and edges must be transformed into an object
-            //that contains the actual node objects as source and target
-            var output = [];
-            for (var i = 0; i < edges.length; i++) {
-                var startId = edges[i].StartNode;
-                var endId = edges[i].EndNode;
-                var sourceNode = nodes.filter(function (n) { return n.ID == startId; });
-                var targetNode = nodes.filter(function (n) { return n.ID == endId; });
-
-                if ((sourceNode.length == 1) && (targetNode.length == 1)) {
-                    var out = {
-                        source: sourceNode[0],
-                        target: targetNode[0]
-                    }
-
-                    if (edges[i].EdgeType) { out.EdgeType = edges[i].EdgeType; }
-                    if (edges[i].Properties) {
-                        out.Properties = edges[i].Properties;
-                    }
-
-                    output.push(out);
-                }
-            }
-            return output;
-        }
-
-        function tick(e) {
-
-            if ($scope.settings.keepSimulationAlive) {
-                $scope.graph.force.resume();
-
-            }
-            if ($scope.settings.customTickFunction) {
-                $scope.settings.customTickFunction(e, $scope.graph.data.linkData);
-            }
-
-
-            gnodes.attr("transform", function (d) {
-                if (d.x && d.y) {
-
-                    var newx = d.x;
-                    var newy = d.y;
-
-
-                    if ($scope.settings.lockToContainer) {
-                        newx = Math.max($scope.settings.radius, Math.min($scope.graph.width - $scope.settings.radius, d.x));
-                        newy = Math.max($scope.settings.radius, Math.min($scope.graph.height - $scope.settings.radius, d.y));
-                    }
-
-                    return 'translate(' + [newx, newy] + ')';
-                }
-            });
-
-
-            $scope.graph.linklines.attr("points", function (d) {
-                return d.source.x + "," + d.source.y + " " +
-                       (d.source.x + d.target.x) / 2 + "," + (d.source.y + d.target.y) / 2 + " " +
-                       d.target.x + "," + d.target.y;
-            });
-        }
-    }
 });
